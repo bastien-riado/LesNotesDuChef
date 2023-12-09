@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, FlatList, Modal, StyleSheet, Text, View } from "react-native";
+import Spinner from 'react-native-loading-spinner-overlay';
 import { Recipe } from "../models/RecipeModels";
 import { dbRef } from "../services/Auth/config/FirebaseConfig";
 import NewRecipeComponent from "./NewRecipeComponent";
@@ -8,41 +9,45 @@ import RecipeComponent from "./RecipeComponent";
 const RecipesComponent = () => {
 
     const [recipes, setRecipes] = useState<Recipe[]>([]);
-
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
 
     useEffect(() => {
-        const fetchData = () => {
+        const fetchData = async () => {
             try {
-                dbRef.ref('recipes').on('value', (snapshot) => {
-                    const data = snapshot.val();
-                    if (!!data) {
-                        const recipesData: Recipe[] = Object.keys(data).map((id) => ({
-                            id,
-                            ...data[id],
-                        }));
-                        console.log('Data from Firebase:', recipesData);
-                        setRecipes(recipesData);
-                    }
-                });
-
+                setIsLoading(true);
+                const snapshot = await dbRef.ref('recipes').once('value');
+                const data = snapshot.val();
+                if (!!data) {
+                    const recipesData: Recipe[] = Object.keys(data).map((id) => ({
+                        id,
+                        ...data[id],
+                    }));
+                    console.log('Data from Firebase:', recipesData);
+                    setRecipes(recipesData);
+                }
             } catch (error) {
                 console.error('Error fetching data from Firebase:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
-
         fetchData();
     }, []);
-
 
     return (
         <View style={styles.container}>
             <Text style={styles.titlePage}>Vos recettes</Text>
             <Button title="Ajouter une recette" onPress={toggleModal} />
+            <Spinner
+                visible={isLoading}
+                textContent={'Chargement des recettes...'}
+                textStyle={{ color: '#000' }}
+            />
 
             <FlatList
                 data={recipes}
@@ -81,8 +86,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         color: 'black',
     },
-    listContainer: {
-    },
+    listContainer: {},
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
