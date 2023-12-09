@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "336255228787",
+    "project_id": "lesnotesduchef-43c6f",
+    "storage_bucket": "lesnotesduchef-43c6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336255228787:android:3fa52232b6f5df7874c306",
+        "android_client_info": {
+          "package_name": "com.lesnotesduchef"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNCSYIIyB6iW6gyo6SKsUGtYvcaCSS6II"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
