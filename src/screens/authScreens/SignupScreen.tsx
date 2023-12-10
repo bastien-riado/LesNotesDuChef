@@ -2,6 +2,8 @@ import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { User } from '../../models/UserModels';
+import { dbRef } from '../../services/Auth/config/FirebaseConfig';
 
 const SignupScreen = ({ navigation }: any) => {
     const [email, setEmail] = useState('');
@@ -9,11 +11,21 @@ const SignupScreen = ({ navigation }: any) => {
     const [repeatedPassword, setRepeatedPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const createUserInDB = async (user: User) => {
+        try {
+            await dbRef.ref('users').child(user.uid).set(user);
+        } catch (error) {
+            console.error('Error creating user in DB:', error);
+        }
+    };
+
+
     // TODO utiliser le AuthProvider pour gérer l'authentification et s'assurer que le loader s'affiche correctement
     const handleAuth = async () => {
         try {
             setIsLoading(true);
             await auth().createUserWithEmailAndPassword(email, password);
+            createUserInDB({ uid: auth().currentUser!.uid, email });
             setIsLoading(false);
         } catch (error) {
             console.error(error);

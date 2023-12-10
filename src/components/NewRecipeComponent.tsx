@@ -1,10 +1,12 @@
+import auth from '@react-native-firebase/auth';
 import React, { useState } from "react";
 import { Alert, Button, SafeAreaView, StyleSheet, TextInput } from "react-native";
 import { Recipe } from "../models/RecipeModels";
 import { dbRef } from "../services/Auth/config/FirebaseConfig";
 
-const NewRecipeComponent = () => {
+const NewRecipeComponent = ({ updateRecipes }: { updateRecipes: () => void }) => {
   const [recipe, setRecipe] = useState<Recipe>({
+    ownerId: auth().currentUser!.uid,
     name: '',
     description: '',
     time: '',
@@ -22,11 +24,13 @@ const NewRecipeComponent = () => {
         .then(() => {
           console.log('Données envoyées avec succès à Firebase!');
           setRecipe({
+            ...recipe,
             name: '',
             description: '',
             time: '',
             difficulty: '',
           });
+          updateRecipes();
         })
         .catch((error) => {
           console.error('Erreur lors de l\'envoi des données à Firebase:', error);

@@ -1,3 +1,4 @@
+import auth from '@react-native-firebase/auth';
 import React, { useEffect, useState } from "react";
 import { Button, FlatList, Modal, StyleSheet, Text, View } from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -20,15 +21,26 @@ const RecipesComponent = () => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
-                const snapshot = await dbRef.ref('recipes').once('value');
-                const data = snapshot.val();
-                if (!!data) {
-                    const recipesData: Recipe[] = Object.keys(data).map((id) => ({
-                        id,
-                        ...data[id],
-                    }));
-                    console.log('Data from Firebase:', recipesData);
-                    setRecipes(recipesData);
+                const userId = auth().currentUser?.uid;
+
+                if (userId) {
+                    const snapshot = await dbRef
+                        .ref('recipes')
+                        .orderByChild('ownerId')
+                        .equalTo(userId)
+                        .once('value');
+
+                    const data = snapshot.val();
+
+                    if (!!data) {
+                        const recipesData: Recipe[] = Object.keys(data).map((id) => ({
+                            id,
+                            ...data[id],
+                        }));
+
+                        console.log('Data from Firebase:', recipesData);
+                        setRecipes(recipesData);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching data from Firebase:', error);
@@ -36,8 +48,43 @@ const RecipesComponent = () => {
                 setIsLoading(false);
             }
         };
+
         fetchData();
     }, []);
+
+
+    const updateRecipes = async () => {
+        toggleModal();
+        try {
+            setIsLoading(true);
+            const userId = auth().currentUser?.uid;
+
+            if (userId) {
+                const snapshot = await dbRef
+                    .ref('recipes')
+                    .orderByChild('ownerId')
+                    .equalTo(userId)
+                    .once('value');
+
+                const data = snapshot.val();
+
+                if (!!data) {
+                    const recipesData: Recipe[] = Object.keys(data).map((id) => ({
+                        id,
+                        ...data[id],
+                    }));
+
+                    console.log('Data from Firebase:', recipesData);
+                    setRecipes(recipesData);
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching data from Firebase:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     return (
         <View style={styles.container}>
@@ -65,7 +112,7 @@ const RecipesComponent = () => {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <NewRecipeComponent />
+                        <NewRecipeComponent updateRecipes={updateRecipes} />
                         <Button title="Fermer" onPress={toggleModal} />
                     </View>
                 </View>
@@ -101,3 +148,4 @@ const styles = StyleSheet.create({
 });
 
 export default RecipesComponent;
+
