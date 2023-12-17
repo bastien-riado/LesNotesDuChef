@@ -10,6 +10,7 @@ const HomeScreen = () => {
   return (
     <View style={theme === 'light' ? styles.container_light : styles.container_dark}>
       <Text style={theme === 'light' ? styles.text_light : styles.text_dark}>Bienvenue sur Les Notes du Chef, ici vous pourrez créer vos propre recettes et les détailler comme bon vous semble</Text>
+
     </View>
   );
 };

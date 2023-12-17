@@ -9,6 +9,8 @@ import RecipeComponent from "./RecipeComponent";
 
 const RecipesComponent = () => {
 
+
+
     const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [isModalVisible, setModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -33,9 +35,9 @@ const RecipesComponent = () => {
                     const data = snapshot.val();
 
                     if (!!data) {
-                        const recipesData: Recipe[] = Object.keys(data).map((id) => ({
-                            id,
-                            ...data[id],
+                        const recipesData: Recipe[] = Object.keys(data).map((recipeId) => ({
+                            id: recipeId,
+                            ...data[recipeId],
                         }));
 
                         console.log('Data from Firebase:', recipesData);
@@ -69,9 +71,9 @@ const RecipesComponent = () => {
                 const data = snapshot.val();
 
                 if (!!data) {
-                    const recipesData: Recipe[] = Object.keys(data).map((id) => ({
-                        id,
-                        ...data[id],
+                    const recipesData: Recipe[] = Object.keys(data).map((recipeId) => ({
+                        id: recipeId,
+                        ...data[recipeId],
                     }));
 
                     console.log('Data from Firebase:', recipesData);
@@ -98,8 +100,8 @@ const RecipesComponent = () => {
 
             <FlatList
                 data={recipes}
-                keyExtractor={(id) => id.toString()}
-                renderItem={({ item }) => <RecipeComponent recipe={item} />}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => <RecipeComponent key={item.id} recipe={item} />}
                 numColumns={2}
                 contentContainerStyle={styles.listContainer}
             />
@@ -148,4 +150,3 @@ const styles = StyleSheet.create({
 });
 
 export default RecipesComponent;
-

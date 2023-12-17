@@ -4,6 +4,7 @@ import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import HomeScreen from '../../screens/HomeScreen';
+import RecipeDetailsScreen from '../../screens/RecipeDetailsScreen';
 import RecipeScreen from '../../screens/RecipeScreen';
 import DrawerNavigator from '../drawerNavigation/DrawerNavigation';
 
@@ -20,7 +21,7 @@ const DrawerButton = ({ navigation }: any, theme: any) => (
   />
 );
 
-const MainNavigation = ({ }) => {
+const MainNavigation = () => {
   const theme = useSelector((state: any) => state.theme.mode);
 
   return (
@@ -64,6 +65,23 @@ const MainNavigation = ({ }) => {
       <Stack.Screen
         name="RecipeScreen"
         component={RecipeScreen}
+        options={{
+          title: 'Les Notes du Chef',
+          headerStyle: {
+            backgroundColor:
+              theme === 'light' ? COLORS.BGCOLOR.LIGHT : COLORS.BGCOLOR.DARK,
+          },
+          headerTintColor:
+            theme === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            textAlign: 'left',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="RecipeDetailsScreen"
+        component={RecipeDetailsScreen}
         options={{
           title: 'Les Notes du Chef',
           headerStyle: {

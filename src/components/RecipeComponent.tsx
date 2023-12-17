@@ -1,25 +1,38 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { WINDOW_WIDTH } from "../globals/styles/mixins";
+import { Recipe } from "../models/RecipeModels";
 import { dbRef } from "../services/Auth/config/FirebaseConfig";
 
-const RecipeComponent = (props: any) => {
+interface RecipeComponentProps {
+    recipe: Recipe;
+}
+
+const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe }) => {
+
+    const navigation = useNavigation();
+
     const handleDelete = async () => {
-        await dbRef.ref('recipes').child(props.recipe.id).remove();
+        await dbRef.ref('recipes').child(recipe.id).remove();
+    };
+
+    const handlePress = () => {
+        navigation.navigate('RecipeDetailsScreen', { recipe });
     };
 
     return (
-        <View style={styles.recipeContainer}>
-            <TouchableOpacity onPress={handleDelete} style={styles.recipeContainer}>
-                <Text style={styles.deleteButtonText}>X</Text>
-            </TouchableOpacity>
-            <Text style={styles.recipeText}>{props.recipe.id}</Text>
-            <Text style={styles.recipeText}>{props.recipe.name}</Text>
-            <Text style={styles.recipeText}>{props.recipe.description}</Text>
-            <Text style={styles.recipeText}>{props.recipe.time}</Text>
-            <Text style={styles.recipeText}>{props.recipe.difficulty}</Text>
-            <Text>{WINDOW_WIDTH}</Text>
-        </View>
+        <TouchableOpacity onPress={handlePress}>
+            <View style={styles.recipeContainer}>
+                <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
+                    <Text style={styles.deleteButtonText}>X</Text>
+                </TouchableOpacity>
+                <Text style={styles.recipeText}>{recipe.name}</Text>
+                <Text style={styles.recipeText}>Time: {recipe.time}</Text>
+                <Text style={styles.recipeText}>Difficulty: {recipe.difficulty}</Text>
+                <Text>{WINDOW_WIDTH}</Text>
+            </View>
+        </TouchableOpacity>
     );
 };
 

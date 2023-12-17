@@ -5,7 +5,9 @@ import { Recipe } from "../models/RecipeModels";
 import { dbRef } from "../services/Auth/config/FirebaseConfig";
 
 const NewRecipeComponent = ({ updateRecipes }: { updateRecipes: () => void }) => {
+
   const [recipe, setRecipe] = useState<Recipe>({
+    id: '',
     ownerId: auth().currentUser!.uid,
     name: '',
     description: '',
@@ -17,28 +19,44 @@ const NewRecipeComponent = ({ updateRecipes }: { updateRecipes: () => void }) =>
     setRecipe({ ...recipe, [key]: value });
   };
 
-  const handleSaveButton = () => {
+  const handleSaveButton = async () => {
     if (recipe.name && recipe.description && recipe.time && recipe.difficulty) {
+      const recipesRef = dbRef.ref('recipes');
 
-      dbRef.ref('recipes').push().set(recipe)
-        .then(() => {
+      try {
+        const newRecipeRef = recipesRef.push();
+        const recipeId = newRecipeRef.key;
+        console.log('ID généré par Firebase:', recipeId);
+
+        if (recipeId) {
+          await newRecipeRef.update({
+            ...recipe,
+            id: recipeId,
+          });
+
           console.log('Données envoyées avec succès à Firebase!');
           setRecipe({
             ...recipe,
+            id: recipeId,
             name: '',
             description: '',
             time: '',
             difficulty: '',
           });
+          console.log('Nouvelle recette id:', recipe.id);
           updateRecipes();
-        })
-        .catch((error) => {
-          console.error('Erreur lors de l\'envoi des données à Firebase:', error);
-        });
+        } else {
+          console.error('L\'ID généré par Firebase est null.');
+        }
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi des données à Firebase:', error);
+      }
     } else {
       Alert.alert('Erreur', 'Veuillez remplir tous les champs du formulaire.');
     }
   };
+
+
 
   return (
     <SafeAreaView>
