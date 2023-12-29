@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Icon from '../../components/IconComponent';
 import { COLORS, TYPO } from '../../globals/styles/index';
-import HomeScreen from '../../screens/HomeScreen';
 import RecipeScreen from '../../screens/RecipeScreen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import SettingsScreen from '../../screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,7 +12,7 @@ const BottomTabNavigator = () => {
   const theme = useSelector((state: any) => state.theme.mode);
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="RecipeScreen"
       screenOptions={{
         tabBarStyle: {
           backgroundColor:
@@ -21,10 +21,10 @@ const BottomTabNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="RecipeScreen"
+        component={RecipeScreen}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'List of recipes',
           tabBarLabelStyle: {
             color:
               theme === 'light'
@@ -33,8 +33,8 @@ const BottomTabNavigator = () => {
           },
           headerShown: false,
           tabBarIcon: () => (
-            <Icon
-              name="home"
+            <MaterialCommunityIcons
+              name="view-list"
               size={TYPO.ICONSIZE.MEDIUM}
               color={
                 theme === 'light'
@@ -46,10 +46,10 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="RecipeScreen"
+        name="AddRecipeScreen"
         component={RecipeScreen}
         options={{
-          tabBarLabel: 'Recipe',
+          tabBarLabel: 'Add New Recipe',
           tabBarLabelStyle: {
             color:
               theme === 'light'
@@ -58,8 +58,33 @@ const BottomTabNavigator = () => {
           },
           headerShown: false,
           tabBarIcon: () => (
-            <Icon
-              name="food"
+            <MaterialCommunityIcons
+              name="plus"
+              size={TYPO.ICONSIZE.MEDIUM}
+              color={
+                theme === 'light'
+                  ? COLORS.ICONCOLOR.LIGHT
+                  : COLORS.ICONCOLOR.DARK
+              }
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SettingsScreen"
+        component={SettingsScreen}
+        options={{
+          tabBarLabel: 'Settings',
+          tabBarLabelStyle: {
+            color:
+              theme === 'light'
+                ? COLORS.TEXTCOLOR.LIGHT
+                : COLORS.TEXTCOLOR.DARK,
+          },
+          headerShown: false,
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="plus"
               size={TYPO.ICONSIZE.MEDIUM}
               color={
                 theme === 'light'

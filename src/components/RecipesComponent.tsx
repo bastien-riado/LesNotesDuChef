@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, Modal, StyleSheet, Text, View } from "react-native";
+import { Button, FlatList, Modal, StyleSheet, View } from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Recipe } from "../models/RecipeModels";
 import { dbRef } from "../services/Auth/config/FirebaseConfig";
@@ -90,8 +90,6 @@ const RecipesComponent = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.titlePage}>Vos recettes</Text>
-            <Button title="Ajouter une recette" onPress={toggleModal} />
             <Spinner
                 visible={isLoading}
                 textContent={'Chargement des recettes...'}

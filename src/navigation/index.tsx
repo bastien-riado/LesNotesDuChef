@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Authorization } from "../services/providers/AuthProvider";
 import { AuthNavigation } from "./authNavigation/AuthNavigation";
-import MainNavigation from "./mainNavigation/MainNavigation";
+import BottomTabNavigator from "./tabNavigation/TabNavigation";
 
 export const Navigation = () => {
 
@@ -16,5 +16,5 @@ export const Navigation = () => {
         return null;
     }
 
-    return user ? <MainNavigation /> : <AuthNavigation />;
+    return user ? <BottomTabNavigator /> : <AuthNavigation />;
 }
