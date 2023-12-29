@@ -4,7 +4,7 @@ import { Alert, Button, SafeAreaView, StyleSheet, TextInput } from "react-native
 import { Recipe } from "../models/RecipeModels";
 import { dbRef } from "../services/Auth/config/FirebaseConfig";
 
-const NewRecipeComponent = ({ updateRecipes }: { updateRecipes: () => void }) => {
+const NewRecipeComponent = ({ updateNewRecipes: updateRecipes }: { updateNewRecipes: () => void }) => {
 
   const [recipe, setRecipe] = useState<Recipe>({
     id: '',

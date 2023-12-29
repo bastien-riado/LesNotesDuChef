@@ -3,7 +3,6 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { WINDOW_WIDTH } from "../globals/styles/mixins";
 import { Recipe } from "../models/RecipeModels";
-import { dbRef } from "../services/Auth/config/FirebaseConfig";
 
 interface RecipeComponentProps {
     recipe: Recipe;
@@ -13,9 +12,7 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe }) => {
 
     const navigation = useNavigation();
 
-    const handleDelete = async () => {
-        await dbRef.ref('recipes').child(recipe.id).remove();
-    };
+
 
     const handlePress = () => {
         navigation.navigate('RecipeDetailsScreen', { recipe });
@@ -24,13 +21,9 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe }) => {
     return (
         <TouchableOpacity onPress={handlePress}>
             <View style={styles.recipeContainer}>
-                <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
-                    <Text style={styles.deleteButtonText}>X</Text>
-                </TouchableOpacity>
                 <Text style={styles.recipeText}>{recipe.name}</Text>
                 <Text style={styles.recipeText}>Time: {recipe.time}</Text>
                 <Text style={styles.recipeText}>Difficulty: {recipe.difficulty}</Text>
-                <Text>{WINDOW_WIDTH}</Text>
             </View>
         </TouchableOpacity>
     );

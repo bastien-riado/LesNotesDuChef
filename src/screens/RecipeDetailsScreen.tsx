@@ -1,8 +1,18 @@
+import { Button } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { dbRef } from "../services/Auth/config/FirebaseConfig";
 
 
 const RecipeDetailsScreen = ({ route }: any) => {
+
+    const navigation = useNavigation();
+
+    const handleDelete = async () => {
+        await dbRef.ref('recipes').child(recipe.id).remove();
+        navigation.goBack();
+    };
 
     const { recipe } = route.params;
     return (
@@ -24,6 +34,10 @@ const RecipeDetailsScreen = ({ route }: any) => {
                 <Text style={styles.label}>Difficulté:</Text>
                 <Text style={styles.value}>{recipe.difficulty}</Text>
             </View>
+            <View>
+                <Button style={styles.button} title="Supprimer la recette" onPress={handleDelete} />
+            </View>
+
         </View>
     );
 };
@@ -52,6 +66,9 @@ const styles = StyleSheet.create({
     value: {
         fontSize: 16,
         color: 'black',
+    },
+    button: {
+        backgroundColor: 'red',
     },
 });
 
