@@ -1,10 +1,10 @@
 import auth from '@react-native-firebase/auth';
 import React, { useState } from "react";
-import { Alert, Button, SafeAreaView, StyleSheet, TextInput } from "react-native";
+import { Alert, Button, StyleSheet, TextInput, View } from "react-native";
 import { Recipe } from "../models/RecipeModels";
 import { dbRef } from "../services/Auth/config/FirebaseConfig";
 
-const NewRecipeComponent = ({ updateNewRecipes: updateRecipes }: { updateNewRecipes: () => void }) => {
+const NewRecipeComponent = () => {
 
   const [recipe, setRecipe] = useState<Recipe>({
     id: '',
@@ -41,7 +41,6 @@ const NewRecipeComponent = ({ updateNewRecipes: updateRecipes }: { updateNewReci
             time: '',
             difficulty: '',
           });
-          updateRecipes();
         } else {
           console.error('L\'ID généré par Firebase est null.');
         }
@@ -56,7 +55,7 @@ const NewRecipeComponent = ({ updateNewRecipes: updateRecipes }: { updateNewReci
 
 
   return (
-    <SafeAreaView>
+    <View>
       <TextInput
         style={styles.input}
         onChangeText={(text) => handleChangeText('name', text)}
@@ -86,7 +85,7 @@ const NewRecipeComponent = ({ updateNewRecipes: updateRecipes }: { updateNewReci
         placeholderTextColor="#A9A9A9"
       />
       <Button title="Enregistrer" onPress={handleSaveButton} />
-    </SafeAreaView>
+    </View>
   );
 };
 

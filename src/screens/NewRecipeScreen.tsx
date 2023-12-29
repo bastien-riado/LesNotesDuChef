@@ -12,7 +12,7 @@ const NewRecipeScreen = () => {
 
   return (
     <View style={[styles.container, theme === 'light' ? styles.light : styles.dark]}>
-      {/* <NewRecipeComponent /> */}
+      <NewRecipeComponent />
     </View>
   );
 };

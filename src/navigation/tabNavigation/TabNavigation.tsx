@@ -5,6 +5,7 @@ import { COLORS, TYPO } from '../../globals/styles/index';
 import RecipesScreen from '../../screens/RecipesScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SettingsScreen from '../../screens/SettingsScreen';
+import NewRecipeScreen from '../../screens/NewRecipeScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -47,7 +48,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="AddRecipeScreen"
-        component={RecipesScreen}
+        component={NewRecipeScreen}
         options={{
           tabBarLabel: 'Add New Recipe',
           tabBarLabelStyle: {

@@ -12,12 +12,7 @@ const RecipesComponent = () => {
 
 
     const [recipes, setRecipes] = useState<Recipe[]>([]);
-    const [isModalVisible, setModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
-    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,7 +50,6 @@ const RecipesComponent = () => {
 
 
     const getRecipes = async () => {
-        toggleModal();
         try {
             setIsLoading(true);
             const userId = auth().currentUser?.uid;
@@ -101,20 +95,6 @@ const RecipesComponent = () => {
                 numColumns={2}
                 contentContainerStyle={styles.listContainer}
             />
-
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={isModalVisible}
-                onRequestClose={toggleModal}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <NewRecipeComponent updateNewRecipes={getRecipes} />
-                        <Button title="Fermer" onPress={toggleModal} />
-                    </View>
-                </View>
-            </Modal>
         </View>
     );
 };
