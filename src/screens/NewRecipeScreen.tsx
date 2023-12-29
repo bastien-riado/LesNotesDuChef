@@ -6,6 +6,7 @@ import React = require('react');
 
 import { COLORS } from '../globals/styles/index';
 import NewRecipeComponent from '../components/NewRecipeComponent';
+import { Text } from 'react-native';
 
 const NewRecipeScreen = () => {
   const theme = useSelector((state: any) => state.theme.mode);

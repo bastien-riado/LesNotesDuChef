@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 8,
         elevation: 10,
-        width: WINDOW_WIDTH / 2 - 40,
     },
     recipeText: {
         fontSize: 16,

@@ -85,7 +85,7 @@ const BottomTabNavigator = () => {
           headerShown: false,
           tabBarIcon: () => (
             <MaterialCommunityIcons
-              name="plus"
+              name="cog"
               size={TYPO.ICONSIZE.MEDIUM}
               color={
                 theme === 'light'

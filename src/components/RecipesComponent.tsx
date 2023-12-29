@@ -1,10 +1,9 @@
 import auth from '@react-native-firebase/auth';
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, Modal, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Recipe } from "../models/RecipeModels";
 import { dbRef } from "../services/Auth/config/FirebaseConfig";
-import NewRecipeComponent from "./NewRecipeComponent";
 import RecipeComponent from "./RecipeComponent";
 
 const RecipesComponent = () => {
@@ -92,7 +91,7 @@ const RecipesComponent = () => {
                 data={recipes}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <RecipeComponent key={item.id} recipe={item} />}
-                numColumns={2}
+                numColumns={1}
                 contentContainerStyle={styles.listContainer}
             />
         </View>
