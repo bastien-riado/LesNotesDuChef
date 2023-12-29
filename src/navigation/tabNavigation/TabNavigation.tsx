@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { COLORS, TYPO } from '../../globals/styles/index';
-import RecipeScreen from '../../screens/RecipeScreen';
+import RecipesScreen from '../../screens/RecipesScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SettingsScreen from '../../screens/SettingsScreen';
 
@@ -22,7 +22,7 @@ const BottomTabNavigator = () => {
     >
       <Tab.Screen
         name="RecipeScreen"
-        component={RecipeScreen}
+        component={RecipesScreen}
         options={{
           tabBarLabel: 'List of recipes',
           tabBarLabelStyle: {
@@ -47,7 +47,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="AddRecipeScreen"
-        component={RecipeScreen}
+        component={RecipesScreen}
         options={{
           tabBarLabel: 'Add New Recipe',
           tabBarLabelStyle: {

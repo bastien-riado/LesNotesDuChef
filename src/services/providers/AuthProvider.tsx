@@ -26,12 +26,10 @@ export const AuthorizationProvider: React.FC<AuthorizationProviderProps> = ({ ch
 
     const Login = (email: string, password: string) => {
         setIsLoading(true);
-        console.log('attempting to login in Login, value of isLoading :' + isLoading);
         auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => {
                 setIsLoading(false);
-                console.log('end of Login, value of isLoading :' + isLoading);
             })
             .catch((error) => {
                 setError(error.message);
@@ -69,11 +67,10 @@ export const AuthorizationProvider: React.FC<AuthorizationProviderProps> = ({ ch
         auth()
             .signOut()
             .then(() => {
-                console.log('User signed out!');
                 setUser('');
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
             })
             .finally(() => {
                 setIsLoading(false);

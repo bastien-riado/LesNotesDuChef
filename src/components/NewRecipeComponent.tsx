@@ -26,7 +26,6 @@ const NewRecipeComponent = ({ updateNewRecipes: updateRecipes }: { updateNewReci
       try {
         const newRecipeRef = recipesRef.push();
         const recipeId = newRecipeRef.key;
-        console.log('ID généré par Firebase:', recipeId);
 
         if (recipeId) {
           await newRecipeRef.update({
@@ -34,7 +33,6 @@ const NewRecipeComponent = ({ updateNewRecipes: updateRecipes }: { updateNewReci
             id: recipeId,
           });
 
-          console.log('Données envoyées avec succès à Firebase!');
           setRecipe({
             ...recipe,
             id: recipeId,
@@ -43,7 +41,6 @@ const NewRecipeComponent = ({ updateNewRecipes: updateRecipes }: { updateNewReci
             time: '',
             difficulty: '',
           });
-          console.log('Nouvelle recette id:', recipe.id);
           updateRecipes();
         } else {
           console.error('L\'ID généré par Firebase est null.');

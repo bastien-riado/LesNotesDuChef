@@ -40,7 +40,6 @@ const RecipesComponent = () => {
                             ...data[recipeId],
                         }));
 
-                        console.log('Data from Firebase:', recipesData);
                         setRecipes(recipesData);
                     }
                 }
@@ -76,7 +75,6 @@ const RecipesComponent = () => {
                         ...data[recipeId],
                     }));
 
-                    console.log('Data from Firebase:', recipesData);
                     setRecipes(recipesData);
                 }
             }

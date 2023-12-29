@@ -12,9 +12,7 @@ export default function App() {
     <ReduxProvider store={store}>
       <NavigationContainer>
         <AuthorizationProvider>
-          {/* <UserProfileProvider> */}
           <Navigation />
-          {/* </UserProfileProvider> */}
         </AuthorizationProvider>
       </NavigationContainer>
     </ReduxProvider>
