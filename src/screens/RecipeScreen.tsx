@@ -1,19 +1,22 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
+import React from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 import { useSelector } from 'react-redux';
 import RecipesComponent from '../components/RecipesComponent';
-
-import React = require('react');
-
-import { COLORS } from '../globals/styles/index';
 
 const RecipeScreen = () => {
   const theme = useSelector((state: any) => state.theme.mode);
 
+  //a globaliser
+  const gradientColors = theme === 'light'
+    ? ['#E0F7FA', '#FFFFFF']
+    : ['#663399', '#000000'];
+
   return (
-    <View style={[styles.container, theme === 'light' ? styles.light : styles.dark]}>
+    <LinearGradient colors={gradientColors} style={styles.container}>
       <RecipesComponent />
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -23,13 +26,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-  },
-  light: {
-    backgroundColor: COLORS.BGCOLOR.LIGHT,
-  },
-  dark: {
-    backgroundColor: COLORS.BGCOLOR.DARK,
-  },
+  }
 });
 
 export default RecipeScreen;

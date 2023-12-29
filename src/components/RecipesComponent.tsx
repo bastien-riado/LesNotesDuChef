@@ -55,7 +55,7 @@ const RecipesComponent = () => {
     }, []);
 
 
-    const updateRecipes = async () => {
+    const getRecipes = async () => {
         toggleModal();
         try {
             setIsLoading(true);
@@ -112,7 +112,7 @@ const RecipesComponent = () => {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <NewRecipeComponent updateRecipes={updateRecipes} />
+                        <NewRecipeComponent updateNewRecipes={getRecipes} />
                         <Button title="Fermer" onPress={toggleModal} />
                     </View>
                 </View>
@@ -123,17 +123,21 @@ const RecipesComponent = () => {
 
 const styles = StyleSheet.create({
     container: {
-        display: 'flex',
-        paddingHorizontal: 16,
+        flex: 1,
+        paddingHorizontal: 20,
         paddingVertical: 20,
+        width: '100%',
     },
     titlePage: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
         color: 'black',
+        textAlign: 'left',
     },
-    listContainer: {},
+    listContainer: {
+        paddingHorizontal: 0,
+    },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
@@ -144,7 +148,10 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         elevation: 5,
+        width: '90%',
+        maxWidth: 500,
     },
 });
+
 
 export default RecipesComponent;
