@@ -1,8 +1,9 @@
-import { DrawerActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {DrawerActions} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
+
 import HomeScreen from '../../screens/HomeScreen';
 import RecipeDetailsScreen from '../../screens/RecipeDetailsScreen';
 import RecipeScreen from '../../screens/RecipeScreen';
@@ -12,7 +13,7 @@ const Stack = createStackNavigator();
 
 const COLORS = require('../../globals/styles/colors.tsx');
 
-const DrawerButton = ({ navigation }: any, theme: any) => (
+const DrawerButton = ({navigation}: any, theme: any) => (
   <MaterialCommunityIcons
     name="menu"
     size={25}
@@ -25,11 +26,11 @@ const MainNavigation = () => {
   const theme = useSelector((state: any) => state.theme.mode);
 
   return (
-    <Stack.Navigator initialRouteName='DrawerNavigator'>
+    <Stack.Navigator initialRouteName="DrawerNavigator">
       <Stack.Screen
         name="DrawerNavigator"
         component={DrawerNavigator}
-        options={({ navigation }) => ({
+        options={({navigation}) => ({
           title: 'Les Notes du Chef',
           headerStyle: {
             backgroundColor:
@@ -42,7 +43,7 @@ const MainNavigation = () => {
             justifyContent: 'center',
             textAlign: 'left',
           },
-          headerLeft: () => DrawerButton({ navigation: navigation }, theme),
+          headerLeft: () => DrawerButton({navigation: navigation}, theme),
         })}
       />
       <Stack.Screen

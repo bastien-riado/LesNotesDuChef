@@ -1,20 +1,20 @@
-import React, { useContext } from "react";
-import { Authorization } from "../services/providers/AuthProvider";
-import { AuthNavigation } from "./authNavigation/AuthNavigation";
-import MainNavigation from "./mainNavigation/MainNavigation";
+import React, {useContext} from 'react';
+
+import {AuthNavigation} from './authNavigation/AuthNavigation';
+import MainNavigation from './mainNavigation/MainNavigation';
+import {Authorization} from '../services/providers/AuthProvider';
 
 export const Navigation = () => {
+  const authContext = useContext(Authorization);
+  if (!authContext) {
+    return null;
+  }
 
-    const authContext = useContext(Authorization);
-    if (!authContext) {
-        return null;
-    }
+  const {user, isLoading} = authContext;
 
-    const { user, isLoading } = authContext;
+  if (isLoading) {
+    return null;
+  }
 
-    if (isLoading) {
-        return null;
-    }
-
-    return user ? <MainNavigation /> : <AuthNavigation />;
-}
+  return user ? <MainNavigation /> : <AuthNavigation />;
+};

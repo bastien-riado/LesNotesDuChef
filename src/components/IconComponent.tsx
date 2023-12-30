@@ -8,7 +8,13 @@ interface IconProps {
 }
 
 const Icon = ({ name, size, color }: IconProps) => {
-  return <MaterialCommunityIcons name={name} color={color} size={size} />;
+  return (
+    <MaterialCommunityIcons
+      name={name}
+      color={color}
+      size={size}
+    />
+  );
 };
 
 export default Icon;

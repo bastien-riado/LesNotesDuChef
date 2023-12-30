@@ -4,26 +4,26 @@ import {
   DrawerItemList,
   createDrawerNavigator,
 } from '@react-navigation/drawer';
-import React, { useContext, useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { ThemeChangeAction, switchMode } from '../../store/actions';
-
-import { Dispatch } from '@reduxjs/toolkit';
+import {Dispatch} from '@reduxjs/toolkit';
+import React, {useContext, useEffect, useState} from 'react';
+import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {useDispatch, useSelector} from 'react-redux';
+
 import Icon from '../../components/IconComponent';
 import AboutScreen from '../../screens/AboutScreen';
 import HomeScreen from '../../screens/HomeScreen';
 import RecipeScreen from '../../screens/RecipeScreen';
 import SettingsScreen from '../../screens/SettingsScreen';
-import { Authorization } from '../../services/providers/AuthProvider';
+import {Authorization} from '../../services/providers/AuthProvider';
+import {ThemeChangeAction, switchMode} from '../../store/actions';
 
 const Drawer = createDrawerNavigator();
 
 const COLORS = require('../../globals/styles/colors.tsx');
 const TYPO = require('../../globals/styles/typography.tsx');
 
-const DrawerNavigator = ({ }) => {
+const DrawerNavigator = ({}) => {
   const theme = useSelector((state: any) => state.theme);
   const dispatch = useDispatch<Dispatch<ThemeChangeAction>>();
   const [mode, setMode] = useState(theme.mode);
@@ -58,7 +58,7 @@ const DrawerNavigator = ({ }) => {
 
   const DrawerHeaderContent = (props: any) => {
     return (
-      <DrawerContentScrollView contentContainerStyle={{ flex: 1 }}>
+      <DrawerContentScrollView contentContainerStyle={{flex: 1}}>
         <View
           style={{
             backgroundColor: '#4f4f4f',
@@ -68,7 +68,7 @@ const DrawerNavigator = ({ }) => {
             top: -5,
           }}
         >
-          <Text style={{ color: '#fff' }}>Home</Text>
+          <Text style={{color: '#fff'}}>Home</Text>
         </View>
         <DrawerItemList {...props} />
         <TouchableOpacity onPress={handleThemeChange}>
@@ -83,18 +83,11 @@ const DrawerNavigator = ({ }) => {
             <Icon
               name={mode === 'light' ? 'weather-night' : 'white-balance-sunny'}
               size={TYPO.ICONSIZE.MEDIUM}
-              color={
-                mode === 'light'
-                  ? styles.icon_light.color
-                  : styles.icon_dark.color
-              }
+              color={mode === 'light' ? styles.icon_light.color : styles.icon_dark.color}
             />
             <Text
               style={{
-                color:
-                  mode === 'light'
-                    ? COLORS.TEXTCOLOR.LIGHT
-                    : COLORS.TEXTCOLOR.DARK,
+                color: mode === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
                 marginLeft: 34,
                 fontWeight: 'bold',
               }}
@@ -103,11 +96,14 @@ const DrawerNavigator = ({ }) => {
             </Text>
           </View>
         </TouchableOpacity>
-        <Button title="Sign Out" onPress={handleSignOut} />
+        <Button
+          title="Sign Out"
+          onPress={handleSignOut}
+        />
         <Spinner
           visible={isLoading}
           textContent={'Connexion au compte...'}
-          textStyle={{ color: '#FFF' }}
+          textStyle={{color: '#FFF'}}
         />
         <Text style={styles.text_light}>{`User ID: ${authContext.user}`}</Text>
       </DrawerContentScrollView>
@@ -118,8 +114,7 @@ const DrawerNavigator = ({ }) => {
       drawerContent={DrawerHeaderContent}
       screenOptions={{
         drawerStyle: {
-          backgroundColor:
-            mode === 'light' ? COLORS.BGCOLOR.LIGHT : COLORS.BGCOLOR.DARK,
+          backgroundColor: mode === 'light' ? COLORS.BGCOLOR.LIGHT : COLORS.BGCOLOR.DARK,
         },
       }}
     >
@@ -129,19 +124,14 @@ const DrawerNavigator = ({ }) => {
         options={{
           drawerLabel: 'Home',
           drawerLabelStyle: {
-            color:
-              mode === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
+            color: mode === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
           },
           headerShown: false,
           drawerIcon: () => (
             <Icon
               name={'home'}
               size={TYPO.ICONSIZE.MEDIUM}
-              color={
-                mode === 'light'
-                  ? COLORS.ICONCOLOR.LIGHT
-                  : COLORS.ICONCOLOR.DARK
-              }
+              color={mode === 'light' ? COLORS.ICONCOLOR.LIGHT : COLORS.ICONCOLOR.DARK}
             />
           ),
         }}
@@ -152,19 +142,14 @@ const DrawerNavigator = ({ }) => {
         options={{
           drawerLabel: 'Recipe',
           drawerLabelStyle: {
-            color:
-              mode === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
+            color: mode === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
           },
           headerShown: false,
           drawerIcon: () => (
             <Icon
               name={'food'}
               size={TYPO.ICONSIZE.MEDIUM}
-              color={
-                mode === 'light'
-                  ? COLORS.ICONCOLOR.LIGHT
-                  : COLORS.ICONCOLOR.DARK
-              }
+              color={mode === 'light' ? COLORS.ICONCOLOR.LIGHT : COLORS.ICONCOLOR.DARK}
             />
           ),
         }}
@@ -175,19 +160,14 @@ const DrawerNavigator = ({ }) => {
         options={{
           drawerLabel: 'Settings',
           drawerLabelStyle: {
-            color:
-              mode === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
+            color: mode === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
           },
           headerShown: false,
           drawerIcon: () => (
             <Icon
               name={'cog'}
               size={TYPO.ICONSIZE.MEDIUM}
-              color={
-                mode === 'light'
-                  ? COLORS.ICONCOLOR.LIGHT
-                  : COLORS.ICONCOLOR.DARK
-              }
+              color={mode === 'light' ? COLORS.ICONCOLOR.LIGHT : COLORS.ICONCOLOR.DARK}
             />
           ),
         }}
@@ -198,19 +178,14 @@ const DrawerNavigator = ({ }) => {
         options={{
           drawerLabel: 'About',
           drawerLabelStyle: {
-            color:
-              mode === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
+            color: mode === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
           },
           headerShown: false,
           drawerIcon: () => (
             <Icon
               name={'information'}
               size={TYPO.ICONSIZE.MEDIUM}
-              color={
-                mode === 'light'
-                  ? COLORS.ICONCOLOR.LIGHT
-                  : COLORS.ICONCOLOR.DARK
-              }
+              color={mode === 'light' ? COLORS.ICONCOLOR.LIGHT : COLORS.ICONCOLOR.DARK}
             />
           ),
         }}
@@ -234,4 +209,3 @@ const styles = StyleSheet.create({
   },
 });
 export default DrawerNavigator;
-
