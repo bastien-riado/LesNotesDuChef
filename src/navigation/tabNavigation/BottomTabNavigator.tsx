@@ -8,10 +8,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import SettingsScreen from '../../screens/SettingsScreen';
 import NewRecipeScreen from '../../screens/NewRecipeScreen';
 import { NavigationProp } from '@react-navigation/native';
+import RecipesStackNavigator from '../RecipesStackNavigator';
 
 
-export type ScreenNames = ["Recipes", "NewRecipe", "Settings", "RecipeDetails"]
-export type RootTabParamList = Record<ScreenNames[number], any>;
+export type BottomTabScreenNames = ["RecipesStack", "NewRecipe", "Settings", "RecipeDetails"]
+export type RootTabParamList = Record<BottomTabScreenNames[number], any>;
 export type TabNavigation = NavigationProp<RootTabParamList>;
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -20,7 +21,7 @@ const BottomTabNavigator = () => {
   const theme = useSelector((state: any) => state.theme.mode);
   return (
     <Tab.Navigator
-      initialRouteName="Recipes"
+      initialRouteName="RecipesStack"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: theme === 'light' ? COLORS.BGCOLOR.LIGHT : COLORS.BGCOLOR.DARK,
@@ -28,8 +29,8 @@ const BottomTabNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="Recipes"
-        component={RecipesScreen}
+        name="RecipesStack"
+        component={RecipesStackNavigator}
         options={{
           tabBarLabelStyle: {
             color: theme === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,

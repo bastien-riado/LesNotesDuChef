@@ -5,8 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
 
-const RecipeDetailsScreen = ({ route }: any) => {
-  const navigation = useNavigation();
+const RecipeDetailsScreen = ({ route, navigation }: any) => {
 
   const handleDelete = async () => {
     await dbRef.ref('recipes').child(recipe.id).remove();

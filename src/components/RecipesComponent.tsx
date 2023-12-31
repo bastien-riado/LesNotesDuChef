@@ -6,10 +6,10 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import RecipeComponent from './RecipeComponent';
 import { Recipe } from '../models/RecipeModels';
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
-import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
 
 interface RescipesComponentProps {
-  navigation: TabNavigation;
+  navigation: RecipesStackNavigation;
 }
 
 const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {

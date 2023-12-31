@@ -6,10 +6,10 @@ import RecipesComponent from '../components/RecipesComponent';
 import React = require('react');
 
 import { COLORS } from '../globals/styles/index';
-import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
 
 interface RecipeScreenProps {
-  navigation: TabNavigation;
+  navigation: RecipesStackNavigation;
 }
 
 const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {

@@ -1,19 +1,18 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Recipe } from '../models/RecipeModels';
-import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
 
 interface RecipeComponentProps {
   recipe: Recipe;
-  navigation: TabNavigation;
+  navigation: RecipesStackNavigation;
 }
 
 const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation }) => {
 
   const handlePress = () => {
-    navigation.navigate('RecipeDetails', recipe);
+    navigation.navigate('RecipeDetails', { recipe });
   };
 
   return (
