@@ -14,7 +14,7 @@ interface RescipesComponentProps {
 
 const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
