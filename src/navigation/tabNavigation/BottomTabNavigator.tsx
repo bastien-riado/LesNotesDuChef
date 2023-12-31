@@ -12,7 +12,7 @@ import RecipesStackNavigator from '../RecipesStackNavigator';
 
 
 export type BottomTabScreenNames = ["RecipesStack", "NewRecipe", "Settings", "RecipeDetails"]
-export type RootTabParamList = Record<BottomTabScreenNames[number], any>;
+export type RootTabParamList = Record<BottomTabScreenNames[number], undefined>;
 export type TabNavigation = NavigationProp<RootTabParamList>;
 
 const Tab = createBottomTabNavigator<RootTabParamList>();

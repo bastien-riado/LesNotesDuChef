@@ -1,24 +1,35 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { Button, Text } from '@react-native-material/core';
+import { StyleSheet, View } from 'react-native';
 
 const COLORS = require('../globals/styles/colors.tsx');
+
+const handleSignOutButton = () => {
+
+}
 
 const SettingsScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>SettingsScreen</Text>
+      <Text>This app is still in development, be gentle with it :)</Text>
+      <Button
+        style={styles.signOutButton}
+        title='Se déconnecter' />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    padding: 12,
+    gap: 12,
     flex: 1,
     backgroundColor: COLORS.BGCOLOR.LIGHT,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   text: {
     color: COLORS.TEXTCOLOR.LIGHT,
+  },
+  signOutButton: {
+    backgroundColor: 'red',
   },
 });
 

@@ -38,19 +38,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
     color: 'black',
-  },
-  deleteButton: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    backgroundColor: 'black',
-    padding: 10,
-    borderRadius: 50,
-  },
-  deleteButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
+  }
 });
 
 export default RecipeComponent;
