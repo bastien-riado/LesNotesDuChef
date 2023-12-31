@@ -1,21 +1,20 @@
 import auth from '@react-native-firebase/auth';
-import React, {useEffect, useState} from 'react';
-import {Button, FlatList, Modal, StyleSheet, Text, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import NewRecipeComponent from './NewRecipeComponent';
 import RecipeComponent from './RecipeComponent';
-import {Recipe} from '../models/RecipeModels';
-import {dbRef} from '../services/Auth/config/FirebaseConfig';
+import { Recipe } from '../models/RecipeModels';
+import { dbRef } from '../services/Auth/config/FirebaseConfig';
+import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 
-const RecipesComponent = () => {
+interface RescipesComponentProps {
+  navigation: TabNavigation;
+}
+
+const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +37,6 @@ const RecipesComponent = () => {
               ...data[recipeId],
             }));
 
-            console.log('Data from Firebase:', recipesData);
             setRecipes(recipesData);
           }
         }
@@ -53,7 +51,6 @@ const RecipesComponent = () => {
   }, []);
 
   const getRecipes = async () => {
-    toggleModal();
     try {
       setIsLoading(true);
       const userId = auth().currentUser?.uid;
@@ -73,7 +70,6 @@ const RecipesComponent = () => {
             ...data[recipeId],
           }));
 
-          console.log('Data from Firebase:', recipesData);
           setRecipes(recipesData);
         }
       }
@@ -86,46 +82,24 @@ const RecipesComponent = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titlePage}>Vos recettes</Text>
-      <Button
-        title="Ajouter une recette"
-        onPress={toggleModal}
-      />
       <Spinner
         visible={isLoading}
         textContent={'Chargement des recettes...'}
-        textStyle={{color: '#000'}}
+        textStyle={{ color: '#000' }}
       />
 
       <FlatList
         data={recipes}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <RecipeComponent
             key={item.id}
             recipe={item}
+            navigation={navigation}
           />
         )}
-        numColumns={2}
         contentContainerStyle={styles.listContainer}
       />
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={toggleModal}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <NewRecipeComponent updateNewRecipes={getRecipes} />
-            <Button
-              title="Fermer"
-              onPress={toggleModal}
-            />
-          </View>
-        </View>
-      </Modal>
     </View>
   );
 };

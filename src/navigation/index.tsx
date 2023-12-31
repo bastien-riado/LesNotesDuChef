@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 
-import {AuthNavigation} from './authNavigation/AuthNavigation';
-import MainNavigation from './mainNavigation/MainNavigation';
-import {Authorization} from '../services/providers/AuthProvider';
+import { AuthNavigation } from './authNavigation/AuthNavigation';
+import { Authorization } from '../services/providers/AuthProvider';
+import BottomTabNavigator from './tabNavigation/BottomTabNavigator';
 
 export const Navigation = () => {
   const authContext = useContext(Authorization);
@@ -10,11 +10,11 @@ export const Navigation = () => {
     return null;
   }
 
-  const {user, isLoading} = authContext;
+  const { user, isLoading } = authContext;
 
   if (isLoading) {
     return null;
   }
 
-  return user ? <MainNavigation /> : <AuthNavigation />;
+  return user ? <BottomTabNavigator /> : <AuthNavigation />;
 };

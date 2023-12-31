@@ -3,19 +3,21 @@ import React, { useState } from 'react';
 import {
   Alert,
   Button,
-  SafeAreaView,
+  View,
   StyleSheet,
   TextInput,
 } from 'react-native';
 
 import { Recipe } from '../models/RecipeModels';
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
+import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 
-const NewRecipeComponent = ({
-  updateNewRecipes: updateRecipes,
-}: {
-  updateNewRecipes: () => void;
-}) => {
+interface NewRecipeComponentProps {
+  navigation: TabNavigation;
+}
+
+
+const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) => {
   const [recipe, setRecipe] = useState<Recipe>({
     id: '',
     ownerId: auth().currentUser!.uid,
@@ -24,6 +26,7 @@ const NewRecipeComponent = ({
     time: '',
     difficulty: '',
   });
+
 
   const handleChangeText = (key: keyof Recipe, value: string) => {
     setRecipe({ ...recipe, [key]: value });
@@ -36,7 +39,6 @@ const NewRecipeComponent = ({
       try {
         const newRecipeRef = recipesRef.push();
         const recipeId = newRecipeRef.key;
-        console.log('ID généré par Firebase:', recipeId);
 
         if (recipeId) {
           await newRecipeRef.update({
@@ -44,7 +46,6 @@ const NewRecipeComponent = ({
             id: recipeId,
           });
 
-          console.log('Données envoyées avec succès à Firebase!');
           setRecipe({
             ...recipe,
             id: recipeId,
@@ -53,8 +54,8 @@ const NewRecipeComponent = ({
             time: '',
             difficulty: '',
           });
-          console.log('Nouvelle recette id:', recipe.id);
-          updateRecipes();
+
+          navigation.navigate('Recipes', { reload: true });
         } else {
           console.error("L'ID généré par Firebase est null.");
         }
@@ -67,7 +68,7 @@ const NewRecipeComponent = ({
   };
 
   return (
-    <SafeAreaView>
+    <View>
       <TextInput
         style={styles.input}
         onChangeText={(text) => handleChangeText('name', text)}
@@ -100,7 +101,7 @@ const NewRecipeComponent = ({
         title="Enregistrer"
         onPress={handleSaveButton}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

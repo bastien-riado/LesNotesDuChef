@@ -1,19 +1,19 @@
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import {WINDOW_WIDTH} from '../globals/styles/mixins';
-import {Recipe} from '../models/RecipeModels';
+import { Recipe } from '../models/RecipeModels';
+import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 
 interface RecipeComponentProps {
   recipe: Recipe;
+  navigation: TabNavigation;
 }
 
-const RecipeComponent: React.FC<RecipeComponentProps> = ({recipe}) => {
-  const navigation = useNavigation();
+const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation }) => {
 
   const handlePress = () => {
-    navigation.navigate('RecipeDetailsScreen', {recipe});
+    navigation.navigate('RecipeDetails', recipe);
   };
 
   return (
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 8,
     elevation: 10,
-    width: WINDOW_WIDTH / 2 - 40,
   },
   recipeText: {
     fontSize: 16,

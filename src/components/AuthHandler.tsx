@@ -1,9 +1,9 @@
-import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
 import LoginScreen from '../screens/authScreens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
+import RecipesScreen from '../screens/RecipesScreen';
 
 type User = FirebaseAuthTypes.User;
 
@@ -28,9 +28,8 @@ const AuthHandler = () => {
       </View>
     );
   }
-  console.log('user', user);
 
-  return user ? <HomeScreen /> : <LoginScreen />;
+  return user ? <RecipesScreen /> : <LoginScreen />;
 };
 
 export default AuthHandler;
