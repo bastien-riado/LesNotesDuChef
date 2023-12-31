@@ -1,5 +1,6 @@
 import auth from '@react-native-firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -16,39 +17,40 @@ const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const userId = auth().currentUser?.uid;
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          setIsLoading(true);
+          const userId = auth().currentUser?.uid;
 
-        if (userId) {
-          const snapshot = await dbRef
-            .ref('recipes')
-            .orderByChild('ownerId')
-            .equalTo(userId)
-            .once('value');
+          if (userId) {
+            const snapshot = await dbRef
+              .ref('recipes')
+              .orderByChild('ownerId')
+              .equalTo(userId)
+              .once('value');
 
-          const data = snapshot.val();
+            const data = snapshot.val();
 
-          if (data) {
-            const recipesData: Recipe[] = Object.keys(data).map((recipeId) => ({
-              id: recipeId,
-              ...data[recipeId],
-            }));
+            if (data) {
+              const recipesData: Recipe[] = Object.keys(data).map((recipeId) => ({
+                id: recipeId,
+                ...data[recipeId],
+              }));
 
-            setRecipes(recipesData);
+              setRecipes(recipesData);
+            }
           }
+        } catch (error) {
+          console.error('Error fetching data from Firebase:', error);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        console.error('Error fetching data from Firebase:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      };
 
-    fetchData();
-  }, []);
+      fetchData();
+    }, []));
 
   const getRecipes = async () => {
     try {
