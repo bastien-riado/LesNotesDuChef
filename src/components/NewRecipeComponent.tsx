@@ -78,13 +78,6 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
       />
       <TextInput
         style={styles.input}
-        onChangeText={(text) => handleChangeText('description', text)}
-        value={recipe.description}
-        placeholder="Description"
-        placeholderTextColor="#A9A9A9"
-      />
-      <TextInput
-        style={styles.input}
         onChangeText={(text) => handleChangeText('time', text)}
         value={recipe.time}
         placeholder="Time"
@@ -95,6 +88,14 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
         onChangeText={(text) => handleChangeText('difficulty', text)}
         value={recipe.difficulty}
         placeholder="Difficulty"
+        placeholderTextColor="#A9A9A9"
+        multiline={true}
+      />
+      <TextInput
+        style={styles.multiLineInput}
+        onChangeText={(text) => handleChangeText('description', text)}
+        value={recipe.description}
+        placeholder="Description"
         placeholderTextColor="#A9A9A9"
       />
       <Button
@@ -108,6 +109,13 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
 const styles = StyleSheet.create({
   input: {
     height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    color: 'black',
+  },
+
+  multiLineInput: {
     margin: 12,
     borderWidth: 1,
     padding: 10,

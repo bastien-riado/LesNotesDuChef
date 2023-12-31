@@ -25,8 +25,6 @@ const NewRecipeScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
 
   },
   light: {
