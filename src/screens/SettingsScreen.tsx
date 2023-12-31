@@ -4,13 +4,11 @@ import { StyleSheet, View } from 'react-native';
 const COLORS = require('../globals/styles/colors.tsx');
 
 const handleSignOutButton = () => {
-
 }
 
 const SettingsScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>This app is still in development, be gentle with it :)</Text>
       <Button
         style={styles.signOutButton}
         title='Se déconnecter' />
