@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { useSelector } from 'react-redux';
+
 import { COLORS, TYPO } from '../../globals/styles/index';
 import RecipesScreen from '../../screens/RecipesScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,8 +17,7 @@ const BottomTabNavigator = () => {
       initialRouteName="RecipeScreen"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor:
-            theme === 'light' ? COLORS.BGCOLOR.LIGHT : COLORS.BGCOLOR.DARK,
+          backgroundColor: theme === 'light' ? COLORS.BGCOLOR.LIGHT : COLORS.BGCOLOR.DARK,
         },
       }}
     >
@@ -27,21 +27,14 @@ const BottomTabNavigator = () => {
         options={{
           tabBarLabel: 'List of recipes',
           tabBarLabelStyle: {
-            color:
-              theme === 'light'
-                ? COLORS.TEXTCOLOR.LIGHT
-                : COLORS.TEXTCOLOR.DARK,
+            color: theme === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
           },
           headerShown: false,
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="view-list"
               size={TYPO.ICONSIZE.MEDIUM}
-              color={
-                theme === 'light'
-                  ? COLORS.ICONCOLOR.LIGHT
-                  : COLORS.ICONCOLOR.DARK
-              }
+              color={theme === 'light' ? COLORS.ICONCOLOR.LIGHT : COLORS.ICONCOLOR.DARK}
             />
           ),
         }}
@@ -52,10 +45,7 @@ const BottomTabNavigator = () => {
         options={{
           tabBarLabel: 'Add New Recipe',
           tabBarLabelStyle: {
-            color:
-              theme === 'light'
-                ? COLORS.TEXTCOLOR.LIGHT
-                : COLORS.TEXTCOLOR.DARK,
+            color: theme === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
           },
           headerShown: false,
           tabBarIcon: () => (
@@ -87,11 +77,7 @@ const BottomTabNavigator = () => {
             <MaterialCommunityIcons
               name="cog"
               size={TYPO.ICONSIZE.MEDIUM}
-              color={
-                theme === 'light'
-                  ? COLORS.ICONCOLOR.LIGHT
-                  : COLORS.ICONCOLOR.DARK
-              }
+              color={theme === 'light' ? COLORS.ICONCOLOR.LIGHT : COLORS.ICONCOLOR.DARK}
             />
           ),
         }}

@@ -4,13 +4,9 @@ module.exports = {
   trailingComma: 'all',
   arrowParens: 'always',
   tabWidth: 2,
-  singleAttributePerLine: false,
-  override: [
-    {
-      files: '*.tsx',
-      option: {
-        endOfLine: 'lf',
-      },
-    },
-  ],
+  semi: true,
+  printWidth: 90,
+  singleAttributePerLine: true,
+  bracketSpacing: false,
+  jsxSingleQuote: false,
 };

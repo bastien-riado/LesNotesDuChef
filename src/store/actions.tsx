@@ -1,4 +1,4 @@
-import { THEME_CHANGE } from './constants';
+import {THEME_CHANGE} from './constants';
 
 export interface ThemeChangeAction {
   type: typeof THEME_CHANGE;

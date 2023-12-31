@@ -1,5 +1,8 @@
 {
-  "cSpell.words": ["ICONCOLOR", "ICONSIZE", "reduxjs", "TEXTCOLOR"],
   "java.configuration.updateBuildConfiguration": "interactive",
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.compile.nullAnalysis.mode": "automatic",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }

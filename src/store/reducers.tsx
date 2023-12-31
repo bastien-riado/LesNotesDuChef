@@ -1,6 +1,6 @@
-import { ThemeState } from '../models/themeStateModels';
-import { ThemeChangeAction } from './actions';
-import { THEME_CHANGE } from './constants';
+import {ThemeChangeAction} from './actions';
+import {THEME_CHANGE} from './constants';
+import {ThemeState} from '../models/themeStateModels';
 
 type ThemeAction = ThemeChangeAction;
 
@@ -10,10 +10,7 @@ const initialState: ThemeState = {
 };
 
 //reducer
-const themeReducer = (
-  state = initialState,
-  action: ThemeAction,
-): ThemeState => {
+const themeReducer = (state = initialState, action: ThemeAction): ThemeState => {
   switch (action.type) {
     case THEME_CHANGE:
       return {

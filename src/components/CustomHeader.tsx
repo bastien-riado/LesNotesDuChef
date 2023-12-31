@@ -1,17 +1,9 @@
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-
-import { DrawerActions } from '@react-navigation/native';
+import {DrawerActions} from '@react-navigation/native';
 import React from 'react';
+import {SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 function CustomHeader(props: any) {
-  const toggleDrawer = () =>
-    props.navigation.dispatch(DrawerActions.toggleDrawer());
+  const toggleDrawer = () => props.navigation.dispatch(DrawerActions.toggleDrawer());
 
   return (
     <SafeAreaView>

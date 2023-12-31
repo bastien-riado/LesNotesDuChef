@@ -1,11 +1,21 @@
 import auth from '@react-native-firebase/auth';
-import React, { useState } from "react";
-import { Alert, Button, StyleSheet, TextInput, View } from "react-native";
-import { Recipe } from "../models/RecipeModels";
-import { dbRef } from "../services/Auth/config/FirebaseConfig";
+import React, { useState } from 'react';
+import {
+  Alert,
+  Button,
+  View,
+  StyleSheet,
+  TextInput,
+} from 'react-native';
 
-const NewRecipeComponent = () => {
+import { Recipe } from '../models/RecipeModels';
+import { dbRef } from '../services/Auth/config/FirebaseConfig';
 
+const NewRecipeComponent = ({
+  updateNewRecipes: updateRecipes,
+}: {
+  updateNewRecipes: () => void;
+}) => {
   const [recipe, setRecipe] = useState<Recipe>({
     id: '',
     ownerId: auth().currentUser!.uid,
@@ -42,17 +52,15 @@ const NewRecipeComponent = () => {
             difficulty: '',
           });
         } else {
-          console.error('L\'ID généré par Firebase est null.');
+          console.error("L'ID généré par Firebase est null.");
         }
       } catch (error) {
-        console.error('Erreur lors de l\'envoi des données à Firebase:', error);
+        console.error("Erreur lors de l'envoi des données à Firebase:", error);
       }
     } else {
       Alert.alert('Erreur', 'Veuillez remplir tous les champs du formulaire.');
     }
   };
-
-
 
   return (
     <View>
@@ -84,7 +92,10 @@ const NewRecipeComponent = () => {
         placeholder="Difficulty"
         placeholderTextColor="#A9A9A9"
       />
-      <Button title="Enregistrer" onPress={handleSaveButton} />
+      <Button
+        title="Enregistrer"
+        onPress={handleSaveButton}
+      />
     </View>
   );
 };

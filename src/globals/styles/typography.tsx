@@ -1,7 +1,6 @@
-import { scaleFont } from "./mixins";
+import {scaleFont} from './mixins';
 
-
-export const ICONSIZE = { SMALL: 20, MEDIUM: 30, LARGE: 40 };
+export const ICONSIZE = {SMALL: 20, MEDIUM: 30, LARGE: 40};
 
 //font family
 export const FONT_FAMILY_REGULAR = 'Roboto-Regular';
@@ -27,14 +26,14 @@ export const LINE_HEIGHT_22 = scaleFont(22);
 
 //font style
 export const FONT_REGULAR = {
-    fontFamily: FONT_FAMILY_REGULAR,
-    fontWeight: FONT_WEIGHT_REGULAR,
+  fontFamily: FONT_FAMILY_REGULAR,
+  fontWeight: FONT_WEIGHT_REGULAR,
 };
 export const FONT_MEDIUM = {
-    fontFamily: FONT_FAMILY_MEDIUM,
-    fontWeight: FONT_WEIGHT_MEDIUM,
+  fontFamily: FONT_FAMILY_MEDIUM,
+  fontWeight: FONT_WEIGHT_MEDIUM,
 };
 export const FONT_BOLD = {
-    fontFamily: FONT_FAMILY_BOLD,
-    fontWeight: FONT_WEIGHT_BOLD,
+  fontFamily: FONT_FAMILY_BOLD,
+  fontWeight: FONT_WEIGHT_BOLD,
 };

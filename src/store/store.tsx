@@ -1,7 +1,8 @@
-import { Reducer, combineReducers, configureStore } from '@reduxjs/toolkit';
+import {Reducer, combineReducers, configureStore} from '@reduxjs/toolkit';
+
+import {ThemeChangeAction} from './actions';
 import themeReducer from './reducers'; // Importez ThemeState depuis le fichier reducers
-import { ThemeState } from '../models/themeStateModels';
-import { ThemeChangeAction } from './actions';
+import {ThemeState} from '../models/themeStateModels';
 
 const rootReducer = combineReducers({
   theme: themeReducer as Reducer<ThemeState, ThemeChangeAction>,
