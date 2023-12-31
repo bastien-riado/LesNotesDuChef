@@ -3,16 +3,17 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Recipe } from '../models/RecipeModels';
+import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 
 interface RecipeComponentProps {
   recipe: Recipe;
+  navigation: TabNavigation;
 }
 
-const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe }) => {
-  const navigation = useNavigation();
+const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation }) => {
 
   const handlePress = () => {
-    navigation.navigate('RecipeDetailsScreen', { recipe });
+    navigation.navigate('RecipeDetails', recipe);
   };
 
   return (

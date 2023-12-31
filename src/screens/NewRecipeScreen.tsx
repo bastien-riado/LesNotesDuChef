@@ -6,14 +6,18 @@ import React = require('react');
 
 import { COLORS } from '../globals/styles/index';
 import NewRecipeComponent from '../components/NewRecipeComponent';
-import { Text } from 'react-native';
+import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 
-const NewRecipeScreen = () => {
+interface NewRecipeScreenProps {
+  navigation: TabNavigation;
+}
+
+const NewRecipeScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
   const theme = useSelector((state: any) => state.theme.mode);
 
   return (
     <View style={[styles.container, theme === 'light' ? styles.light : styles.dark]}>
-      <NewRecipeComponent />
+      <NewRecipeComponent navigation={navigation} />
     </View>
   );
 };

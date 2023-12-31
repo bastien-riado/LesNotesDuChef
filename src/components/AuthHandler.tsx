@@ -28,7 +28,6 @@ const AuthHandler = () => {
       </View>
     );
   }
-  console.log('user', user);
 
   return user ? <RecipesScreen /> : <LoginScreen />;
 };

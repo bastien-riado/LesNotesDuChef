@@ -10,12 +10,14 @@ import {
 
 import { Recipe } from '../models/RecipeModels';
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
+import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 
-const NewRecipeComponent = ({
-  updateNewRecipes: updateRecipes,
-}: {
-  updateNewRecipes: () => void;
-}) => {
+interface NewRecipeComponentProps {
+  navigation: TabNavigation;
+}
+
+
+const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) => {
   const [recipe, setRecipe] = useState<Recipe>({
     id: '',
     ownerId: auth().currentUser!.uid,
@@ -24,6 +26,7 @@ const NewRecipeComponent = ({
     time: '',
     difficulty: '',
   });
+
 
   const handleChangeText = (key: keyof Recipe, value: string) => {
     setRecipe({ ...recipe, [key]: value });
@@ -51,6 +54,8 @@ const NewRecipeComponent = ({
             time: '',
             difficulty: '',
           });
+
+          navigation.navigate('Recipes', { reload: true });
         } else {
           console.error("L'ID généré par Firebase est null.");
         }

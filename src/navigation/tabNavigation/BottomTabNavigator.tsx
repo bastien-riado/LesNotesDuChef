@@ -7,14 +7,20 @@ import RecipesScreen from '../../screens/RecipesScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SettingsScreen from '../../screens/SettingsScreen';
 import NewRecipeScreen from '../../screens/NewRecipeScreen';
+import { NavigationProp } from '@react-navigation/native';
 
-const Tab = createBottomTabNavigator();
+
+export type ScreenNames = ["Recipes", "NewRecipe", "Settings", "RecipeDetails"]
+export type RootTabParamList = Record<ScreenNames[number], any>;
+export type TabNavigation = NavigationProp<RootTabParamList>;
+
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const BottomTabNavigator = () => {
   const theme = useSelector((state: any) => state.theme.mode);
   return (
     <Tab.Navigator
-      initialRouteName="RecipeScreen"
+      initialRouteName="Recipes"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: theme === 'light' ? COLORS.BGCOLOR.LIGHT : COLORS.BGCOLOR.DARK,
@@ -22,10 +28,9 @@ const BottomTabNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="RecipeScreen"
+        name="Recipes"
         component={RecipesScreen}
         options={{
-          tabBarLabel: 'List of recipes',
           tabBarLabelStyle: {
             color: theme === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
           },
@@ -40,10 +45,9 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="AddRecipeScreen"
+        name="NewRecipe"
         component={NewRecipeScreen}
         options={{
-          tabBarLabel: 'Add New Recipe',
           tabBarLabelStyle: {
             color: theme === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
           },
@@ -62,10 +66,9 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="SettingsScreen"
+        name="Settings"
         component={SettingsScreen}
         options={{
-          tabBarLabel: 'Settings',
           tabBarLabelStyle: {
             color:
               theme === 'light'
