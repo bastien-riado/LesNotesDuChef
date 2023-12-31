@@ -52,36 +52,6 @@ const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
       fetchData();
     }, []));
 
-  const getRecipes = async () => {
-    try {
-      setIsLoading(true);
-      const userId = auth().currentUser?.uid;
-
-      if (userId) {
-        const snapshot = await dbRef
-          .ref('recipes')
-          .orderByChild('ownerId')
-          .equalTo(userId)
-          .once('value');
-
-        const data = snapshot.val();
-
-        if (data) {
-          const recipesData: Recipe[] = Object.keys(data).map((recipeId) => ({
-            id: recipeId,
-            ...data[recipeId],
-          }));
-
-          setRecipes(recipesData);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching data from Firebase:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <View style={styles.container}>
       <Spinner
