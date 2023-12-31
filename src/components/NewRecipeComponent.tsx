@@ -55,7 +55,7 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
             difficulty: '',
           });
 
-          navigation.navigate('Recipes', { reload: true });
+          navigation.navigate('RecipesStack');
         } else {
           console.error("L'ID généré par Firebase est null.");
         }
