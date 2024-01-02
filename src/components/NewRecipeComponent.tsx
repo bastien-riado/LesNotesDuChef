@@ -2,7 +2,6 @@ import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import {
   Alert,
-  Button,
   View,
   StyleSheet,
   TextInput,
@@ -11,6 +10,7 @@ import {
 import { Recipe } from '../models/RecipeModels';
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
 import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { Button } from '@react-native-material/core';
 
 interface NewRecipeComponentProps {
   navigation: TabNavigation;

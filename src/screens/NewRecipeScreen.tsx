@@ -25,7 +25,7 @@ const NewRecipeScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    padding: 12,
   },
   light: {
     backgroundColor: COLORS.BGCOLOR.LIGHT,
