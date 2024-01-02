@@ -1,57 +1,49 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Recipe } from '../models/RecipeModels';
-import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
+import { COLORS } from '../globals/styles';
+import { Mode } from '../models/themeStateModels';
+import { useSelector } from 'react-redux';
 
 interface RecipeComponentProps {
   recipe: Recipe;
-  navigation: TabNavigation;
+  navigation: RecipesStackNavigation;
 }
 
 const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation }) => {
-
   const handlePress = () => {
-    navigation.navigate('RecipeDetails', recipe);
+    navigation.navigate('RecipeDetails', { recipe });
   };
+
+  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const themedStyle = styles(mode);
 
   return (
     <TouchableOpacity onPress={handlePress}>
-      <View style={styles.recipeContainer}>
-        <Text style={styles.recipeText}>{recipe.name}</Text>
-        <Text style={styles.recipeText}>Time: {recipe.time}</Text>
-        <Text style={styles.recipeText}>Difficulty: {recipe.difficulty}</Text>
+      <View style={themedStyle.recipeContainer}>
+        <Text style={themedStyle.recipeText}>{recipe.name}</Text>
+        <Text style={themedStyle.recipeText}>Time: {recipe.time}</Text>
+        <Text style={themedStyle.recipeText}>Difficulty: {recipe.difficulty}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = (mode: Mode) => StyleSheet.create({
   recipeContainer: {
-    backgroundColor: '#EFEFEF',
     padding: 10,
     margin: 10,
     borderRadius: 8,
     elevation: 10,
+    backgroundColor: COLORS.BG_SECONDARYCOLOR[mode]
   },
   recipeText: {
     fontSize: 16,
     marginBottom: 8,
-    color: 'black',
-  },
-  deleteButton: {
-    position: 'absolute',
-    top: 5,
-    right: 5,
-    backgroundColor: 'black',
-    padding: 10,
-    borderRadius: 50,
-  },
-  deleteButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
+    color: COLORS.TEXTCOLOR[mode],
+  }
 });
 
 export default RecipeComponent;

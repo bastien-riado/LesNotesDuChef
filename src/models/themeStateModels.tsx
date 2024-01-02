@@ -1,3 +1,5 @@
+export type Mode = 'light' | 'dark';
+
 export interface ThemeState {
-  mode: 'light' | 'dark';
+  mode: Mode;
 }

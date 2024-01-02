@@ -7,33 +7,27 @@ import React = require('react');
 import { COLORS } from '../globals/styles/index';
 import NewRecipeComponent from '../components/NewRecipeComponent';
 import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { Mode } from '../models/themeStateModels';
 
 interface NewRecipeScreenProps {
   navigation: TabNavigation;
 }
 
 const NewRecipeScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
-  const theme = useSelector((state: any) => state.theme.mode);
-
+  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const themedStyle = styles(mode);
   return (
-    <View style={[styles.container, theme === 'light' ? styles.light : styles.dark]}>
+    <View style={themedStyle.container}>
       <NewRecipeComponent navigation={navigation} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = (mode: Mode) => StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  },
-  light: {
-    backgroundColor: COLORS.BGCOLOR.LIGHT,
-  },
-  dark: {
-    backgroundColor: COLORS.BGCOLOR.DARK,
+    padding: 12,
+    backgroundColor: COLORS.BGCOLOR[mode]
   },
 });
 

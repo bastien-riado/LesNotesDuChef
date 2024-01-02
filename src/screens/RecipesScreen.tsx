@@ -3,20 +3,21 @@ import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import RecipesComponent from '../components/RecipesComponent';
 
-import React = require('react');
+import React from 'react';
 
 import { COLORS } from '../globals/styles/index';
-import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
+import { Mode } from '../models/themeStateModels';
 
 interface RecipeScreenProps {
-  navigation: TabNavigation;
+  navigation: RecipesStackNavigation;
 }
 
 const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {
-  const theme = useSelector((state: any) => state.theme.mode);
+  const mode: Mode = useSelector((state: any) => state.theme.mode);
 
   return (
-    <View style={[styles.container, theme === 'light' ? styles.light : styles.dark]}>
+    <View style={[styles.container, { backgroundColor: COLORS.BGCOLOR[mode] }]}>
       <RecipesComponent navigation={navigation} />
     </View>
   );
@@ -28,12 +29,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-  },
-  light: {
-    backgroundColor: COLORS.BGCOLOR.LIGHT,
-  },
-  dark: {
-    backgroundColor: COLORS.BGCOLOR.DARK,
   },
 });
 

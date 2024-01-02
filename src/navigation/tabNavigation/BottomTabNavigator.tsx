@@ -3,43 +3,44 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { COLORS, TYPO } from '../../globals/styles/index';
-import RecipesScreen from '../../screens/RecipesScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SettingsScreen from '../../screens/SettingsScreen';
 import NewRecipeScreen from '../../screens/NewRecipeScreen';
 import { NavigationProp } from '@react-navigation/native';
+import RecipesStackNavigator from '../RecipesStackNavigator';
+import { Mode } from '../../models/themeStateModels';
 
 
-export type ScreenNames = ["Recipes", "NewRecipe", "Settings", "RecipeDetails"]
-export type RootTabParamList = Record<ScreenNames[number], any>;
+export type BottomTabScreenNames = ["RecipesStack", "NewRecipe", "Settings", "RecipeDetails"]
+export type RootTabParamList = Record<BottomTabScreenNames[number], undefined>;
 export type TabNavigation = NavigationProp<RootTabParamList>;
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const BottomTabNavigator = () => {
-  const theme = useSelector((state: any) => state.theme.mode);
+  const mode: Mode = useSelector((state: any) => state.theme.mode);
   return (
     <Tab.Navigator
-      initialRouteName="Recipes"
+      initialRouteName="RecipesStack"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: theme === 'light' ? COLORS.BGCOLOR.LIGHT : COLORS.BGCOLOR.DARK,
+          backgroundColor: COLORS.BGCOLOR[mode],
         },
       }}
     >
       <Tab.Screen
-        name="Recipes"
-        component={RecipesScreen}
+        name="RecipesStack"
+        component={RecipesStackNavigator}
         options={{
           tabBarLabelStyle: {
-            color: theme === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
+            color: COLORS.TEXTCOLOR[mode],
           },
           headerShown: false,
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="view-list"
               size={TYPO.ICONSIZE.MEDIUM}
-              color={theme === 'light' ? COLORS.ICONCOLOR.LIGHT : COLORS.ICONCOLOR.DARK}
+              color={COLORS.ICONCOLOR[mode]}
             />
           ),
         }}
@@ -49,7 +50,7 @@ const BottomTabNavigator = () => {
         component={NewRecipeScreen}
         options={{
           tabBarLabelStyle: {
-            color: theme === 'light' ? COLORS.TEXTCOLOR.LIGHT : COLORS.TEXTCOLOR.DARK,
+            color: COLORS.TEXTCOLOR[mode],
           },
           headerShown: false,
           tabBarIcon: () => (
@@ -57,9 +58,7 @@ const BottomTabNavigator = () => {
               name="plus"
               size={TYPO.ICONSIZE.MEDIUM}
               color={
-                theme === 'light'
-                  ? COLORS.ICONCOLOR.LIGHT
-                  : COLORS.ICONCOLOR.DARK
+                COLORS.ICONCOLOR[mode]
               }
             />
           ),
@@ -70,17 +69,14 @@ const BottomTabNavigator = () => {
         component={SettingsScreen}
         options={{
           tabBarLabelStyle: {
-            color:
-              theme === 'light'
-                ? COLORS.TEXTCOLOR.LIGHT
-                : COLORS.TEXTCOLOR.DARK,
+            color: COLORS.TEXTCOLOR[mode],
           },
           headerShown: false,
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="cog"
               size={TYPO.ICONSIZE.MEDIUM}
-              color={theme === 'light' ? COLORS.ICONCOLOR.LIGHT : COLORS.ICONCOLOR.DARK}
+              color={COLORS.ICONCOLOR[mode]}
             />
           ),
         }}

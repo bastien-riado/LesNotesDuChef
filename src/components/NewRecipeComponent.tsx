@@ -2,7 +2,6 @@ import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import {
   Alert,
-  Button,
   View,
   StyleSheet,
   TextInput,
@@ -11,6 +10,7 @@ import {
 import { Recipe } from '../models/RecipeModels';
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
 import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { Button } from '@react-native-material/core';
 
 interface NewRecipeComponentProps {
   navigation: TabNavigation;
@@ -55,7 +55,7 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
             difficulty: '',
           });
 
-          navigation.navigate('Recipes', { reload: true });
+          navigation.navigate('RecipesStack');
         } else {
           console.error("L'ID généré par Firebase est null.");
         }
@@ -78,13 +78,6 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
       />
       <TextInput
         style={styles.input}
-        onChangeText={(text) => handleChangeText('description', text)}
-        value={recipe.description}
-        placeholder="Description"
-        placeholderTextColor="#A9A9A9"
-      />
-      <TextInput
-        style={styles.input}
         onChangeText={(text) => handleChangeText('time', text)}
         value={recipe.time}
         placeholder="Time"
@@ -95,6 +88,14 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
         onChangeText={(text) => handleChangeText('difficulty', text)}
         value={recipe.difficulty}
         placeholder="Difficulty"
+        placeholderTextColor="#A9A9A9"
+        multiline={true}
+      />
+      <TextInput
+        style={styles.multiLineInput}
+        onChangeText={(text) => handleChangeText('description', text)}
+        value={recipe.description}
+        placeholder="Description"
         placeholderTextColor="#A9A9A9"
       />
       <Button
@@ -108,6 +109,13 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
 const styles = StyleSheet.create({
   input: {
     height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    color: 'black',
+  },
+
+  multiLineInput: {
     margin: 12,
     borderWidth: 1,
     padding: 10,

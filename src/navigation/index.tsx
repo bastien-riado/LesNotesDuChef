@@ -1,20 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { AuthNavigation } from './authNavigation/AuthNavigation';
-import { Authorization } from '../services/providers/AuthProvider';
-import BottomTabNavigator from './tabNavigation/BottomTabNavigator';
 
 export const Navigation = () => {
-  const authContext = useContext(Authorization);
-  if (!authContext) {
-    return null;
-  }
-
-  const { user, isLoading } = authContext;
-
-  if (isLoading) {
-    return null;
-  }
-
-  return user ? <BottomTabNavigator /> : <AuthNavigation />;
+  return <AuthNavigation />;
 };
