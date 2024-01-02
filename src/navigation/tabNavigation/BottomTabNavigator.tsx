@@ -3,7 +3,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { COLORS, TYPO } from '../../globals/styles/index';
-import RecipesScreen from '../../screens/RecipesScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SettingsScreen from '../../screens/SettingsScreen';
 import NewRecipeScreen from '../../screens/NewRecipeScreen';
