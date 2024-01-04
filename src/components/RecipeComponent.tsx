@@ -24,8 +24,8 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation })
     <TouchableOpacity onPress={handlePress}>
       <View style={themedStyle.recipeContainer}>
         <Text style={themedStyle.recipeText}>{recipe.name}</Text>
-        <Text style={themedStyle.recipeText}>Time: {recipe.time}</Text>
-        <Text style={themedStyle.recipeText}>Difficulty: {recipe.difficulty}</Text>
+        <Text style={themedStyle.recipeText}>Temps: {recipe.time}</Text>
+        <Text style={themedStyle.recipeText}>Difficulté: {recipe.difficulty}</Text>
       </View>
     </TouchableOpacity>
   );

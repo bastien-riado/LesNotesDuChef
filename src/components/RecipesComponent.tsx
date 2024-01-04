@@ -1,4 +1,3 @@
-import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, StyleSheet, View } from 'react-native';
@@ -6,44 +5,30 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import RecipeComponent from './RecipeComponent';
 import { Recipe } from '../models/RecipeModels';
-import { dbRef } from '../services/Auth/config/FirebaseConfig';
 import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
+import { COLORS } from '../globals/styles';
+import { Mode } from '../models/themeStateModels';
+import { useSelector } from 'react-redux';
+import { getRecipes } from '../services/RecipeService';
 
 interface RescipesComponentProps {
   navigation: RecipesStackNavigation;
 }
 
 const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipes, setRecipes] = useState<Recipe[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const mode: Mode = useSelector((state: any) => state.theme.mode);
 
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
         try {
           setIsLoading(true);
-          const userId = auth().currentUser?.uid;
-
-          if (userId) {
-            const snapshot = await dbRef
-              .ref('recipes')
-              .orderByChild('ownerId')
-              .equalTo(userId)
-              .once('value');
-
-            const data = snapshot.val();
-
-            if (data) {
-              const recipesData: Recipe[] = Object.keys(data).map((recipeId) => ({
-                id: recipeId,
-                ...data[recipeId],
-              }));
-
-              setRecipes(recipesData);
-            }
-          }
+          const recipes = await getRecipes();
+          setRecipes(recipes)
         } catch (error) {
-          console.error('Error fetching data from Firebase:', error);
+          console.error('Error in getRecipesSerivce:', error);
         } finally {
           setIsLoading(false);
         }
@@ -57,12 +42,12 @@ const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
       <Spinner
         visible={isLoading}
         textContent={'Chargement des recettes...'}
-        textStyle={{ color: '#000' }}
+        textStyle={{ color: COLORS.TEXTCOLOR[mode] }}
       />
 
       <FlatList
         data={recipes}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id!}
         renderItem={({ item }) => (
           <RecipeComponent
             key={item.id}
@@ -83,29 +68,9 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     width: '100%',
   },
-  titlePage: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: 'black',
-    textAlign: 'left',
-  },
   listContainer: {
     paddingHorizontal: 0,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    elevation: 5,
-    width: '90%',
-    maxWidth: 500,
-  },
+  }
 });
 
 export default RecipesComponent;

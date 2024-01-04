@@ -1,6 +1,5 @@
 import { Button, Text } from '@react-native-material/core';
 import { StyleSheet, View } from 'react-native';
-import auth from '@react-native-firebase/auth';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
@@ -9,13 +8,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { TYPO } from '../globals/styles';
 import { useAppDispatch } from '../store/store';
 import { Mode } from '../models/themeStateModels';
+import { signOut } from '../services/AuthService';
 
 const COLORS = require('../globals/styles/colors.tsx');
 
 
 const SettingsScreen = () => {
   const handleSignOutButton = async () => {
-    await auth().signOut().catch(console.error);
+    await signOut();
   }
 
   const theme = useSelector((state: any) => state.theme);
