@@ -6,36 +6,61 @@ import { COLORS, TYPO } from '../../globals/styles/index';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SettingsScreen from '../../screens/SettingsScreen';
 import NewRecipeScreen from '../../screens/NewRecipeScreen';
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, RouteProp } from '@react-navigation/native';
 import RecipesStackNavigator from '../RecipesStackNavigator';
 import { Mode } from '../../models/themeStateModels';
 
 
-export type BottomTabScreenNames = ["RecipesStack", "NewRecipe", "Settings", "RecipeDetails"]
+export type BottomTabScreenNames = ["RecipesStack", "NewRecipe", "Settings"]
 export type RootTabParamList = Record<BottomTabScreenNames[number], undefined>;
 export type TabNavigation = NavigationProp<RootTabParamList>;
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
+
+const navigationOptions = (mode: Mode) => {
+  type NavigationOpts = {
+    route: RouteProp<RootTabParamList, BottomTabScreenNames[number]>;
+    navigation: any;
+  };
+  const titleForScreenNames = {
+    RecipesStack: 'Liste des Recettes',
+    NewRecipe: 'Nouvelle Recette',
+    Settings: 'Paramètres'
+  }
+
+  return (props: NavigationOpts) => {
+    const { route }: { route: RouteProp<RootTabParamList, BottomTabScreenNames[number]> } = props;
+    return {
+      title: titleForScreenNames[route.name],
+      headerShown: route.name !== 'RecipesStack',
+      headerStyle: {
+        backgroundColor: COLORS.BG_SECONDARYCOLOR[mode],
+      },
+      headerTitleStyle: {
+        color: COLORS.TEXTCOLOR[mode]
+      },
+      tabBarStyle: {
+        backgroundColor: COLORS.BGCOLOR[mode],
+      },
+      tabBarLabel: titleForScreenNames[route.name],
+      tabBarLabelStyle: {
+        color: COLORS.TEXTCOLOR[mode],
+      },
+    }
+  }
+};
 
 const BottomTabNavigator = () => {
   const mode: Mode = useSelector((state: any) => state.theme.mode);
   return (
     <Tab.Navigator
       initialRouteName="RecipesStack"
-      screenOptions={{
-        tabBarStyle: {
-          backgroundColor: COLORS.BGCOLOR[mode],
-        },
-      }}
+      screenOptions={navigationOptions(mode)}
     >
       <Tab.Screen
         name="RecipesStack"
         component={RecipesStackNavigator}
         options={{
-          tabBarLabelStyle: {
-            color: COLORS.TEXTCOLOR[mode],
-          },
-          headerShown: false,
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="view-list"
@@ -49,10 +74,6 @@ const BottomTabNavigator = () => {
         name="NewRecipe"
         component={NewRecipeScreen}
         options={{
-          tabBarLabelStyle: {
-            color: COLORS.TEXTCOLOR[mode],
-          },
-          headerShown: false,
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="plus"
@@ -68,10 +89,6 @@ const BottomTabNavigator = () => {
         name="Settings"
         component={SettingsScreen}
         options={{
-          tabBarLabelStyle: {
-            color: COLORS.TEXTCOLOR[mode],
-          },
-          headerShown: false,
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="cog"

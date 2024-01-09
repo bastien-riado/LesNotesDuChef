@@ -1,9 +1,12 @@
-import auth from '@react-native-firebase/auth';
-import React, {useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { logIn } from '../../services/AuthService';
+import { Mode } from '../../models/themeStateModels';
+import { useSelector } from 'react-redux';
+import { COLORS } from '../../globals/styles';
 
-const LoginScreen = ({navigation}: any) => {
+const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -12,23 +15,26 @@ const LoginScreen = ({navigation}: any) => {
   const handleAuth = async () => {
     try {
       setIsLoading(true);
-      await auth().signInWithEmailAndPassword(email, password);
-      setIsLoading(false);
+      await logIn(email, password);
     } catch (error) {
       console.error(error);
+    } finally {
       setIsLoading(false);
     }
   };
 
+  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const themedStyle = styles(mode);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Connexion</Text>
+    <View style={themedStyle.container}>
+      <Text style={themedStyle.title}>Connexion</Text>
       <TextInput
         placeholder="Email"
         placeholderTextColor={'gray'}
         value={email}
         onChangeText={(text) => setEmail(text)}
-        style={styles.input}
+        style={themedStyle.input}
       />
       <TextInput
         placeholder="Mot de passe"
@@ -36,7 +42,7 @@ const LoginScreen = ({navigation}: any) => {
         value={password}
         onChangeText={(text) => setPassword(text)}
         secureTextEntry
-        style={styles.input}
+        style={themedStyle.input}
       />
       <Button
         title="Se connecter"
@@ -45,10 +51,10 @@ const LoginScreen = ({navigation}: any) => {
       <Spinner
         visible={isLoading}
         textContent={'Connexion au compte...'}
-        textStyle={{color: '#FFF'}}
+        textStyle={themedStyle.spinnerText}
       />
-      <View style={styles.lineSeparator} />
-      <Text style={styles.toggleText}>Vous n'avez pas de compte ?</Text>
+      <View style={themedStyle.lineSeparator} />
+      <Text style={themedStyle.toggleText}>Vous n'avez pas de compte ?</Text>
       <Button
         title="Créer un compte"
         onPress={() => navigation.navigate('Signup')}
@@ -57,10 +63,11 @@ const LoginScreen = ({navigation}: any) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = (mode: Mode) => (StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: COLORS.BGCOLOR[mode],
     alignItems: 'center',
     padding: 16,
   },
@@ -68,7 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: 'black',
+    color: COLORS.TEXTCOLOR[mode],
   },
   input: {
     height: 40,
@@ -77,7 +84,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 12,
     padding: 8,
-    color: 'black',
+    color: COLORS.TEXTCOLOR[mode],
   },
   lineSeparator: {
     height: 1,
@@ -87,8 +94,11 @@ const styles = StyleSheet.create({
   },
   toggleText: {
     marginBottom: 8,
-    color: 'black',
+    color: COLORS.TEXTCOLOR[mode],
   },
-});
+  spinnerText: {
+    color: COLORS.TEXTCOLOR[mode]
+  }
+}));
 
 export default LoginScreen;

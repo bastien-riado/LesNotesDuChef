@@ -2,19 +2,20 @@ import { Button } from '@react-native-material/core';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { dbRef } from '../services/Auth/config/FirebaseConfig';
 import { COLORS } from '../globals/styles';
 import { Mode } from '../models/themeStateModels';
 import { useSelector } from 'react-redux';
+import { deleteRecipe } from '../services/RecipeService';
+import { Recipe } from '../models/RecipeModels';
 
 const RecipeDetailsScreen = ({ route, navigation }: any) => {
 
   const handleDelete = async () => {
-    await dbRef.ref('recipes').child(recipe.id).remove();
+    await deleteRecipe(recipe);
     navigation.goBack();
   };
 
-  const { recipe } = route.params;
+  const { recipe }: { recipe: Recipe } = route.params;
   const mode: Mode = useSelector((state: any) => state.theme.mode);
   const themedStyle = styles(mode);
   return (

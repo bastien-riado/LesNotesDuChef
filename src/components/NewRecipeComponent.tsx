@@ -1,16 +1,17 @@
-import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import {
-  Alert,
   View,
   StyleSheet,
   TextInput,
 } from 'react-native';
 
 import { Recipe } from '../models/RecipeModels';
-import { dbRef } from '../services/Auth/config/FirebaseConfig';
 import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 import { Button } from '@react-native-material/core';
+import { postNewRecipe } from '../services/RecipeService';
+import { Mode } from '../models/themeStateModels';
+import { COLORS } from '../globals/styles';
+import { useSelector } from 'react-redux';
 
 interface NewRecipeComponentProps {
   navigation: TabNavigation;
@@ -18,9 +19,11 @@ interface NewRecipeComponentProps {
 
 
 const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) => {
+
+  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const themedStyle = styles(mode)
+
   const [recipe, setRecipe] = useState<Recipe>({
-    id: '',
-    ownerId: auth().currentUser!.uid,
     name: '',
     description: '',
     time: '',
@@ -33,66 +36,47 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
   };
 
   const handleSaveButton = async () => {
-    if (recipe.name && recipe.description && recipe.time && recipe.difficulty) {
-      const recipesRef = dbRef.ref('recipes');
-
-      try {
-        const newRecipeRef = recipesRef.push();
-        const recipeId = newRecipeRef.key;
-
+    await postNewRecipe(recipe).then(
+      (recipeId: string | null) => {
         if (recipeId) {
-          await newRecipeRef.update({
-            ...recipe,
-            id: recipeId,
-          });
-
           setRecipe({
-            ...recipe,
-            id: recipeId,
             name: '',
             description: '',
             time: '',
-            difficulty: '',
+            difficulty: ''
           });
 
           navigation.navigate('RecipesStack');
-        } else {
-          console.error("L'ID généré par Firebase est null.");
         }
-      } catch (error) {
-        console.error("Erreur lors de l'envoi des données à Firebase:", error);
-      }
-    } else {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs du formulaire.');
-    }
-  };
+      }).catch(console.error);
+  }
 
   return (
     <View>
       <TextInput
-        style={styles.input}
+        style={themedStyle.input}
         onChangeText={(text) => handleChangeText('name', text)}
         value={recipe.name}
-        placeholder="Name"
+        placeholder="Nom"
         placeholderTextColor="#A9A9A9"
       />
       <TextInput
-        style={styles.input}
+        style={themedStyle.input}
         onChangeText={(text) => handleChangeText('time', text)}
         value={recipe.time}
-        placeholder="Time"
+        placeholder="Temps"
         placeholderTextColor="#A9A9A9"
       />
       <TextInput
-        style={styles.input}
+        style={themedStyle.input}
         onChangeText={(text) => handleChangeText('difficulty', text)}
         value={recipe.difficulty}
-        placeholder="Difficulty"
+        placeholder="Difficulté"
         placeholderTextColor="#A9A9A9"
         multiline={true}
       />
       <TextInput
-        style={styles.multiLineInput}
+        style={themedStyle.multiLineInput}
         onChangeText={(text) => handleChangeText('description', text)}
         value={recipe.description}
         placeholder="Description"
@@ -106,20 +90,20 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
   );
 };
 
-const styles = StyleSheet.create({
+const styles = (mode: Mode) => StyleSheet.create({
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    color: 'black',
+    color: COLORS.TEXTCOLOR[mode],
   },
 
   multiLineInput: {
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    color: 'black',
+    color: COLORS.TEXTCOLOR[mode],
   },
 });
 
