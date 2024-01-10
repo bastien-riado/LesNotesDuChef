@@ -8,14 +8,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { TYPO } from '../globals/styles';
 import { useAppDispatch } from '../store/store';
 import { Mode } from '../models/themeStateModels';
-import { signOut } from '../services/AuthService';
+import AuthService from '../services/AuthService';
 
 const COLORS = require('../globals/styles/colors.tsx');
 
 
 const SettingsScreen = () => {
   const handleSignOutButton = async () => {
-    await signOut();
+    AuthService.signOut();
   }
 
   const theme = useSelector((state: any) => state.theme);

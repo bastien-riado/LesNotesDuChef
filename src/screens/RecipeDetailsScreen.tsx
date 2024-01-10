@@ -5,14 +5,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../globals/styles';
 import { Mode } from '../models/themeStateModels';
 import { useSelector } from 'react-redux';
-import { deleteRecipe } from '../services/RecipeService';
 import { Recipe } from '../models/RecipeModels';
+import RecipeService from '../services/RecipeService';
 
 const RecipeDetailsScreen = ({ route, navigation }: any) => {
 
   const handleDelete = async () => {
-    await deleteRecipe(recipe);
-    navigation.goBack();
+    RecipeService.deleteRecipe(recipe).then(() => navigation.goBack());
   };
 
   const { recipe }: { recipe: Recipe } = route.params;
@@ -27,7 +26,7 @@ const RecipeDetailsScreen = ({ route, navigation }: any) => {
       </View>
       <View style={themedStyle.infoContainer}>
         <Text style={themedStyle.label}>Nom:</Text>
-        <Text style={themedStyle.value}>{recipe.name}</Text>
+        <Text style={themedStyle.value}>{recipe.title}</Text>
       </View>
       <View style={themedStyle.infoContainer}>
         <Text style={themedStyle.label}>Temps:</Text>

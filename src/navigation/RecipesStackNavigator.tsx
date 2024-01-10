@@ -20,7 +20,7 @@ const navigationOptions = (mode: Mode) => {
     return (props: NavigationOpts) => {
         const { route }: { route: RouteProp<RecipeStackParamList, RecipeStackScreenNames[number]> } = props;
         return {
-            title: route.name === "Recipes" ? "Liste des recettes" : route.params?.recipe.name,
+            title: route.name === "Recipes" ? "Liste des recettes" : route.params?.recipe.title,
             headerStyle: {
                 backgroundColor: COLORS.BG_SECONDARYCOLOR[mode],
             },

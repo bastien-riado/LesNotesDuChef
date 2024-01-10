@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { logIn } from '../../services/AuthService';
 import { Mode } from '../../models/themeStateModels';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../../globals/styles';
+import AuthService from '../../services/AuthService';
 
 const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
@@ -13,14 +13,8 @@ const LoginScreen = ({ navigation }: any) => {
 
   // TODO utiliser le AuthProvider pour gérer l'authentification et s'assurer que le loader s'affiche correctement
   const handleAuth = async () => {
-    try {
-      setIsLoading(true);
-      await logIn(email, password);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    AuthService.logIn(email, password).finally(() => setIsLoading(false));
   };
 
   const mode: Mode = useSelector((state: any) => state.theme.mode);

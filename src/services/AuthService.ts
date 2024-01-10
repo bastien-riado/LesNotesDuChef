@@ -1,21 +1,39 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { User } from '../models/UserModels';
-import { dbRef } from './Auth/config/FirebaseConfig';
+import { Alert } from 'react-native';
 
-export async function signOut(): Promise<void> {
-    auth().signOut().catch(console.error);
+function showModalError(title: string, message?: string): void {
+    Alert.alert(title, message ?? 'Pas de détails disponibles')
 }
 
-export async function logIn(email: string, password: string): Promise<FirebaseAuthTypes.UserCredential> {
-    return auth().signInWithEmailAndPassword(email, password);
-}
+const AuthService = {
+    signOut: async (): Promise<void> => {
+        auth().signOut().catch(error => {
+            showModalError('Error While signing out', error);
+            throw error;
+        });
+    },
 
-export async function createUser(email: string, password: string) {
-    await auth().createUserWithEmailAndPassword(email, password);
-    const user: User = { uid: auth().currentUser!.uid, email }
-    try {
-        await dbRef.ref('users').child(user.uid).set(user);
-    } catch (error) {
-        console.error('Error creating user in DB:', error);
+    logIn: async (email: string, password: string): Promise<FirebaseAuthTypes.UserCredential> => {
+        return auth().signInWithEmailAndPassword(email, password).catch(error => {
+            showModalError('Error while logging in', error);
+            throw error;
+        });
+    },
+
+    createUser: async (email: string, password: string): Promise<FirebaseAuthTypes.UserCredential> => {
+        return auth().createUserWithEmailAndPassword(email, password).catch(error => {
+            showModalError('Error while creating user', error);
+            throw error;
+        });
+    },
+
+    getUserId: (): string => {
+        const userId = auth().currentUser?.uid;
+        if (!userId) {
+            throw new Error('User id is null');
+        }
+        return userId;
     }
 };
+
+export default AuthService;

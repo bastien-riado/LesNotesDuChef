@@ -9,7 +9,7 @@ import NewRecipeComponent from '../components/NewRecipeComponent';
 import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 import { Mode } from '../models/themeStateModels';
 
-interface NewRecipeScreenProps {
+type NewRecipeScreenProps = {
   navigation: TabNavigation;
 }
 

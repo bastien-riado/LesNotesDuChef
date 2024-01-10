@@ -9,7 +9,7 @@ import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
 import { COLORS } from '../globals/styles';
 import { Mode } from '../models/themeStateModels';
 import { useSelector } from 'react-redux';
-import { getRecipes } from '../services/RecipeService';
+import RecipeService from '../services/RecipeService';
 
 interface RescipesComponentProps {
   navigation: RecipesStackNavigation;
@@ -22,19 +22,10 @@ const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      const fetchData = async () => {
-        try {
-          setIsLoading(true);
-          const recipes = await getRecipes();
-          setRecipes(recipes)
-        } catch (error) {
-          console.error('Error in getRecipesSerivce:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchData();
+      setIsLoading(true);
+      RecipeService.getRecipes()
+        .then(recipes => setRecipes(recipes))
+        .finally(() => setIsLoading(false));
     }, []));
 
   return (
@@ -47,11 +38,11 @@ const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
 
       <FlatList
         data={recipes}
-        keyExtractor={(item) => item.id!}
-        renderItem={({ item }) => (
+        keyExtractor={(recipe) => recipe.id!}
+        renderItem={({ item: recipe }) => (
           <RecipeComponent
-            key={item.id}
-            recipe={item}
+            key={recipe.id}
+            recipe={recipe}
             navigation={navigation}
           />
         )}
