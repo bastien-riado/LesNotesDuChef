@@ -12,14 +12,14 @@ import { Mode } from '../../models/themeStateModels';
 
 
 export type BottomTabScreenNames = ["RecipesStack", "NewRecipe", "Settings"]
-export type RootTabParamList = Record<BottomTabScreenNames[number], undefined>;
-export type TabNavigation = NavigationProp<RootTabParamList>;
+export type BottomTabParamList = Record<BottomTabScreenNames[number], undefined>;
+export type BottomTabNavigation = NavigationProp<BottomTabParamList>;
 
-const Tab = createBottomTabNavigator<RootTabParamList>();
+const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const navigationOptions = (mode: Mode) => {
   type NavigationOpts = {
-    route: RouteProp<RootTabParamList, BottomTabScreenNames[number]>;
+    route: RouteProp<BottomTabParamList, BottomTabScreenNames[number]>;
     navigation: any;
   };
   const titleForScreenNames = {
@@ -29,7 +29,7 @@ const navigationOptions = (mode: Mode) => {
   }
 
   return (props: NavigationOpts) => {
-    const { route }: { route: RouteProp<RootTabParamList, BottomTabScreenNames[number]> } = props;
+    const { route }: { route: RouteProp<BottomTabParamList, BottomTabScreenNames[number]> } = props;
     return {
       title: titleForScreenNames[route.name],
       headerShown: route.name !== 'RecipesStack',

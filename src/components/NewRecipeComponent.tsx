@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import { Recipe, RecipeStep } from '../models/RecipeModels';
-import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { BottomTabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Button, Text } from '@react-native-material/core';
 import { Mode } from '../models/themeStateModels';
@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 import RecipeService from '../services/RecipeService';
 
 type NewRecipeComponentProps = {
-  navigation: TabNavigation;
+  navigation: BottomTabNavigation;
 }
 
 

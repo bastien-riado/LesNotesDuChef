@@ -6,11 +6,11 @@ import React = require('react');
 
 import { COLORS } from '../globals/styles/index';
 import NewRecipeComponent from '../components/NewRecipeComponent';
-import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { BottomTabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 import { Mode } from '../models/themeStateModels';
 
 type NewRecipeScreenProps = {
-  navigation: TabNavigation;
+  navigation: BottomTabNavigation;
 }
 
 const NewRecipeScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
