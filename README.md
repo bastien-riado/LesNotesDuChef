@@ -22,6 +22,8 @@ As two friends who embarked on our culinary journey together a few years back, w
 
 ## Features
 
+Incoming
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -41,20 +43,20 @@ What things you need to install the software and how to install them:
 1. Clone the repo
 
 ```bash
-   git clone https://github.com/bastien-riado/LesNotesDuChef.git
+git clone https://github.com/bastien-riado/LesNotesDuChef.git
 ```
 
 2. Install NPM packages
 
 ```bash
-   cd LesNotesDuChef
-   npm install
+cd LesNotesDuChef
+npm install
 ```
 
 3. (If developing for iOS) Install Pod dependencies
 
 ```bash
-   cd ios && pod install && cd ..
+cd ios && pod install && cd ..
 ```
 
 ### Running the app
