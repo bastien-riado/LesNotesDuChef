@@ -80,7 +80,7 @@ A complete guide will be released soon
 ## Documentation
 
 While our app is designed to be as intuitive as possible, we understand the importance of good documentation. Currently, our documentation covers the basics to get you started, including an overview of features, quick start guides, and FAQs.
-You can find some topic in the wiki tab on top of the page.
+You can find some topic in the wiki tab on top of the page or here : https://github.com/bastien-riado/LesNotesDuChef/wiki
 
 As we continue to evolve, we plan to expand our documentation to include more detailed guides, API documentation (if applicable), and development resources. Stay tuned!
 
