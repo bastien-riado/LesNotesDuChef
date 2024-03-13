@@ -4,17 +4,19 @@ import { useSelector } from 'react-redux';
 
 import React = require('react');
 
-import { COLORS } from '../globals/styles/index';
 import NewRecipeComponent from '../components/NewRecipeComponent';
+import { COLORS } from '../globals/styles/index';
+import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
-import { Mode } from '../models/themeStateModels';
 
 interface NewRecipeScreenProps {
   navigation: TabNavigation;
 }
 
 const NewRecipeScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
-  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const mode = useSelector(
+    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
+  );
   const themedStyle = styles(mode);
   return (
     <View style={themedStyle.container}>
@@ -23,12 +25,13 @@ const NewRecipeScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
   );
 };
 
-const styles = (mode: Mode) => StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 12,
-    backgroundColor: COLORS.BGCOLOR[mode]
-  },
-});
+const styles = (mode: Mode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 12,
+      backgroundColor: COLORS.BGCOLOR[mode],
+    },
+  });
 
 export default NewRecipeScreen;

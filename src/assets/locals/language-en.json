@@ -1,0 +1,53 @@
+{
+  "Auth": {
+    "SignIn": {
+      "Title": "Sign In",
+      "Email": "Email",
+      "Password": "Password",
+      "NoAccount": "Don't have an account ?",
+      "Loading": "Connecting..."
+    },
+    "SignUp": {
+      "Title": "Sign Up",
+      "Email": "Email",
+      "Password": "Password",
+      "RepeatPassword": "Password (repeat)",
+      "AlreadyHaveAccount": "Already have an account ?",
+      "Loading": "Creating account..."
+    }
+  },
+  "RecipeList": {
+    "Title": "Recipe List",
+    "Loading": "Loading recipes...",
+    "Recipe": {
+      "Name": "Name",
+      "Time": "Time",
+      "Difficulty": "Difficulty",
+      "Description": "Description"
+    }
+  },
+  "NewRecipe": {
+    "Title": "New recipe",
+    "Name": "Name",
+    "Time": "Time",
+    "Difficulty": "Difficulty",
+    "Description": "Description",
+    "Save": "Save",
+    "Error": {
+      "Title": "Error",
+      "EmptyFields": "Please fill all fields"
+    }
+  },
+  "UserProfil": {
+    "Settings": {
+      "Title": "Settings",
+      "ChangeMode": "Switch mode",
+      "SignOut": "Disconnect",
+      "Language": {
+        "Title": "Switch language",
+        "French": "French",
+        "English": "English"
+      }
+    }
+  }
+}

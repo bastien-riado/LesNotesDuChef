@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  TextInput,
-} from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 
-import { Recipe } from '../models/RecipeModels';
-import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
 import { Button } from '@react-native-material/core';
-import { postNewRecipe } from '../services/RecipeService';
-import { Mode } from '../models/themeStateModels';
-import { COLORS } from '../globals/styles';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { COLORS } from '../globals/styles';
+import { Recipe } from '../models/RecipeModels';
+import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { postNewRecipe } from '../services/RecipeService';
 
 interface NewRecipeComponentProps {
   navigation: TabNavigation;
 }
 
-
 const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) => {
-
-  const mode: Mode = useSelector((state: any) => state.theme.mode);
-  const themedStyle = styles(mode)
+  const mode = useSelector(
+    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
+  );
+  const themedStyle = styles(mode);
+  const { t } = useTranslation();
 
   const [recipe, setRecipe] = useState<Recipe>({
     name: '',
@@ -30,26 +28,26 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
     difficulty: '',
   });
 
-
   const handleChangeText = (key: keyof Recipe, value: string) => {
     setRecipe({ ...recipe, [key]: value });
   };
 
   const handleSaveButton = async () => {
-    await postNewRecipe(recipe).then(
-      (recipeId: string | null) => {
+    await postNewRecipe(recipe)
+      .then((recipeId: string | null) => {
         if (recipeId) {
           setRecipe({
             name: '',
             description: '',
             time: '',
-            difficulty: ''
+            difficulty: '',
           });
 
           navigation.navigate('RecipesStack');
         }
-      }).catch(console.error);
-  }
+      })
+      .catch(console.error);
+  };
 
   return (
     <View>
@@ -57,21 +55,21 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
         style={themedStyle.input}
         onChangeText={(text) => handleChangeText('name', text)}
         value={recipe.name}
-        placeholder="Nom"
+        placeholder={t('NewRecipe.Name')}
         placeholderTextColor="#A9A9A9"
       />
       <TextInput
         style={themedStyle.input}
         onChangeText={(text) => handleChangeText('time', text)}
         value={recipe.time}
-        placeholder="Temps"
+        placeholder={t('NewRecipe.Time')}
         placeholderTextColor="#A9A9A9"
       />
       <TextInput
         style={themedStyle.input}
         onChangeText={(text) => handleChangeText('difficulty', text)}
         value={recipe.difficulty}
-        placeholder="Difficulté"
+        placeholder={t('NewRecipe.Difficulty')}
         placeholderTextColor="#A9A9A9"
         multiline={true}
       />
@@ -79,32 +77,33 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
         style={themedStyle.multiLineInput}
         onChangeText={(text) => handleChangeText('description', text)}
         value={recipe.description}
-        placeholder="Description"
+        placeholder={t('NewRecipe.Description')}
         placeholderTextColor="#A9A9A9"
       />
       <Button
-        title="Enregistrer"
+        title={t('NewRecipe.Save')}
         onPress={handleSaveButton}
       />
     </View>
   );
 };
 
-const styles = (mode: Mode) => StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    color: COLORS.TEXTCOLOR[mode],
-  },
+const styles = (mode: Mode) =>
+  StyleSheet.create({
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      color: COLORS.TEXTCOLOR[mode],
+    },
 
-  multiLineInput: {
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    color: COLORS.TEXTCOLOR[mode],
-  },
-});
+    multiLineInput: {
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      color: COLORS.TEXTCOLOR[mode],
+    },
+  });
 
 export default NewRecipeComponent;

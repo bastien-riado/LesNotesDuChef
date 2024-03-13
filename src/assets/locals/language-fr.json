@@ -1,0 +1,53 @@
+{
+  "Auth": {
+    "SignIn": {
+      "Title": "Se connecter",
+      "Email": "Email",
+      "Password": "Mot de passe",
+      "NoAccount": "Vous n'avez pas de compte ?",
+      "Loading": "Connexion..."
+    },
+    "SignUp": {
+      "Title": "Créer un compte",
+      "Email": "Email",
+      "Password": "Mot de passe",
+      "RepeatPassword": "Répéter le mot de passe",
+      "AlreadyHaveAccount": "Vous avez déjà un compte ?",
+      "Loading": "Création du compte..."
+    }
+  },
+  "RecipeList": {
+    "Title": "Liste des recettes",
+    "Loading": "Chargement des recettes...",
+    "Recipe": {
+      "Name": "Nom",
+      "Time": "Temps",
+      "Difficulty": "Difficulté",
+      "Description": "Description"
+    }
+  },
+  "NewRecipe": {
+    "Title": "Nouvelle recette",
+    "Name": "Nom",
+    "Time": "Temps",
+    "Difficulty": "Difficulté",
+    "Description": "Description",
+    "Save": "Sauvegarder",
+    "Error": {
+      "Title": "Erreur",
+      "EmptyFields": "Veuillez remplir tous les champs"
+    }
+  },
+  "UserProfil": {
+    "Settings": {
+      "Title": "Paramètres",
+      "ChangeMode": "Changer de mode",
+      "SignOut": "Se déconnecter",
+      "Language": {
+        "Title": "Changer de langue",
+        "French": "Français",
+        "English": "Anglais"
+      }
+    }
+  }
+}

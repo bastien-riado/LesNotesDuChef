@@ -6,15 +6,17 @@ import RecipesComponent from '../components/RecipesComponent';
 import React from 'react';
 
 import { COLORS } from '../globals/styles/index';
+import { UserProfilState } from '../models/UserProfilStateModels';
 import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
-import { Mode } from '../models/themeStateModels';
 
 interface RecipeScreenProps {
   navigation: RecipesStackNavigation;
 }
 
 const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {
-  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const mode = useSelector(
+    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
+  );
 
   return (
     <View style={[styles.container, { backgroundColor: COLORS.BGCOLOR[mode] }]}>
@@ -28,7 +30,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
 });
 

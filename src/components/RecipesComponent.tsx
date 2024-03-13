@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import RecipeComponent from './RecipeComponent';
-import { Recipe } from '../models/RecipeModels';
-import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
-import { COLORS } from '../globals/styles';
-import { Mode } from '../models/themeStateModels';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { COLORS } from '../globals/styles';
+import { Recipe } from '../models/RecipeModels';
+import { UserProfilState } from '../models/UserProfilStateModels';
+import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
 import { getRecipes } from '../services/RecipeService';
+import RecipeComponent from './RecipeComponent';
 
 interface RescipesComponentProps {
   navigation: RecipesStackNavigation;
@@ -18,7 +19,10 @@ interface RescipesComponentProps {
 const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
   const [recipes, setRecipes] = useState<Recipe[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const { t } = useTranslation();
+  const mode = useSelector(
+    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -26,7 +30,7 @@ const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
         try {
           setIsLoading(true);
           const recipes = await getRecipes();
-          setRecipes(recipes)
+          setRecipes(recipes);
         } catch (error) {
           console.error('Error in getRecipesSerivce:', error);
         } finally {
@@ -35,13 +39,14 @@ const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
       };
 
       fetchData();
-    }, []));
+    }, []),
+  );
 
   return (
     <View style={styles.container}>
       <Spinner
         visible={isLoading}
-        textContent={'Chargement des recettes...'}
+        textContent={t('RecipeList.Loading')}
         textStyle={{ color: COLORS.TEXTCOLOR[mode] }}
       />
 
@@ -70,7 +75,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingHorizontal: 0,
-  }
+  },
 });
 
 export default RecipesComponent;
