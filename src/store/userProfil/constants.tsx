@@ -4,3 +4,6 @@
 
 //dark/light theme
 export const THEME_CHANGE = 'THEME_CHANGE';
+
+//language change
+export const LANGUAGE_CHANGE = 'LANGUAGE_CHANGE';

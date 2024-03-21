@@ -2,16 +2,16 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { COLORS, TYPO } from '../../globals/styles/index';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import SettingsScreen from '../../screens/SettingsScreen';
-import NewRecipeScreen from '../../screens/NewRecipeScreen';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { COLORS, TYPO } from '../../globals/styles/index';
+import { Mode, UserProfilState } from '../../models/UserProfilStateModels';
+import NewRecipeScreen from '../../screens/NewRecipeScreen';
+import SettingsScreen from '../../screens/SettingsScreen';
 import RecipesStackNavigator from '../RecipesStackNavigator';
-import { Mode } from '../../models/themeStateModels';
 
-
-export type BottomTabScreenNames = ["RecipesStack", "NewRecipe", "Settings"]
+export type BottomTabScreenNames = ['RecipesStack', 'NewRecipe', 'Settings'];
 export type RootTabParamList = Record<BottomTabScreenNames[number], undefined>;
 export type TabNavigation = NavigationProp<RootTabParamList>;
 
@@ -22,14 +22,17 @@ const navigationOptions = (mode: Mode) => {
     route: RouteProp<RootTabParamList, BottomTabScreenNames[number]>;
     navigation: any;
   };
+  const { t } = useTranslation();
   const titleForScreenNames = {
-    RecipesStack: 'Liste des Recettes',
-    NewRecipe: 'Nouvelle Recette',
-    Settings: 'Paramètres'
-  }
+    RecipesStack: t('RecipeList.Title'),
+    NewRecipe: t('NewRecipe.Title'),
+    Settings: t('UserProfil.Settings.Title'),
+  };
 
   return (props: NavigationOpts) => {
-    const { route }: { route: RouteProp<RootTabParamList, BottomTabScreenNames[number]> } = props;
+    const {
+      route,
+    }: { route: RouteProp<RootTabParamList, BottomTabScreenNames[number]> } = props;
     return {
       title: titleForScreenNames[route.name],
       headerShown: route.name !== 'RecipesStack',
@@ -37,7 +40,7 @@ const navigationOptions = (mode: Mode) => {
         backgroundColor: COLORS.BG_SECONDARYCOLOR[mode],
       },
       headerTitleStyle: {
-        color: COLORS.TEXTCOLOR[mode]
+        color: COLORS.TEXTCOLOR[mode],
       },
       tabBarStyle: {
         backgroundColor: COLORS.BGCOLOR[mode],
@@ -46,12 +49,14 @@ const navigationOptions = (mode: Mode) => {
       tabBarLabelStyle: {
         color: COLORS.TEXTCOLOR[mode],
       },
-    }
-  }
+    };
+  };
 };
 
 const BottomTabNavigator = () => {
-  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const mode = useSelector(
+    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
+  );
   return (
     <Tab.Navigator
       initialRouteName="RecipesStack"
@@ -78,9 +83,7 @@ const BottomTabNavigator = () => {
             <MaterialCommunityIcons
               name="plus"
               size={TYPO.ICONSIZE.MEDIUM}
-              color={
-                COLORS.ICONCOLOR[mode]
-              }
+              color={COLORS.ICONCOLOR[mode]}
             />
           ),
         }}

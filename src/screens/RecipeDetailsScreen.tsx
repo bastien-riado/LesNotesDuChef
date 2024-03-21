@@ -2,21 +2,22 @@ import { Button } from '@react-native-material/core';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { COLORS } from '../globals/styles';
-import { Mode } from '../models/themeStateModels';
 import { useSelector } from 'react-redux';
-import { deleteRecipe } from '../services/RecipeService';
+import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
+import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import { deleteRecipe } from '../services/RecipeService';
 
 const RecipeDetailsScreen = ({ route, navigation }: any) => {
-
   const handleDelete = async () => {
     await deleteRecipe(recipe);
     navigation.goBack();
   };
 
   const { recipe }: { recipe: Recipe } = route.params;
-  const mode: Mode = useSelector((state: any) => state.theme.mode);
+  const mode = useSelector(
+    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
+  );
   const themedStyle = styles(mode);
   return (
     <View style={themedStyle.container}>
@@ -48,35 +49,36 @@ const RecipeDetailsScreen = ({ route, navigation }: any) => {
   );
 };
 
-const styles = (mode: Mode) => StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: COLORS.BGCOLOR[mode]
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: COLORS.TEXTCOLOR[mode],
-  },
-  infoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: COLORS.TEXTCOLOR[mode],
-  },
-  value: {
-    fontSize: 16,
-    color: COLORS.TEXTCOLOR[mode],
-  },
-  button: {
-    backgroundColor: 'red',
-  },
-});
+const styles = (mode: Mode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 16,
+      backgroundColor: COLORS.BGCOLOR[mode],
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 16,
+      color: COLORS.TEXTCOLOR[mode],
+    },
+    infoContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: 8,
+    },
+    label: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: COLORS.TEXTCOLOR[mode],
+    },
+    value: {
+      fontSize: 16,
+      color: COLORS.TEXTCOLOR[mode],
+    },
+    button: {
+      backgroundColor: 'red',
+    },
+  });
 
 export default RecipeDetailsScreen;
