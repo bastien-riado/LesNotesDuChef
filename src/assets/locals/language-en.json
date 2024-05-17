@@ -20,10 +20,12 @@
     "Title": "Recipe List",
     "Loading": "Loading recipes...",
     "Recipe": {
+      "Title": "TODO Détails de la recette",
       "Name": "Name",
       "Time": "Time",
       "Difficulty": "Difficulty",
-      "Description": "Description"
+      "Description": "Description",
+      "Delete": "TODO Supprimer la recette"
     }
   },
   "NewRecipe": {

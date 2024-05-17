@@ -6,3 +6,4 @@ export const ICONCOLOR = { light: '#000000', dark: '#ffffff' };
 export const SUCCESS = '#3adb76';
 export const WARNING = '#ffae00';
 export const ALERT = '#cc4b37';
+export const BGDELETE = '#ff0000';
