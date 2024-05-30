@@ -23,34 +23,6 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
   const [gptInput, setGptInput] = useState<string>('');
   const [gptOutput, setGptOutput] = useState<string>('');
 
-  // const [recipe, setRecipe] = useState<Recipe>({
-  //   name: '',
-  //   description: '',
-  //   time: '',
-  //   difficulty: '',
-  // });
-
-  // const handleChangeText = (key: keyof Recipe, value: string) => {
-  //   setRecipe({ ...recipe, [key]: value });
-  // };
-
-  // const handleSaveButton = async () => {
-  //   await postNewRecipe(recipe)
-  //     .then((recipeId: string | null) => {
-  //       if (recipeId) {
-  //         setRecipe({
-  //           name: '',
-  //           description: '',
-  //           time: '',
-  //           difficulty: '',
-  //         });
-
-  //         navigation.navigate('RecipesStack');
-  //       }
-  //     })
-  //     .catch(console.error);
-  // };
-
   async function handlegptrequest(gptInput: string) {
     fetch('https://api.openai.com/v1/chat/completions', {
       headers: {
