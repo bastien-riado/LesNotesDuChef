@@ -24,8 +24,8 @@
       "Name": "Name",
       "Time": "Time",
       "Difficulty": "Difficulty",
-      "Description": "Description",
-      "Delete": "TODO Supprimer la recette"
+      "Description": "Recipe details",
+      "Delete": "Delete recipe"
     }
   },
   "NewRecipe": {
