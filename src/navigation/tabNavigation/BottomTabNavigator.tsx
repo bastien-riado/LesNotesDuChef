@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { COLORS, TYPO } from '../../globals/styles/index';
 import { Mode, UserProfilState } from '../../models/UserProfilStateModels';
-import NewRecipeScreen from '../../screens/NewRecipeScreen';
 import SettingsScreen from '../../screens/SettingsScreen';
+import NewRecipeStackNavigator from '../NewRecipeStackNavigator';
 import RecipesStackNavigator from '../RecipesStackNavigator';
 
 export type BottomTabScreenNames = ['RecipesStack', 'NewRecipe', 'Settings'];
@@ -35,7 +35,7 @@ const navigationOptions = (mode: Mode) => {
     }: { route: RouteProp<RootTabParamList, BottomTabScreenNames[number]> } = props;
     return {
       title: titleForScreenNames[route.name],
-      headerShown: route.name !== 'RecipesStack',
+      headerShown: route.name !== 'RecipesStack' && route.name !== 'NewRecipe',
       headerStyle: {
         backgroundColor: COLORS.BG_SECONDARYCOLOR[mode],
       },
@@ -77,7 +77,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="NewRecipe"
-        component={NewRecipeScreen}
+        component={NewRecipeStackNavigator}
         options={{
           tabBarIcon: () => (
             <MaterialCommunityIcons
