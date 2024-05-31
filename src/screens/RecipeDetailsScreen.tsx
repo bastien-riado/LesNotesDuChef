@@ -1,7 +1,9 @@
-import { Button } from '@react-native-material/core';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Button as PaperButton } from 'react-native-paper';
 
+import { useTranslation } from 'react-i18next';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
@@ -15,36 +17,40 @@ const RecipeDetailsScreen = ({ route, navigation }: any) => {
   };
 
   const { recipe }: { recipe: Recipe } = route.params;
+  const { t } = useTranslation();
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
+
   const themedStyle = styles(mode);
   return (
     <View style={themedStyle.container}>
-      <Text style={themedStyle.title}>Détails de la recette</Text>
-      <View style={themedStyle.infoContainer}>
-        <Text style={themedStyle.label}>ID:</Text>
-        <Text style={themedStyle.value}>{recipe.id}</Text>
-      </View>
-      <View style={themedStyle.infoContainer}>
-        <Text style={themedStyle.label}>Nom:</Text>
-        <Text style={themedStyle.value}>{recipe.name}</Text>
-      </View>
-      <View style={themedStyle.infoContainer}>
-        <Text style={themedStyle.label}>Temps:</Text>
-        <Text style={themedStyle.value}>{recipe.time}</Text>
-      </View>
-      <View style={themedStyle.infoContainer}>
-        <Text style={themedStyle.label}>Difficulté:</Text>
-        <Text style={themedStyle.value}>{recipe.difficulty}</Text>
-      </View>
-      <View>
-        <Button
-          style={themedStyle.button}
-          title="Supprimer la recette"
-          onPress={handleDelete}
-        />
-      </View>
+      <ScrollView>
+        <View style={themedStyle.infoContainer}>
+          <Text style={themedStyle.label}>{t('RecipeList.Recipe.Time')}:</Text>
+          <Text style={themedStyle.value}>{recipe.time}</Text>
+        </View>
+        <View style={themedStyle.infoContainer}>
+          <Text style={themedStyle.label}>{t('RecipeList.Recipe.Difficulty')}:</Text>
+          <Text style={themedStyle.value}>{recipe.difficulty}</Text>
+        </View>
+        <View>
+          <Text style={themedStyle.label}>{t('RecipeList.Recipe.Description')}</Text>
+          <Text style={themedStyle.value}>{recipe.description}</Text>
+        </View>
+        <View style={themedStyle.bottomContainer}>
+          <PaperButton
+            icon="delete"
+            onPress={handleDelete}
+            mode="elevated"
+            buttonColor={COLORS.BGDELETE}
+            textColor={COLORS.TEXTCOLOR.dark}
+            uppercase={true}
+          >
+            {t('RecipeList.Recipe.Delete')}
+          </PaperButton>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -55,6 +61,11 @@ const styles = (mode: Mode) =>
       flex: 1,
       padding: 16,
       backgroundColor: COLORS.BGCOLOR[mode],
+    },
+    bottomContainer: {
+      marginTop: 16,
+      marginBottom: 16,
+      alignItems: 'center',
     },
     title: {
       fontSize: 24,
@@ -75,9 +86,6 @@ const styles = (mode: Mode) =>
     value: {
       fontSize: 16,
       color: COLORS.TEXTCOLOR[mode],
-    },
-    button: {
-      backgroundColor: 'red',
     },
   });
 
