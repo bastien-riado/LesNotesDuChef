@@ -1,8 +1,9 @@
-import { Button } from '@react-native-material/core';
 import { CommonActions } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Button, TextInput } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
@@ -14,7 +15,6 @@ interface NewRecipeComponentProps {
 }
 
 const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) => {
-
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
@@ -46,7 +46,12 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
           navigation.dispatch(
             CommonActions.reset({
               index: 1,
-              routes: [{ name: 'BottomTabNavigator' }, { name: 'RecipeList' }],
+              routes: [
+                {
+                  name: 'BottomTabNavigator',
+                  params: { screen: 'RecipesStack', params: { screen: 'Recipes' } },
+                },
+              ],
             }),
           );
         }
@@ -55,59 +60,67 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
   };
 
   return (
-    <View>
+    <ScrollView>
       <TextInput
-        style={themedStyle.input}
-        onChangeText={(text) => handleChangeText('name', text)}
+        label={t('NewRecipe.Name')}
         value={recipe.name}
-        placeholder={t('NewRecipe.Name')}
-        placeholderTextColor="#A9A9A9"
+        onChangeText={(text) => handleChangeText('name', text)}
+        style={themedStyle.input}
+        mode="outlined"
+        textColor={COLORS.TEXTCOLOR[mode]}
       />
       <TextInput
-        style={themedStyle.input}
-        onChangeText={(text) => handleChangeText('time', text)}
+        label={t('NewRecipe.Time')}
         value={recipe.time}
-        placeholder={t('NewRecipe.Time')}
-        placeholderTextColor="#A9A9A9"
-      />
-      <TextInput
+        onChangeText={(text) => handleChangeText('time', text)}
         style={themedStyle.input}
-        onChangeText={(text) => handleChangeText('difficulty', text)}
-        value={recipe.difficulty}
-        placeholder={t('NewRecipe.Difficulty')}
-        placeholderTextColor="#A9A9A9"
-        multiline={true}
+        mode="outlined"
+        textColor={COLORS.TEXTCOLOR[mode]}
       />
       <TextInput
-        style={themedStyle.multiLineInput}
-        onChangeText={(text) => handleChangeText('description', text)}
+        label={t('NewRecipe.Difficulty')}
+        value={recipe.difficulty}
+        onChangeText={(text) => handleChangeText('difficulty', text)}
+        style={themedStyle.input}
+        mode="outlined"
+        textColor={COLORS.TEXTCOLOR[mode]}
+      />
+      <TextInput
+        label={t('NewRecipe.Description')}
         value={recipe.description}
-        placeholder={t('NewRecipe.Description')}
-        placeholderTextColor="#A9A9A9"
+        onChangeText={(text) => handleChangeText('description', text)}
+        style={themedStyle.multiLineInput}
+        mode="outlined"
+        multiline={true}
+        numberOfLines={18}
+        textColor={COLORS.TEXTCOLOR[mode]}
+        verticalAlign="top"
       />
       <Button
-        title={t('NewRecipe.Save')}
         onPress={handleSaveButton}
-      />
-    </View>
+        mode="contained"
+      >
+        {t('NewRecipe.Save')}
+      </Button>
+    </ScrollView>
   );
 };
 
 const styles = (mode: Mode) =>
   StyleSheet.create({
     input: {
-      height: 40,
-      margin: 12,
-      borderWidth: 1,
-      padding: 10,
+      width: '100%',
+      marginBottom: 12,
       color: COLORS.TEXTCOLOR[mode],
+      backgroundColor: COLORS.BGCOLOR[mode],
     },
 
     multiLineInput: {
-      margin: 12,
-      borderWidth: 1,
-      padding: 10,
-      color: COLORS.TEXTCOLOR[mode],
+      width: '100%',
+      marginBottom: 12,
+      backgroundColor: COLORS.BGCOLOR[mode],
+      minHeight: 64,
+      textAlignVertical: 'top',
     },
     textTest: {
       color: COLORS.TEXTCOLOR[mode],

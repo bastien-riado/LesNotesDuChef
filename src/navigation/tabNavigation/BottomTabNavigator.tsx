@@ -11,7 +11,7 @@ import SettingsScreen from '../../screens/SettingsScreen';
 import NewRecipeStackNavigator from '../NewRecipeStackNavigator';
 import RecipesStackNavigator from '../RecipesStackNavigator';
 
-export type BottomTabScreenNames = ['RecipesStack', 'NewRecipe', 'Settings'];
+export type BottomTabScreenNames = ['RecipesStack', 'NewRecipeStack', 'Settings'];
 export type RootTabParamList = Record<BottomTabScreenNames[number], undefined>;
 export type TabNavigation = NavigationProp<RootTabParamList>;
 
@@ -25,7 +25,7 @@ const navigationOptions = (mode: Mode) => {
   const { t } = useTranslation();
   const titleForScreenNames = {
     RecipesStack: t('RecipeList.Title'),
-    NewRecipe: t('NewRecipe.Title'),
+    NewRecipeStack: t('NewRecipe.Title'),
     Settings: t('UserProfil.Settings.Title'),
   };
 
@@ -35,7 +35,7 @@ const navigationOptions = (mode: Mode) => {
     }: { route: RouteProp<RootTabParamList, BottomTabScreenNames[number]> } = props;
     return {
       title: titleForScreenNames[route.name],
-      headerShown: route.name !== 'RecipesStack' && route.name !== 'NewRecipe',
+      headerShown: route.name !== 'RecipesStack' && route.name !== 'NewRecipeStack',
       headerStyle: {
         backgroundColor: COLORS.BG_SECONDARYCOLOR[mode],
       },
@@ -76,7 +76,7 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="NewRecipe"
+        name="NewRecipeStack"
         component={NewRecipeStackNavigator}
         options={{
           tabBarIcon: () => (
