@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,14 @@ const SignupScreen = ({ navigation }: any) => {
   // TODO utiliser le AuthProvider pour gérer l'authentification et s'assurer que le loader s'affiche correctement
   const handleAuth = async () => {
     try {
+      if (email === '' || password === '' || repeatedPassword === '') {
+        Alert.alert(t('Auth.SignUp.EmptyFields'));
+        return;
+      }
+      if (password !== repeatedPassword) {
+        Alert.alert(t('Auth.SignUp.PasswordNotMatch'));
+        return;
+      }
       setIsLoading(true);
       await createUser(email, password);
       setIsLoading(false);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../../globals/styles';
@@ -15,11 +15,19 @@ const LoginScreen = ({ navigation }: any) => {
 
   // TODO utiliser le AuthProvider pour gérer l'authentification et s'assurer que le loader s'affiche correctement
   const handleAuth = async () => {
+    if (!email || !password) {
+      Alert.alert(t('Auth.SignIn.EmptyFields'));
+      return;
+    }
     try {
       setIsLoading(true);
-      await logIn(email, password);
+      const user = await logIn(email, password);
+      if (!user) {
+        Alert.alert(t('Auth.SignIn.UserNotFound'));
+        return;
+      }
     } catch (error) {
-      console.error(error);
+      Alert.alert(t('Auth.SignIn.Error'));
     } finally {
       setIsLoading(false);
     }
