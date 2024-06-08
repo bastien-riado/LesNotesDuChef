@@ -5,7 +5,10 @@
       "Email": "Email",
       "Password": "Mot de passe",
       "NoAccount": "Vous n'avez pas de compte ?",
-      "Loading": "Connexion..."
+      "Loading": "Connexion...",
+      "EmptyFields": "Veuillez remplir tous les champs",
+      "UserNotFound": "Utilisateur non trouvé",
+      "Error": "Format de l'email invalide ou mot de passe incorrect"
     },
     "SignUp": {
       "Title": "Créer un compte",
@@ -13,7 +16,9 @@
       "Password": "Mot de passe",
       "RepeatPassword": "Répéter le mot de passe",
       "AlreadyHaveAccount": "Vous avez déjà un compte ?",
-      "Loading": "Création du compte..."
+      "Loading": "Création du compte...",
+      "EmptyFields": "Veuillez remplir tous les champs",
+      "PasswordNotMatch": "Les mots de passe ne correspondent pas"
     }
   },
   "RecipeList": {

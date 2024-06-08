@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button, Divider, Text, TextInput } from 'react-native-paper';
 import { useSelector } from 'react-redux';
@@ -16,11 +18,19 @@ const LoginScreen = ({ navigation }: any) => {
   const { t } = useTranslation();
 
   const handleAuth = async () => {
+    if (!email || !password) {
+      Alert.alert(t('Auth.SignIn.EmptyFields'));
+      return;
+    }
     try {
       setIsLoading(true);
-      await logIn(email, password);
+      const user = await logIn(email, password);
+      if (!user) {
+        Alert.alert(t('Auth.SignIn.UserNotFound'));
+        return;
+      }
     } catch (error) {
-      console.error(error);
+      Alert.alert(t('Auth.SignIn.Error'));
     } finally {
       setIsLoading(false);
     }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
 import { ImageBackground, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,6 +19,14 @@ const SignupScreen = ({ navigation }: any) => {
 
   const handleAuth = async () => {
     try {
+      if (email === '' || password === '' || repeatedPassword === '') {
+        Alert.alert(t('Auth.SignUp.EmptyFields'));
+        return;
+      }
+      if (password !== repeatedPassword) {
+        Alert.alert(t('Auth.SignUp.PasswordNotMatch'));
+        return;
+      }
       setIsLoading(true);
       await createUser(email, password);
       setIsLoading(false);
