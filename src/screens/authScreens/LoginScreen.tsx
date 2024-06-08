@@ -72,7 +72,7 @@ const styles = (mode: Mode) =>
     container: {
       flex: 1,
       justifyContent: 'center',
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
       alignItems: 'center',
       padding: 16,
     },

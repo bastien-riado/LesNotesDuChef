@@ -112,13 +112,13 @@ const styles = (mode: Mode) =>
       width: '100%',
       marginBottom: 12,
       color: COLORS.TEXTCOLOR[mode],
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
 
     multiLineInput: {
       width: '100%',
       marginBottom: 12,
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
       minHeight: 64,
       textAlignVertical: 'top',
     },

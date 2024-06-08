@@ -60,7 +60,7 @@ const styles = (mode: Mode) =>
     container: {
       flex: 1,
       padding: 16,
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
     bottomContainer: {
       marginTop: 16,

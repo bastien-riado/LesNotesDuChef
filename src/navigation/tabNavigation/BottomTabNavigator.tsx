@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { COLORS, TYPO } from '../../globals/styles/index';
+import { COLORS } from '../../globals/styles/index';
 import { Mode, UserProfilState } from '../../models/UserProfilStateModels';
 import SettingsScreen from '../../screens/SettingsScreen';
 import NewRecipeStackNavigator from '../NewRecipeStackNavigator';
@@ -28,6 +28,11 @@ const navigationOptions = (mode: Mode) => {
     NewRecipeStack: t('NewRecipe.Title'),
     Settings: t('UserProfil.Settings.Title'),
   };
+  const iconNames = {
+    RecipesStack: 'view-list',
+    NewRecipeStack: 'plus',
+    Settings: 'cog',
+  };
 
   return (props: NavigationOpts) => {
     const {
@@ -35,6 +40,7 @@ const navigationOptions = (mode: Mode) => {
     }: { route: RouteProp<RootTabParamList, BottomTabScreenNames[number]> } = props;
     return {
       title: titleForScreenNames[route.name],
+      iconNames: iconNames[route.name],
       headerShown: route.name !== 'RecipesStack' && route.name !== 'NewRecipeStack',
       headerStyle: {
         backgroundColor: COLORS.BG_SECONDARYCOLOR[mode],
@@ -43,7 +49,7 @@ const navigationOptions = (mode: Mode) => {
         color: COLORS.TEXTCOLOR[mode],
       },
       tabBarStyle: {
-        backgroundColor: COLORS.BGCOLOR[mode],
+        backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
       },
       tabBarLabel: titleForScreenNames[route.name],
       tabBarLabelStyle: {
@@ -60,46 +66,37 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="RecipesStack"
-      screenOptions={navigationOptions(mode)}
+      screenOptions={({ route }) => ({
+        ...navigationOptions(mode)({ route, navigation: undefined }),
+        tabBarIcon: ({ color, size }) => {
+          const iconName = navigationOptions(mode)({
+            route,
+            navigation: undefined,
+          }).iconNames;
+
+          return (
+            <MaterialCommunityIcons
+              name={iconName}
+              size={size}
+              color={color}
+            />
+          );
+        },
+        tabBarActiveTintColor: COLORS.ACTIVE_LINK[mode],
+        tabBarInactiveTintColor: COLORS.ICONCOLOR[mode],
+      })}
     >
       <Tab.Screen
         name="RecipesStack"
         component={RecipesStackNavigator}
-        options={{
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="view-list"
-              size={TYPO.ICONSIZE.MEDIUM}
-              color={COLORS.ICONCOLOR[mode]}
-            />
-          ),
-        }}
       />
       <Tab.Screen
         name="NewRecipeStack"
         component={NewRecipeStackNavigator}
-        options={{
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="plus"
-              size={TYPO.ICONSIZE.MEDIUM}
-              color={COLORS.ICONCOLOR[mode]}
-            />
-          ),
-        }}
       />
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
-        options={{
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="cog"
-              size={TYPO.ICONSIZE.MEDIUM}
-              color={COLORS.ICONCOLOR[mode]}
-            />
-          ),
-        }}
       />
     </Tab.Navigator>
   );
