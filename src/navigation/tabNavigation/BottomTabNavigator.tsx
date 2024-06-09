@@ -20,7 +20,7 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 const navigationOptions = (mode: Mode) => {
   type NavigationOpts = {
     route: RouteProp<RootTabParamList, BottomTabScreenNames[number]>;
-    navigation: any;
+    navigation: TabNavigation;
   };
   const { t } = useTranslation();
   const titleForScreenNames = {
@@ -66,12 +66,12 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="RecipesStack"
-      screenOptions={({ route }) => ({
-        ...navigationOptions(mode)({ route, navigation: undefined }),
+      screenOptions={({ route, navigation }) => ({
+        ...navigationOptions(mode)({ route, navigation }),
         tabBarIcon: ({ color, size }) => {
           const iconName = navigationOptions(mode)({
             route,
-            navigation: undefined,
+            navigation,
           }).iconNames;
 
           return (
