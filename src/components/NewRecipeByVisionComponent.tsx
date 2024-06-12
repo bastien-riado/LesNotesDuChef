@@ -1,9 +1,11 @@
+import storage from '@react-native-firebase/storage';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import {
   ImageLibraryOptions,
   ImagePickerResponse,
+  launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -12,6 +14,7 @@ import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
+import { newRecipeByVisionPrompt } from '../services/PromptService';
 
 interface NewRecipeByVisionComponentProps {
   navigation: NewRecipesStackNavigation;
@@ -47,9 +50,50 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
     });
   };
 
+  const handleTakePhoto = () => {
+    const options: ImageLibraryOptions = {
+      mediaType: 'photo',
+      quality: 1,
+    };
+
+    launchCamera(options, (response: ImagePickerResponse) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error: ', response.errorMessage);
+      } else if (response.assets && response.assets.length > 0) {
+        const source = { uri: response.assets[0].uri } as { uri: string };
+        setImage(source);
+      }
+    });
+  };
+
+  const uploadImageToFirebase = async (uri: string) => {
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    const storageRef = storage().ref(`images/${filename}`);
+    const task = storageRef.putFile(uri);
+
+    try {
+      await task;
+      const url = await storageRef.getDownloadURL();
+      return url;
+    } catch (e) {
+      console.error('Image upload failed:', e);
+      throw e;
+    }
+  };
+
+  const handleSaveRecipe = () => {
+    // Save the recipe to the database
+    // Navigate to the recipe details screen
+    console.log('Save the recipe to the database');
+  };
+
   async function handleVisionRequest(image: { uri: string }) {
     setIsLoading(true);
     try {
+      const imageUrl = await uploadImageToFirebase(image.uri);
+
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         headers: {
           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -64,12 +108,12 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
               content: [
                 {
                   type: 'text',
-                  text: 'Look at the image and write down exactly what is wrote on the image.',
+                  text: newRecipeByVisionPrompt,
                 },
                 {
                   type: 'image_url',
                   image_url: {
-                    url: image.uri,
+                    url: imageUrl,
                   },
                 },
               ],
@@ -85,8 +129,8 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
       const data = await response.json();
 
       if (data.choices?.length > 0 && data.choices[0]) {
-        setVisionResponse(data.choices[0]);
-        console.log('API response:', data.choices[0]);
+        setVisionResponse(data.choices[0].message.content);
+        console.log('API response:', data.choices[0].message.content);
       } else {
         throw new Error('Invalid response format from API');
       }
@@ -102,10 +146,22 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
       {isLoading && (
         <Spinner
           visible={isLoading}
-          textContent={t('NewRecipe.Generated.Loading')}
+          textContent={t('NewRecipe.Vision.Loading')}
         />
       )}
-      {image && (
+      {visionResponse && (
+        <View>
+          <Text style={themedStyle.informationText}>{visionResponse}</Text>
+          <PaperButton
+            mode="outlined"
+            onPress={() => handleSaveRecipe()}
+            style={themedStyle.button}
+          >
+            {t('NewRecipe.Vision.CreateButton')}
+          </PaperButton>
+        </View>
+      )}
+      {image && !visionResponse && (
         <View>
           <PaperButton
             mode="outlined"
@@ -125,9 +181,6 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
           >
             {t('NewRecipe.Vision.ImportButton')}
           </PaperButton>
-          <Text style={themedStyle.informationText}>
-            {'reponse: \n'} {visionResponse}
-          </Text>
         </View>
       )}
       {!image && (
@@ -137,10 +190,17 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
           </Text>
           <PaperButton
             mode="outlined"
-            onPress={handleChoosePhoto}
+            onPress={() => handleChoosePhoto()}
             style={themedStyle.button}
           >
             {t('NewRecipe.Vision.ChooseButton')}
+          </PaperButton>
+          <PaperButton
+            mode="outlined"
+            onPress={() => handleTakePhoto()}
+            style={themedStyle.button}
+          >
+            {t('NewRecipe.Vision.TakeButton')}
           </PaperButton>
           <Text style={themedStyle.warningText}>{t('NewRecipe.Vision.Warning')}</Text>
         </View>

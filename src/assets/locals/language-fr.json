@@ -42,10 +42,13 @@
     "Save": "Sauvegarder",
     "Vision": {
       "ChooseButton": "Choisir une image",
+      "TakeButton": "Prendre une photo",
       "ImportButton": "Importer la recette depuis cette image",
       "CancelButton": "Prendre une autre photo",
+      "CreateButton": "Ajouter la recette à mon catalogue",
       "Information": "Vous pouvez importer une recette en prenant une photo ou en choisissant une image dans votre galerie",
-      "Warning": "Attention, l'image est reconnue par intéligence artificielle et peut ne pas être exacte."
+      "Warning": "Attention, l'image est reconnue par intéligence artificielle et peut ne pas être exacte.",
+      "Loading": "Importation de la recette..."
     },
     "Error": {
       "Title": "Erreur",

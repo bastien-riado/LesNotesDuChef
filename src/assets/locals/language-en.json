@@ -25,7 +25,7 @@
     "Title": "Recipe List",
     "Loading": "Loading recipes...",
     "Recipe": {
-      "Title": "TODO Détails de la recette",
+      "Title": "Recipe details",
       "Name": "Name",
       "Time": "Time",
       "Difficulty": "Difficulty",
@@ -42,10 +42,13 @@
     "Save": "Save",
     "Vision": {
       "ChooseButton": "Choose an image",
+      "TakeButton": "Take a picture",
       "ImportButton": "Import the recipe from this image",
       "CancelButton": "Take another picture",
+      "CreateButton": "Add the recipe to my catalog",
       "Information": "You can import a recipe by taking a picture or by choosing an image from your gallery",
-      "Warning": "Warning, the image is recognized by artificial intelligence and may not be accurate."
+      "Warning": "Warning, the image is recognized by artificial intelligence and may not be accurate.",
+      "Loading": "Importing recipe..."
     },
     "Error": {
       "Title": "Error",
