@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import NewRecipeByHandScreen from '../screens/NewRecipeByHandScreen';
+import NewRecipeByVisionScreen from '../screens/NewRecipeByVisionScreen';
 import NewRecipeGeneratedScreen from '../screens/NewRecipeGeneratedScreen';
 import NewRecipeScreen from '../screens/NewRecipeScreen';
 
@@ -12,6 +13,7 @@ export type NewRecipeStackScreenNames = [
   'NewRecipeHome',
   'NewRecipeByHand',
   'NewRecipeGenerated',
+  'NewRecipeByVision',
 ];
 export type NewRecipeStackParamList = Record<
   NewRecipeStackScreenNames[number],
@@ -62,6 +64,10 @@ const RecipesStackNavigator = () => {
       <Stack.Screen
         name="NewRecipeGenerated"
         component={NewRecipeGeneratedScreen}
+      />
+      <Stack.Screen
+        name="NewRecipeByVision"
+        component={NewRecipeByVisionScreen}
       />
     </Stack.Navigator>
   );

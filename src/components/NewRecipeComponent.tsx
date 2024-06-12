@@ -30,6 +30,12 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
       >
         <Text style={themedStyle.buttonText}>New Recipe Generated</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={themedStyle.button}
+        onPress={() => navigation.navigate('NewRecipeByVision')}
+      >
+        <Text style={themedStyle.buttonText}>New Recipe by Vision</Text>
+      </TouchableOpacity>
     </View>
   );
 };

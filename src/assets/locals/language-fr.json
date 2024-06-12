@@ -40,6 +40,13 @@
     "Difficulty": "Difficulté",
     "Description": "Description",
     "Save": "Sauvegarder",
+    "Vision": {
+      "ChooseButton": "Choisir une image",
+      "ImportButton": "Importer la recette depuis cette image",
+      "CancelButton": "Prendre une autre photo",
+      "Information": "Vous pouvez importer une recette en prenant une photo ou en choisissant une image dans votre galerie",
+      "Warning": "Attention, l'image est reconnue par intéligence artificielle et peut ne pas être exacte."
+    },
     "Error": {
       "Title": "Erreur",
       "EmptyFields": "Veuillez remplir tous les champs"
