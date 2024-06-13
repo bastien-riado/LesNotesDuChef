@@ -3,10 +3,10 @@ import { initReactI18next } from 'react-i18next';
 
 const resources = {
   en: {
-    translation: require('./src/assets/locals/language-en.json'),
+    translation: require('./src/assets/locales/language-en.json'),
   },
   fr: {
-    translation: require('./src/assets/locals/language-fr.json'),
+    translation: require('./src/assets/locales/language-fr.json'),
   },
 };
 

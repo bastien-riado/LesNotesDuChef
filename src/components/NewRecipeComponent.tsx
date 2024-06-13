@@ -22,19 +22,19 @@ const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) =
         style={themedStyle.button}
         onPress={() => navigation.navigate('NewRecipeByHand')}
       >
-        <Text style={themedStyle.buttonText}>New Recipe By Hand</Text>
+        <Text style={themedStyle.buttonText}>{t('NewRecipe.Selection.ByHand')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={themedStyle.button}
         onPress={() => navigation.navigate('NewRecipeGenerated')}
       >
-        <Text style={themedStyle.buttonText}>New Recipe Generated</Text>
+        <Text style={themedStyle.buttonText}>{t('NewRecipe.Selection.Generated')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={themedStyle.button}
         onPress={() => navigation.navigate('NewRecipeByVision')}
       >
-        <Text style={themedStyle.buttonText}>New Recipe by Vision</Text>
+        <Text style={themedStyle.buttonText}>{t('NewRecipe.Selection.Vision')}</Text>
       </TouchableOpacity>
     </View>
   );

@@ -40,6 +40,11 @@
     "Difficulty": "Difficulty",
     "Description": "Description",
     "Save": "Save",
+    "Selection": {
+      "ByHand": "Write by hand",
+      "Generated": "Generate a recipe",
+      "Vision": "Import by image"
+    },
     "Vision": {
       "ChooseButton": "Choose an image",
       "TakeButton": "Take a picture",
@@ -47,7 +52,7 @@
       "CancelButton": "Take another picture",
       "CreateButton": "Add the recipe to my catalog",
       "Information": "You can import a recipe by taking a picture or by choosing an image from your gallery",
-      "Warning": "Warning, the image is recognized by artificial intelligence and may not be accurate.",
+      "Warning": "Warning, the image is recognized by artificial intelligence and the rendering may not exactly match your image.",
       "Loading": "Importing recipe..."
     },
     "Error": {

@@ -40,6 +40,11 @@
     "Difficulty": "Difficulté",
     "Description": "Description",
     "Save": "Sauvegarder",
+    "Selection": {
+      "ByHand": "Ecrire à la main",
+      "Generated": "Générer une recette",
+      "Vision": "Importer par image"
+    },
     "Vision": {
       "ChooseButton": "Choisir une image",
       "TakeButton": "Prendre une photo",
@@ -47,7 +52,7 @@
       "CancelButton": "Prendre une autre photo",
       "CreateButton": "Ajouter la recette à mon catalogue",
       "Information": "Vous pouvez importer une recette en prenant une photo ou en choisissant une image dans votre galerie",
-      "Warning": "Attention, l'image est reconnue par intéligence artificielle et peut ne pas être exacte.",
+      "Warning": "Attention, l'image est reconnue par intéligence artificielle et le rendu peut ne pas coller exactement avec votre image.",
       "Loading": "Importation de la recette..."
     },
     "Error": {
