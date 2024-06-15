@@ -25,7 +25,7 @@
     "Title": "Recipe List",
     "Loading": "Loading recipes...",
     "Recipe": {
-      "Title": "TODO Détails de la recette",
+      "Title": "Recipe details",
       "Name": "Name",
       "Time": "Time",
       "Difficulty": "Difficulty",
@@ -40,6 +40,20 @@
     "Difficulty": "Difficulty",
     "Description": "Description",
     "Save": "Save",
+    "Selection": {
+      "ByHand": "Write by hand",
+      "Generated": "Generate a recipe",
+      "Vision": "Import by image"
+    },
+    "Vision": {
+      "ChooseButton": "Choose an image",
+      "TakeButton": "Take a picture",
+      "ImportButton": "Import the recipe from this image",
+      "CancelButton": "Take another picture",
+      "CreateButton": "Add the recipe to my catalog",
+      "Information": "You can import a recipe by taking a picture or by choosing an image from your gallery",
+      "Warning": "Warning, the image is recognized by artificial intelligence and the rendering may not exactly match your image.",
+      "Loading": "Importing recipe...",
     "Generated": {
       "Placeholder": "What do you want to eat ?",
       "Button": "Generate recipe",
