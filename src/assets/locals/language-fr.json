@@ -40,6 +40,12 @@
     "Difficulty": "Difficulté",
     "Description": "Description",
     "Save": "Sauvegarder",
+    "Generated": {
+      "Placeholder": "De quoi avez-vous envie ?",
+      "Button": "Générer la recette",
+      "Loading": "Génération de la recette...",
+      "Save": "Sauvegarder dans mon catalogue"
+    },
     "Error": {
       "Title": "Erreur",
       "EmptyFields": "Veuillez remplir tous les champs"
