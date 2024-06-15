@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Button as PaperButton } from 'react-native-paper';
 
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
+import RecipePreviewComponent from '../components/RecipePreviewComponent';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
@@ -26,18 +27,7 @@ const RecipeDetailsScreen = ({ route, navigation }: any) => {
   return (
     <View style={themedStyle.container}>
       <ScrollView>
-        <View style={themedStyle.infoContainer}>
-          <Text style={themedStyle.label}>{t('RecipeList.Recipe.Time')}:</Text>
-          <Text style={themedStyle.value}>{recipe.time}</Text>
-        </View>
-        <View style={themedStyle.infoContainer}>
-          <Text style={themedStyle.label}>{t('RecipeList.Recipe.Difficulty')}:</Text>
-          <Text style={themedStyle.value}>{recipe.difficulty}</Text>
-        </View>
-        <View>
-          <Text style={themedStyle.label}>{t('RecipeList.Recipe.Description')}</Text>
-          <Text style={themedStyle.value}>{recipe.description}</Text>
-        </View>
+        <RecipePreviewComponent recipe={recipe} />
         <View style={themedStyle.bottomContainer}>
           <PaperButton
             icon="delete"
@@ -47,7 +37,7 @@ const RecipeDetailsScreen = ({ route, navigation }: any) => {
             textColor={COLORS.TEXTCOLOR.dark}
             uppercase={true}
           >
-            {t('RecipeList.Recipe.Delete')}
+            {t('NewRecipe.Generated.Save')}
           </PaperButton>
         </View>
       </ScrollView>

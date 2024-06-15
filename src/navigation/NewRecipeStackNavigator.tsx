@@ -9,7 +9,7 @@ import NewRecipeGeneratedScreen from '../screens/NewRecipeGeneratedScreen';
 import NewRecipeScreen from '../screens/NewRecipeScreen';
 
 export type NewRecipeStackScreenNames = [
-  'NewRecipe',
+  'NewRecipeHome',
   'NewRecipeByHand',
   'NewRecipeGenerated',
 ];
@@ -48,11 +48,11 @@ const RecipesStackNavigator = () => {
   );
   return (
     <Stack.Navigator
-      initialRouteName="NewRecipe"
+      initialRouteName="NewRecipeHome"
       screenOptions={navigationOptions(mode)}
     >
       <Stack.Screen
-        name="NewRecipe"
+        name="NewRecipeHome"
         component={NewRecipeScreen}
       />
       <Stack.Screen

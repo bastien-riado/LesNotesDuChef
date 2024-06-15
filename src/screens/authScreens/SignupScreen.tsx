@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 import { useTranslation } from 'react-i18next';
+import { ImageBackground, StyleSheet, View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { Button, Divider, Text, TextInput } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../../globals/styles';
 import { Mode, UserProfilState } from '../../models/UserProfilStateModels';
@@ -15,9 +17,16 @@ const SignupScreen = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
 
-  // TODO utiliser le AuthProvider pour gérer l'authentification et s'assurer que le loader s'affiche correctement
   const handleAuth = async () => {
     try {
+      if (email === '' || password === '' || repeatedPassword === '') {
+        Alert.alert(t('Auth.SignUp.EmptyFields'));
+        return;
+      }
+      if (password !== repeatedPassword) {
+        Alert.alert(t('Auth.SignUp.PasswordNotMatch'));
+        return;
+      }
       setIsLoading(true);
       await createUser(email, password);
       setIsLoading(false);
@@ -33,58 +42,86 @@ const SignupScreen = ({ navigation }: any) => {
   const themedStyle = styles(mode);
 
   return (
-    <View style={themedStyle.container}>
-      <Text style={themedStyle.title}>{t('Auth.SignUp.Title')}</Text>
-      <TextInput
-        placeholder={t('Auth.SignUp.Email')}
-        placeholderTextColor={'gray'}
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        style={themedStyle.input}
-      />
-      <TextInput
-        placeholder={t('Auth.SignUp.Password')}
-        placeholderTextColor={'gray'}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        secureTextEntry
-        style={themedStyle.input}
-      />
-      <TextInput
-        placeholder={t('Auth.SignUp.RepeatPassword')}
-        placeholderTextColor={'gray'}
-        value={repeatedPassword}
-        onChangeText={(text) => setRepeatedPassword(text)}
-        secureTextEntry
-        style={themedStyle.input}
-      />
-      <Button
-        title={t('Auth.SignUp.Title')}
-        onPress={handleAuth}
-      />
-      <Spinner
-        visible={isLoading}
-        textContent={t('Auth.SignUp.Loading')}
-        textStyle={{ color: '#FFF' }}
-      />
-      <View style={themedStyle.lineSeparator} />
-      <Text style={themedStyle.toggleText}>{t('AlreadyHaveAccount')}</Text>
-      <Button
-        title={t('Auth.SignUp.AlreadyHaveAccount')}
-        onPress={() => navigation.navigate('Login')}
-      />
-    </View>
+    <ImageBackground
+      source={require('../../assets/img/img_assiete.jpg')}
+      style={themedStyle.imageBackground}
+    >
+      <LinearGradient
+        colors={['rgba(0,0,0,0.5)', 'transparent']}
+        style={themedStyle.linearGradient}
+      >
+        <View style={themedStyle.container}>
+          <Text style={themedStyle.title}>{t('Auth.SignUp.Title')}</Text>
+          <TextInput
+            label={t('Auth.SignUp.Email')}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            style={themedStyle.input}
+            mode="outlined"
+            keyboardType="email-address"
+          />
+          <TextInput
+            label={t('Auth.SignUp.Password')}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry
+            style={themedStyle.input}
+            mode="outlined"
+          />
+          <TextInput
+            label={t('Auth.SignUp.RepeatPassword')}
+            value={repeatedPassword}
+            onChangeText={(text) => setRepeatedPassword(text)}
+            secureTextEntry
+            style={themedStyle.input}
+            mode="outlined"
+          />
+          <Button
+            mode="contained"
+            onPress={handleAuth}
+            style={themedStyle.button}
+            loading={isLoading}
+          >
+            {t('Auth.SignUp.Title')}
+          </Button>
+          <Spinner
+            visible={isLoading}
+            textContent={t('Auth.SignUp.Loading')}
+            textStyle={{ color: '#FFF' }}
+          />
+          <Divider style={themedStyle.lineSeparator} />
+          <Text style={themedStyle.toggleText}>
+            {t('Auth.SignUp.AlreadyHaveAccount')}
+          </Text>
+          <Button
+            mode="contained"
+            onPress={() => navigation.navigate('Login')}
+            style={themedStyle.buttonBis}
+          >
+            {t('Auth.SignIn.Title')}
+          </Button>
+        </View>
+      </LinearGradient>
+    </ImageBackground>
   );
 };
 
 const styles = (mode: Mode) =>
   StyleSheet.create({
+    imageBackground: {
+      flex: 1,
+      width: '100%',
+      height: '100%',
+    },
+    linearGradient: {
+      flex: 1,
+    },
     container: {
       flex: 1,
       justifyContent: 'center',
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
       alignItems: 'center',
       padding: 16,
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
     },
     title: {
       fontSize: 24,
@@ -93,13 +130,18 @@ const styles = (mode: Mode) =>
       color: COLORS.TEXTCOLOR[mode],
     },
     input: {
-      height: 40,
       width: '100%',
-      borderColor: 'gray',
-      borderWidth: 1,
       marginBottom: 12,
-      padding: 8,
-      color: COLORS.TEXTCOLOR[mode],
+      backgroundColor: COLORS.BGCOLOR[mode],
+    },
+    button: {
+      marginTop: 16,
+      width: '100%',
+    },
+    buttonBis: {
+      marginTop: 16,
+      width: '100%',
+      backgroundColor: COLORS.BGCOLOR[mode],
     },
     lineSeparator: {
       height: 1,

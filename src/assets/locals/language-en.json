@@ -5,7 +5,10 @@
       "Email": "Email",
       "Password": "Password",
       "NoAccount": "Don't have an account ?",
-      "Loading": "Connecting..."
+      "Loading": "Connecting...",
+      "EmptyFields": "Please fill all fields",
+      "UserNotFound": "User not found",
+      "Error": "Invalid email format or incorrect password"
     },
     "SignUp": {
       "Title": "Sign Up",
@@ -13,7 +16,9 @@
       "Password": "Password",
       "RepeatPassword": "Password (repeat)",
       "AlreadyHaveAccount": "Already have an account ?",
-      "Loading": "Creating account..."
+      "Loading": "Creating account...",
+      "EmptyFields": "Please fill all fields",
+      "PasswordNotMatch": "Passwords do not match"
     }
   },
   "RecipeList": {
@@ -35,6 +40,12 @@
     "Difficulty": "Difficulty",
     "Description": "Description",
     "Save": "Save",
+    "Generated": {
+      "Placeholder": "What do you want to eat ?",
+      "Button": "Generate recipe",
+      "Loading": "Generating recipe...",
+      "Save": "Save in my catalog"
+    },
     "Error": {
       "Title": "Error",
       "EmptyFields": "Please fill all fields"

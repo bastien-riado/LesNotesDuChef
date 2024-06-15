@@ -1,9 +1,14 @@
-import { Button, Divider, Text } from '@react-native-material/core';
+import { Divider, Text } from '@react-native-material/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import DropDown from 'react-native-paper-dropdown';
+import {
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import { Button as PaperButton } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import { TYPO } from '../globals/styles';
@@ -28,6 +33,8 @@ const SettingsScreen = () => {
   const dispatch = useAppDispatch();
   const [mode, setMode] = useState(theme);
   const [language, setLanguage] = useState(langue);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
 
   const handleThemeChange = () => {
     dispatch(switchMode(theme === 'light' ? 'dark' : 'light'));
@@ -37,6 +44,7 @@ const SettingsScreen = () => {
   const handleLanguageChange = (lng: Language) => {
     i18n.changeLanguage(lng);
     dispatch(languageChange(lng));
+    setIsLanguageModalVisible(false); // Close the modal
   };
 
   useEffect(() => {
@@ -46,7 +54,6 @@ const SettingsScreen = () => {
 
   const themedStyle = styles(mode);
 
-  const [showDropDown, setShowDropDown] = useState(false);
   const languageList = [
     {
       label: t('UserProfil.Settings.Language.French'),
@@ -85,35 +92,71 @@ const SettingsScreen = () => {
           </Text>
         </View>
       </TouchableOpacity>
-      <DropDown
-        label={t('UserProfil.Settings.Language.Title')}
-        mode={'outlined'}
-        visible={showDropDown}
-        showDropDown={() => setShowDropDown(true)}
-        onDismiss={() => setShowDropDown(false)}
-        value={language}
-        setValue={handleLanguageChange}
-        list={languageList}
-        theme={{
-          colors: {
-            background: themedStyle.container.backgroundColor,
-          },
-        }}
-        dropDownItemStyle={{
-          backgroundColor: themedStyle.container.backgroundColor,
-        }}
-        dropDownItemSelectedStyle={{
-          backgroundColor: themedStyle.container.backgroundColor,
-        }}
-        dropDownItemTextStyle={{ color: themedStyle.text.color }}
-        dropDownItemSelectedTextStyle={{ color: themedStyle.text.color }}
-      />
+
+      <TouchableOpacity onPress={() => setIsLanguageModalVisible(true)}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            paddingVertical: 10,
+          }}
+        >
+          <MaterialCommunityIcons
+            name="web"
+            size={TYPO.ICONSIZE.MEDIUM}
+            style={themedStyle.icon}
+          />
+          <Text
+            style={{
+              color: themedStyle.text.color,
+              marginLeft: 34,
+              fontWeight: 'bold',
+            }}
+          >
+            {t('UserProfil.Settings.Language.Title')}
+          </Text>
+        </View>
+      </TouchableOpacity>
+
+      <Modal
+        visible={isLanguageModalVisible}
+        onRequestClose={() => setIsLanguageModalVisible(false)}
+        transparent
+      >
+        <TouchableWithoutFeedback onPress={() => setIsLanguageModalVisible(false)}>
+          <View style={themedStyle.modalContainer}>
+            <TouchableWithoutFeedback>
+              <View style={themedStyle.modalContent}>
+                {languageList.map((item) => (
+                  <TouchableOpacity
+                    key={item.value}
+                    onPress={() => handleLanguageChange(item.value as Language)}
+                    style={[
+                      themedStyle.languageItem,
+                      language === item.value && themedStyle.selectedLanguageItem,
+                    ]}
+                  >
+                    <Text style={themedStyle.languageText}>{item.label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
       <Divider />
-      <Button
+      <PaperButton
+        icon="logout"
         onPress={handleSignOutButton}
-        style={themedStyle.signOutButton}
-        title={t('UserProfil.Settings.SignOut')}
-      />
+        mode="elevated"
+        buttonColor={COLORS.BGDELETE}
+        textColor={COLORS.TEXTCOLOR.dark}
+        uppercase={true}
+      >
+        {t('UserProfil.Settings.SignOut')}
+      </PaperButton>
     </View>
   );
 };
@@ -134,6 +177,34 @@ const styles = (mode: Mode) =>
     },
     signOutButton: {
       backgroundColor: 'red',
+    },
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+      width: '80%',
+      backgroundColor: 'white',
+      padding: 20,
+      borderRadius: 10,
+    },
+    languageItem: {
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 5,
+    },
+    selectedLanguageItem: {
+      backgroundColor: 'lightgray',
+    },
+    languageText: {
+      fontSize: 16,
+    },
+    closeButton: {
+      textAlign: 'center',
+      marginTop: 20,
+      color: 'blue',
     },
   });
 
