@@ -167,7 +167,7 @@ const styles = (mode: Mode) =>
       padding: 12,
       gap: 12,
       flex: 1,
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
     text: {
       color: COLORS.TEXTCOLOR[mode],

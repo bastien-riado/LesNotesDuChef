@@ -19,7 +19,7 @@ const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: COLORS.BGCOLOR[mode] }]}>
+    <View style={[styles.container, { backgroundColor: COLORS.BG_PRIMARYCOLOR[mode] }]}>
       <RecipesComponent navigation={navigation} />
     </View>
   );
