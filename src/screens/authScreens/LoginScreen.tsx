@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { ImageBackground, StyleSheet, View } from 'react-native';
+import { Alert, ImageBackground, StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -122,7 +122,7 @@ const styles = (mode: Mode) =>
     input: {
       width: '100%',
       marginBottom: 12,
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
     button: {
       marginTop: 16,
@@ -131,7 +131,7 @@ const styles = (mode: Mode) =>
     buttonBis: {
       marginTop: 16,
       width: '100%',
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
     lineSeparator: {
       height: 1,
