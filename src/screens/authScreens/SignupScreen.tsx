@@ -43,7 +43,7 @@ const SignupScreen = ({ navigation }: any) => {
 
   return (
     <ImageBackground
-      source={require('../../assets/img/img_assiete.jpg')} // Remplacez par le chemin correct de votre image
+      source={require('../../assets/img/img_assiete.jpg')}
       style={themedStyle.imageBackground}
     >
       <LinearGradient

@@ -40,7 +40,7 @@ const styles = (mode: Mode) =>
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
     button: {
       height: 60,
