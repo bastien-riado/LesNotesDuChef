@@ -156,7 +156,7 @@ const styles = (mode: Mode) =>
     },
     multiLineInput: {
       margin: 12,
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
     textTest: {
       color: 'red',
