@@ -14,8 +14,8 @@ import { useSelector } from 'react-redux';
 import { TYPO } from '../globals/styles';
 import { Language, Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { signOut } from '../services/AuthService';
+import { useAppDispatch } from '../store/store';
 import { languageChange, switchMode } from '../store/userProfil/actions';
-import { useAppDispatch } from '../store/userProfil/store';
 
 const COLORS = require('../globals/styles/colors.tsx');
 

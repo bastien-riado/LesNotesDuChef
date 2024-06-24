@@ -2,7 +2,6 @@ import { Language, Mode } from '../../models/UserProfilStateModels';
 import { LANGUAGE_CHANGE, THEME_CHANGE } from './constants';
 
 export type UserProfilAction = ThemeChangeAction | LanguageChangeAction;
-
 export interface ThemeChangeAction {
   type: typeof THEME_CHANGE;
   payload: Mode;

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
+import { RecipesState } from '../models/RecipesStateModels';
 import { UserProfilState } from '../models/UserProfilStateModels';
 import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
 import { getRecipes } from '../services/RecipeService';
@@ -24,6 +25,11 @@ const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
 
+  const fetchRecipesFromStore = useSelector(
+    (state: { recipes: RecipesState }) => state.recipes.recipes,
+  );
+
+  //appel que si on check le stoire et qu'il est vide sinon utiliser le store
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
@@ -37,7 +43,6 @@ const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
           setIsLoading(false);
         }
       };
-
       fetchData();
     }, []),
   );
