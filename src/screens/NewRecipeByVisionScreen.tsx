@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
+import NewRecipeByVisionComponent from '../components/NewRecipeByVisionComponent';
 import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
-import NewRecipeByVisionComponent from '../components/NewRecipeByVisionComponent';
 
 interface NewRecipeByVisionScreenProps {
   navigation: NewRecipesStackNavigation;
@@ -29,7 +29,7 @@ const styles = (mode: Mode) =>
     container: {
       flex: 1,
       padding: 12,
-      backgroundColor: COLORS.BGCOLOR[mode],
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
   });
 

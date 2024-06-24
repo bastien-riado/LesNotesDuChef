@@ -53,7 +53,8 @@
       "CreateButton": "Add the recipe to my catalog",
       "Information": "You can import a recipe by taking a picture or by choosing an image from your gallery",
       "Warning": "Warning, the image is recognized by artificial intelligence and the rendering may not exactly match your image.",
-      "Loading": "Importing recipe...",
+      "Loading": "Importing recipe..."
+    },
     "Generated": {
       "Placeholder": "What do you want to eat ?",
       "Button": "Generate recipe",
