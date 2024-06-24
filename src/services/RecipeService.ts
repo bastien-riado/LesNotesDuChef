@@ -66,7 +66,7 @@ export async function getRecipes(): Promise<Recipe[] | null> {
         ({
           id: recipeId,
           ...data[recipeId],
-        } as Recipe),
+        }) as Recipe,
     );
   } catch (error) {
     console.error('Error fetching data from Firebase:', error);

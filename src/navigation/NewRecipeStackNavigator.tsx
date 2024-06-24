@@ -1,57 +1,37 @@
-import { NavigationProp, RouteProp } from '@react-navigation/native';
+// newrecipestacknavigation.tsx
+
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import { UserProfilState } from '../models/UserProfilStateModels';
 import NewRecipeByHandScreen from '../screens/NewRecipeByHandScreen';
 import NewRecipeByVisionScreen from '../screens/NewRecipeByVisionScreen';
 import NewRecipeGeneratedScreen from '../screens/NewRecipeGeneratedScreen';
 import NewRecipeScreen from '../screens/NewRecipeScreen';
 
-export type NewRecipeStackScreenNames = [
-  'NewRecipeHome',
-  'NewRecipeByHand',
-  'NewRecipeGenerated',
-  'NewRecipeByVision',
-];
-export type NewRecipeStackParamList = Record<
-  NewRecipeStackScreenNames[number],
-  undefined
->;
-export type NewRecipesStackNavigation = NavigationProp<NewRecipeStackParamList>;
-
-const navigationOptions = (mode: Mode) => {
-  type NavigationOpts = {
-    route: RouteProp<NewRecipeStackParamList, NewRecipeStackScreenNames[number]>;
-    navigation: any;
-  };
-  const { t } = useTranslation();
-  return (props: NavigationOpts) => {
-    const {
-      route,
-    }: { route: RouteProp<NewRecipeStackParamList, NewRecipeStackScreenNames[number]> } =
-      props;
-    return {
-      title: t('NewRecipe.Title'),
-      headerStyle: {
-        backgroundColor: COLORS.BG_SECONDARYCOLOR[mode],
-      },
-      headerTitleStyle: {
-        color: COLORS.TEXTCOLOR[mode],
-      },
-    };
-  };
+export type NewRecipeStackParamList = {
+  NewRecipeHome: undefined;
+  NewRecipeByHand: undefined;
+  NewRecipeGenerated: undefined;
+  NewRecipeByVision: undefined;
 };
+
 const Stack = createStackNavigator<NewRecipeStackParamList>();
-const RecipesStackNavigator = () => {
+
+const NewRecipeStackNavigator = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
+  const { t } = useTranslation();
+
   return (
     <Stack.Navigator
-      initialRouteName="NewRecipeHome"
-      screenOptions={navigationOptions(mode)}
+      screenOptions={{
+        headerStyle: { backgroundColor: COLORS.BG_SECONDARYCOLOR[mode] },
+        headerTitleStyle: { color: COLORS.TEXTCOLOR[mode] },
+        title: t('NewRecipe.Title'),
+      }}
     >
       <Stack.Screen
         name="NewRecipeHome"
@@ -73,4 +53,4 @@ const RecipesStackNavigator = () => {
   );
 };
 
-export default RecipesStackNavigator;
+export default NewRecipeStackNavigator;

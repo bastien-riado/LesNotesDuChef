@@ -1,50 +1,44 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlatList, StyleSheet, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
-import { Recipe } from '../models/RecipeModels';
 import { RecipesState } from '../models/RecipesStateModels';
 import { UserProfilState } from '../models/UserProfilStateModels';
-import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
-import { getRecipes } from '../services/RecipeService';
+import { fetchRecipes } from '../store/recipes/thunks';
+import { AppDispatch } from '../store/store';
 import RecipeComponent from './RecipeComponent';
 
-interface RescipesComponentProps {
-  navigation: RecipesStackNavigation;
+export interface RecipesComponentProps {
+  navigation: any;
 }
 
-const RecipesComponent: React.FC<RescipesComponentProps> = ({ navigation }) => {
-  const [recipes, setRecipes] = useState<Recipe[] | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
 
-  const fetchRecipesFromStore = useSelector(
+  const recipes = useSelector(
     (state: { recipes: RecipesState }) => state.recipes.recipes,
   );
 
-  //appel que si on check le stoire et qu'il est vide sinon utiliser le store
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   useFocusEffect(
     React.useCallback(() => {
-      const fetchData = async () => {
-        try {
+      const fetch = async () => {
+        if (recipes.length === 0) {
           setIsLoading(true);
-          const recipes = await getRecipes();
-          setRecipes(recipes);
-        } catch (error) {
-          console.error('Error in getRecipesSerivce:', error);
-        } finally {
+          await dispatch(fetchRecipes());
           setIsLoading(false);
         }
       };
-      fetchData();
-    }, []),
+      fetch();
+    }, [recipes.length, dispatch]),
   );
 
   return (

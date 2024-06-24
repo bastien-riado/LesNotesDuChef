@@ -6,11 +6,10 @@ import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { RecipesStackNavigation } from '../navigation/RecipesStackNavigator';
 
 interface RecipeComponentProps {
   recipe: Recipe;
-  navigation: RecipesStackNavigation;
+  navigation: any;
 }
 
 const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation }) => {

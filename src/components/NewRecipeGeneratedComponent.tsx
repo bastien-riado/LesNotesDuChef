@@ -1,3 +1,4 @@
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
@@ -8,12 +9,17 @@ import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
+import { RecipeStackParamList } from '../navigation/RecipesStackNavigator';
 import { NewRecipeGeneratedPrompt } from '../services/PromptService';
 import RecipePreviewComponent from './RecipePreviewComponent';
 
+type NewRecipeGeneratedComponentNavigationProp = StackNavigationProp<
+  RecipeStackParamList,
+  'Recipes'
+>;
+
 interface NewRecipeComponentProps {
-  navigation: NewRecipesStackNavigation;
+  navigation: NewRecipeGeneratedComponentNavigationProp;
 }
 
 export const parseStringToJson = (input: string): object | Error => {
@@ -32,13 +38,16 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
   );
   const themedStyle = styles(mode);
   const { t } = useTranslation();
-  const handleSave = () => {
-    //TODO: Implement save recipe
-    console.log('Recipe saved');
-  };
+
   const [gptInput, setGptInput] = useState<string>('');
   const [gptOutput, setGptOutput] = useState<Recipe | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleSave = () => {
+    //TODO: Implement save recipe
+    console.log('Recipe saved');
+    navigation.navigate('Recipes');
+  };
 
   async function handlegptrequest(gptInput: string) {
     setIsLoading(true);
