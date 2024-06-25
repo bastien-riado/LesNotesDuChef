@@ -1,17 +1,18 @@
-import { CommonActions } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import Spinner from 'react-native-loading-spinner-overlay';
 import { Button, TextInput } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
-import { postNewRecipe } from '../services/RecipeService';
+import { addRecipeThunk } from '../store/recipes/thunks';
+import { AppDispatch } from '../store/store';
+
 interface NewRecipeComponentProps {
-  navigation: NewRecipesStackNavigation;
+  navigation: any;
 }
 
 const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) => {
@@ -20,7 +21,9 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
   );
   const themedStyle = styles(mode);
   const { t } = useTranslation();
+  const dispatch = useDispatch<AppDispatch>();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [recipe, setRecipe] = useState<Recipe>({
     name: '',
     description: '',
@@ -33,34 +36,24 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
   };
 
   const handleSaveButton = async () => {
-    await postNewRecipe(recipe)
-      .then((recipeId: string | null) => {
-        if (recipeId) {
-          setRecipe({
-            name: '',
-            description: '',
-            time: '',
-            difficulty: '',
-          });
-
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 1,
-              routes: [
-                {
-                  name: 'BottomTabNavigator',
-                  params: { screen: 'RecipesStack', params: { screen: 'Recipes' } },
-                },
-              ],
-            }),
-          );
-        }
-      })
-      .catch(console.error);
+    setIsLoading(true);
+    const success = await dispatch(addRecipeThunk(recipe));
+    setIsLoading(false);
+    if (success) {
+      navigation.navigate('Recipes');
+    }
   };
 
   return (
     <ScrollView>
+      {isLoading && (
+        <Spinner
+          visible={isLoading}
+          textContent={t('NewRecipe.ByHand.Loading')}
+          textStyle={themedStyle.textTest}
+          color={COLORS.TEXTCOLOR[mode]}
+        />
+      )}
       <TextInput
         label={t('NewRecipe.Name')}
         value={recipe.name}
@@ -97,7 +90,7 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
         verticalAlign="top"
       />
       <Button
-        onPress={handleSaveButton}
+        onPress={() => handleSaveButton()}
         mode="contained"
       >
         {t('NewRecipe.Save')}

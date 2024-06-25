@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { RecipesState } from '../models/RecipesStateModels';
 import { UserProfilState } from '../models/UserProfilStateModels';
-import { fetchRecipes } from '../store/recipes/thunks';
+import { fetchRecipesThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import RecipeComponent from './RecipeComponent';
 
@@ -33,7 +33,7 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
       const fetch = async () => {
         if (recipes.length === 0) {
           setIsLoading(true);
-          await dispatch(fetchRecipes());
+          await dispatch(fetchRecipesThunk());
           setIsLoading(false);
         }
       };
@@ -54,7 +54,6 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
         keyExtractor={(item) => item.id!}
         renderItem={({ item }) => (
           <RecipeComponent
-            key={item.id}
             recipe={item}
             navigation={navigation}
           />

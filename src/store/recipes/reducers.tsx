@@ -19,7 +19,7 @@ export const recipesReducer = (
     case 'ADD_RECIPE':
       return {
         ...state,
-        recipes: [...state.recipes, action.payload],
+        recipes: [action.payload, ...state.recipes],
       };
     case 'REMOVE_RECIPE':
       return {

@@ -22,10 +22,13 @@ export const getRecipes = (): GetRecipesAction => {
   };
 };
 
-export const addRecipe = (recipe: Recipe): AddRecipeAction => {
+export const addRecipe = (
+  recipe: Recipe,
+  recipeId: string | undefined,
+): AddRecipeAction => {
   return {
     type: 'ADD_RECIPE',
-    payload: recipe,
+    payload: { ...recipe, id: recipeId },
   };
 };
 

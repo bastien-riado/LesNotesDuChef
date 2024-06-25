@@ -24,6 +24,8 @@
   "RecipeList": {
     "Title": "Recipe List",
     "Loading": "Loading recipes...",
+    "BlankState": "No recipe found",
+    "AddButton": "Add a recipe",
     "Recipe": {
       "Title": "Recipe details",
       "Name": "Name",
@@ -45,6 +47,10 @@
       "Generated": "Generate a recipe",
       "Vision": "Import by image"
     },
+    "ByHand": {
+      "Loading": "Saving recipe..."
+    },
+
     "Vision": {
       "ChooseButton": "Choose an image",
       "TakeButton": "Take a picture",

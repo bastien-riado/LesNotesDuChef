@@ -13,11 +13,10 @@ import { Button as PaperButton } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
 import { newRecipeByVisionPrompt } from '../services/PromptService';
 
 interface NewRecipeByVisionComponentProps {
-  navigation: NewRecipesStackNavigation;
+  navigation: any;
 }
 
 const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({

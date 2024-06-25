@@ -5,12 +5,14 @@ import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button as PaperButton, TextInput } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { RecipeStackParamList } from '../navigation/RecipesStackNavigator';
 import { NewRecipeGeneratedPrompt } from '../services/PromptService';
+import { addRecipeThunk } from '../store/recipes/thunks';
+import { AppDispatch } from '../store/store';
 import RecipePreviewComponent from './RecipePreviewComponent';
 
 type NewRecipeGeneratedComponentNavigationProp = StackNavigationProp<
@@ -38,15 +40,19 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
   );
   const themedStyle = styles(mode);
   const { t } = useTranslation();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [gptInput, setGptInput] = useState<string>('');
   const [gptOutput, setGptOutput] = useState<Recipe | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSave = () => {
-    //TODO: Implement save recipe
-    console.log('Recipe saved');
-    navigation.navigate('Recipes');
+  const handleSave = async () => {
+    setIsLoading(true);
+    const success = await dispatch(addRecipeThunk(gptOutput as Recipe));
+    setIsLoading(false);
+    if (success) {
+      navigation.navigate('Recipes');
+    }
   };
 
   async function handlegptrequest(gptInput: string) {
