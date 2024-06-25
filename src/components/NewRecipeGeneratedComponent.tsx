@@ -10,7 +10,7 @@ import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { RecipeStackParamList } from '../navigation/RecipesStackNavigator';
-import { NewRecipeGeneratedPrompt } from '../services/PromptService';
+import { newRecipeGeneratedPrompt } from '../services/PromptService';
 import { addRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import RecipePreviewComponent from './RecipePreviewComponent';
@@ -69,7 +69,7 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
           messages: [
             {
               role: 'system',
-              content: NewRecipeGeneratedPrompt,
+              content: newRecipeGeneratedPrompt,
             },
             { role: 'user', content: gptInput },
           ],
@@ -102,7 +102,7 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
   }
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={themedStyle.scrollContainer}>
       {isLoading && (
         <Spinner
           visible={isLoading}
@@ -110,7 +110,7 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
         />
       )}
       {!gptOutput && (
-        <>
+        <View style={themedStyle.centerContainer}>
           <TextInput
             style={themedStyle.multiLineInput}
             onChangeText={(text) => setGptInput(text)}
@@ -123,13 +123,13 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
             icon="chat-processing"
             onPress={() => handlegptrequest(gptInput)}
             mode="elevated"
-            buttonColor="blue"
-            textColor={COLORS.TEXTCOLOR.dark}
-            uppercase={true}
+            buttonColor={COLORS.BUTTONCOLOR[mode]}
+            textColor={COLORS.TEXTCOLOR[mode]}
+            style={{ width: '80%', alignSelf: 'center' }}
           >
             {t('NewRecipe.Generated.Button')}
           </PaperButton>
-        </>
+        </View>
       )}
       {gptOutput && (
         <>
@@ -140,11 +140,10 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
           <View style={themedStyle.bottomContainer}>
             <PaperButton
               icon="content-save"
-              onPress={handleSave}
+              onPress={() => handleSave()}
               mode="elevated"
-              buttonColor="blue"
-              textColor={COLORS.TEXTCOLOR.dark}
-              uppercase={true}
+              buttonColor={COLORS.BUTTONCOLOR[mode]}
+              textColor={COLORS.TEXTCOLOR[mode]}
             >
               {t('NewRecipe.Generated.Save')}
             </PaperButton>
@@ -157,8 +156,16 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
 
 const styles = (mode: Mode) =>
   StyleSheet.create({
+    scrollContainer: {
+      flexGrow: 1,
+    },
+    centerContainer: {
+      flex: 1,
+      justifyContent: 'center',
+    },
     input: {
       height: 40,
+      width: '80%',
       margin: 12,
       borderWidth: 1,
       padding: 10,

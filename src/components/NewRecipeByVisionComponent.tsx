@@ -1,7 +1,8 @@
 import storage from '@react-native-firebase/storage';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
   ImageLibraryOptions,
   ImagePickerResponse,
@@ -10,14 +11,27 @@ import {
 } from 'react-native-image-picker';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button as PaperButton } from 'react-native-paper';
-import { useSelector } from 'react-redux';
-import { COLORS } from '../globals/styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch, useSelector } from 'react-redux';
+import { COLORS, TYPO } from '../globals/styles';
+import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { newRecipeByVisionPrompt } from '../services/PromptService';
+import { addRecipeThunk } from '../store/recipes/thunks';
+import { AppDispatch } from '../store/store';
+import RecipePreviewComponent from './RecipePreviewComponent';
 
 interface NewRecipeByVisionComponentProps {
   navigation: any;
 }
+
+export const parseStringToJson = (input: string): object | Error => {
+  try {
+    return JSON.parse(input);
+  } catch (error) {
+    return new Error(`Failed to parse JSON: ${error}`);
+  }
+};
 
 const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
   navigation,
@@ -27,8 +41,10 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
   );
   const { t } = useTranslation();
   const themedStyle = styles(mode);
+  const dispatch = useDispatch<AppDispatch>();
+
   const [image, setImage] = useState<{ uri: string } | null>(null);
-  const [visionResponse, setVisionResponse] = useState<string>('');
+  const [visionResponse, setVisionResponse] = useState<Recipe | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleChoosePhoto = () => {
@@ -82,10 +98,14 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
     }
   };
 
-  const handleSaveRecipe = () => {
-    // Save the recipe to the database
-    // Navigate to the recipe details screen
-    console.log('Save the recipe to the database');
+  const handleSave = async () => {
+    if (!visionResponse) return;
+    setIsLoading(true);
+    const success = await dispatch(addRecipeThunk(visionResponse as Recipe));
+    setIsLoading(false);
+    if (success) {
+      navigation.navigate('Recipes');
+    }
   };
 
   async function handleVisionRequest(image: { uri: string }) {
@@ -128,20 +148,26 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
       const data = await response.json();
 
       if (data.choices?.length > 0 && data.choices[0]) {
-        setVisionResponse(data.choices[0].message.content);
-        console.log('API response:', data.choices[0].message.content);
+        const parsedOutput = parseStringToJson(data.choices[0].message.content);
+        if (parsedOutput instanceof Error) {
+          console.error('Failed to parse GPT output:', parsedOutput.message);
+          setVisionResponse(null);
+        } else {
+          setVisionResponse(parsedOutput as Recipe);
+        }
       } else {
         throw new Error('Invalid response format from API');
       }
     } catch (error) {
       console.error('Failed to fetch from OpenAI API:', error);
+      setVisionResponse(null);
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <View style={themedStyle.container}>
+    <ScrollView contentContainerStyle={themedStyle.scrollContainer}>
       {isLoading && (
         <Spinner
           visible={isLoading}
@@ -150,10 +176,16 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
       )}
       {visionResponse && (
         <View>
-          <Text style={themedStyle.informationText}>{visionResponse}</Text>
+          <RecipePreviewComponent
+            recipe={visionResponse}
+            displayName={true}
+          ></RecipePreviewComponent>
           <PaperButton
-            mode="outlined"
-            onPress={() => handleSaveRecipe()}
+            icon="content-save"
+            onPress={() => handleSave()}
+            mode="elevated"
+            buttonColor={COLORS.BUTTONCOLOR[mode]}
+            textColor={COLORS.TEXTCOLOR[mode]}
             style={themedStyle.button}
           >
             {t('NewRecipe.Vision.CreateButton')}
@@ -161,21 +193,28 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
         </View>
       )}
       {image && !visionResponse && (
-        <View>
-          <PaperButton
-            mode="outlined"
-            onPress={() => setImage(null)}
-            style={themedStyle.button}
-          >
-            {t('NewRecipe.Vision.CancelButton')}
-          </PaperButton>
+        <View style={themedStyle.centerContainer}>
           <Image
             source={{ uri: image.uri }}
             style={themedStyle.image}
           />
+          <TouchableOpacity
+            onPress={() => setImage(null)}
+            style={themedStyle.cancelButton}
+          >
+            <MaterialCommunityIcons
+              name="close"
+              size={TYPO.ICONSIZE.MEDIUM}
+              style={themedStyle.cancelButtoncontent}
+            />
+          </TouchableOpacity>
+
           <PaperButton
-            mode="outlined"
+            icon="file-import"
             onPress={() => handleVisionRequest(image)}
+            mode="elevated"
+            buttonColor={COLORS.BUTTONCOLOR[mode]}
+            textColor={COLORS.TEXTCOLOR[mode]}
             style={themedStyle.button}
           >
             {t('NewRecipe.Vision.ImportButton')}
@@ -183,20 +222,26 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
         </View>
       )}
       {!image && (
-        <View style={themedStyle.div}>
+        <View style={themedStyle.centerContainer}>
           <Text style={themedStyle.informationText}>
             {t('NewRecipe.Vision.Information')}
           </Text>
           <PaperButton
-            mode="outlined"
+            icon="folder-image"
             onPress={() => handleChoosePhoto()}
+            mode="elevated"
+            buttonColor={COLORS.BUTTONCOLOR[mode]}
+            textColor={COLORS.TEXTCOLOR[mode]}
             style={themedStyle.button}
           >
             {t('NewRecipe.Vision.ChooseButton')}
           </PaperButton>
           <PaperButton
-            mode="outlined"
+            icon="camera"
             onPress={() => handleTakePhoto()}
+            mode="elevated"
+            buttonColor={COLORS.BUTTONCOLOR[mode]}
+            textColor={COLORS.TEXTCOLOR[mode]}
             style={themedStyle.button}
           >
             {t('NewRecipe.Vision.TakeButton')}
@@ -204,27 +249,47 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
           <Text style={themedStyle.warningText}>{t('NewRecipe.Vision.Warning')}</Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = (mode: Mode) =>
   StyleSheet.create({
-    container: {
+    scrollContainer: {
+      flexGrow: 1,
+    },
+    centerContainer: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
     },
     informationText: {
       color: COLORS.TEXTCOLOR[mode],
       textAlign: 'center',
     },
     image: {
+      alignSelf: 'center',
       width: 300,
       height: 400,
     },
     button: {
       marginVertical: 10,
+      alignSelf: 'center',
+    },
+    cancelButton: {
+      position: 'absolute',
+      top: 65,
+      right: 15,
+      width: 40,
+      height: 40,
+      borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: COLORS.CLOSEBUTTONCOLOR[mode],
+    },
+    cancelButtoncontent: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: COLORS.CLOSEICONCOLOR[mode],
     },
     warningText: {
       color: COLORS.WARNING,

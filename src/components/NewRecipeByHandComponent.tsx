@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { Button, TextInput } from 'react-native-paper';
+import { Button as PaperButton, TextInput } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
@@ -89,12 +89,16 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
         textColor={COLORS.TEXTCOLOR[mode]}
         verticalAlign="top"
       />
-      <Button
+      <PaperButton
+        icon="content-save"
         onPress={() => handleSaveButton()}
-        mode="contained"
+        mode="elevated"
+        buttonColor={COLORS.BUTTONCOLOR[mode]}
+        textColor={COLORS.TEXTCOLOR[mode]}
+        style={{ width: '80%', alignSelf: 'center', marginBottom: 4 }}
       >
         {t('NewRecipe.Save')}
-      </Button>
+      </PaperButton>
     </ScrollView>
   );
 };
