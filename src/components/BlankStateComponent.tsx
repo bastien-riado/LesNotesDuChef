@@ -8,7 +8,7 @@ import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 
 interface BlankStateProps {
-  navigation?: any;
+  navigation: any;
   screenName: string;
 }
 const BlankStateComponent: React.FC<BlankStateProps> = ({ navigation, screenName }) => {
@@ -19,7 +19,9 @@ const BlankStateComponent: React.FC<BlankStateProps> = ({ navigation, screenName
   const themedStyle = styles(mode);
 
   const handleNewRecipe = () => {
-    navigation.navigate('NewRecipeHome');
+    navigation.navigate('NewRecipeStack', {
+      screen: 'NewRecipeHome',
+    });
   };
 
   return (

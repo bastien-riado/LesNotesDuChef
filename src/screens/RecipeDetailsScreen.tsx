@@ -27,7 +27,6 @@ const RecipeDetailsScreen = ({ route, navigation }: any) => {
   // };
 
   const handleDelete = async () => {
-    console.log('handleDelete with id: ', recipe.id);
     setIsLoading(true);
     await dispatch(removeRecipeThunk(recipe));
     setIsLoading(false);

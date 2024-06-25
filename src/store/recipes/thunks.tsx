@@ -8,6 +8,9 @@ export const fetchRecipesThunk = () => {
   return async (dispatch: AppDispatch) => {
     try {
       const recipes: Recipe[] = (await getRecipes()) as Recipe[];
+      if (!recipes) {
+        return;
+      }
       recipes.forEach((recipe) => {
         dispatch(addRecipe(recipe, recipe.id));
       });
