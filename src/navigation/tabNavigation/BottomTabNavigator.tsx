@@ -1,102 +1,66 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { useSelector } from 'react-redux';
-
-import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useSelector } from 'react-redux';
 import { COLORS } from '../../globals/styles/index';
-import { Mode, UserProfilState } from '../../models/UserProfilStateModels';
-import SettingsScreen from '../../screens/SettingsScreen';
+import { UserProfilState } from '../../models/UserProfilStateModels';
 import NewRecipeStackNavigator from '../NewRecipeStackNavigator';
 import RecipesStackNavigator from '../RecipesStackNavigator';
+import SettingsStackNavigator from '../SettingsStackNavigator';
 
-export type BottomTabScreenNames = ['RecipesStack', 'NewRecipeStack', 'Settings'];
-export type RootTabParamList = Record<BottomTabScreenNames[number], undefined>;
-export type TabNavigation = NavigationProp<RootTabParamList>;
-
-const Tab = createBottomTabNavigator<RootTabParamList>();
-
-const navigationOptions = (mode: Mode) => {
-  type NavigationOpts = {
-    route: RouteProp<RootTabParamList, BottomTabScreenNames[number]>;
-    navigation: TabNavigation;
-  };
-  const { t } = useTranslation();
-  const titleForScreenNames = {
-    RecipesStack: t('RecipeList.Title'),
-    NewRecipeStack: t('NewRecipe.Title'),
-    Settings: t('UserProfil.Settings.Title'),
-  };
-  const iconNames = {
-    RecipesStack: 'view-list',
-    NewRecipeStack: 'plus',
-    Settings: 'cog',
-  };
-
-  return (props: NavigationOpts) => {
-    const {
-      route,
-    }: { route: RouteProp<RootTabParamList, BottomTabScreenNames[number]> } = props;
-    return {
-      title: titleForScreenNames[route.name],
-      iconNames: iconNames[route.name],
-      headerShown: route.name !== 'RecipesStack' && route.name !== 'NewRecipeStack',
-      headerStyle: {
-        backgroundColor: COLORS.BG_SECONDARYCOLOR[mode],
-      },
-      headerTitleStyle: {
-        color: COLORS.TEXTCOLOR[mode],
-      },
-      tabBarStyle: {
-        backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-      },
-      tabBarLabel: titleForScreenNames[route.name],
-      tabBarLabelStyle: {
-        color: COLORS.TEXTCOLOR[mode],
-      },
-    };
-  };
-};
+const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
-  return (
-    <Tab.Navigator
-      initialRouteName="RecipesStack"
-      screenOptions={({ route, navigation }) => ({
-        ...navigationOptions(mode)({ route, navigation }),
-        tabBarIcon: ({ color, size }) => {
-          const iconName = navigationOptions(mode)({
-            route,
-            navigation,
-          }).iconNames;
+  const { t } = useTranslation();
 
-          return (
-            <MaterialCommunityIcons
-              name={iconName}
-              size={size}
-              color={color}
-            />
-          );
-        },
-        tabBarActiveTintColor: COLORS.ACTIVE_LINK[mode],
-        tabBarInactiveTintColor: COLORS.ICONCOLOR[mode],
-      })}
-    >
+  const screenOptions = ({ route }: any) => ({
+    tabBarIcon: ({ color, size }: any) => {
+      let iconName: string = '';
+
+      if (route.name === 'RecipesStack') {
+        iconName = 'view-list';
+      } else if (route.name === 'NewRecipeStack') {
+        iconName = 'plus';
+      } else if (route.name === 'SettingsStack') {
+        iconName = 'cog';
+      }
+
+      return (
+        <MaterialCommunityIcons
+          name={iconName}
+          size={size}
+          color={color}
+        />
+      );
+    },
+    headerShown: false,
+    tabBarActiveTintColor: COLORS.ACTIVE_LINK[mode],
+    tabBarInactiveTintColor: COLORS.ICONCOLOR[mode],
+    tabBarStyle: {
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
+    },
+  });
+
+  return (
+    <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
         name="RecipesStack"
         component={RecipesStackNavigator}
+        options={{ title: t('RecipeList.Title') }}
       />
       <Tab.Screen
         name="NewRecipeStack"
         component={NewRecipeStackNavigator}
+        options={{ title: t('NewRecipe.Title') }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="SettingsStack"
+        component={SettingsStackNavigator}
+        options={{ title: t('UserProfil.Settings.Title') }}
       />
     </Tab.Navigator>
   );

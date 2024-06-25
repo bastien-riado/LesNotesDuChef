@@ -1,19 +1,17 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useContext } from 'react';
-
 import LoginScreen from '../../screens/authScreens/LoginScreen';
 import SignupScreen from '../../screens/authScreens/SignupScreen';
-import { NavigationProp } from '@react-navigation/native';
-import BottomTabNavigator from '../tabNavigation/BottomTabNavigator';
 import { Authorization } from '../../services/providers/AuthProvider';
+import BottomTabNavigator from '../tabNavigation/BottomTabNavigator';
 
+export type AuthStackParamList = {
+  Login: undefined;
+  Signup: undefined;
+  Authenticated: undefined;
+};
 
-
-
-export type AuthStackScreenNames = ["Login", "Signup", "Authenticated"]
-export type AuthStackParamList = Record<AuthStackScreenNames[number], undefined>;
-export type AuthStackNavigation = NavigationProp<AuthStackParamList>;
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AuthStackParamList>();
 
 export const AuthNavigation = () => {
   const authContext = useContext(Authorization);
@@ -25,12 +23,15 @@ export const AuthNavigation = () => {
     return null;
   }
 
-  return <Stack.Navigator screenOptions={{ headerShown: false }}>
-    {
-      user ?
-        <Stack.Screen name="Authenticated" component={BottomTabNavigator} />
-        :
-        <Stack.Group>
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {user ? (
+        <Stack.Screen
+          name="Authenticated"
+          component={BottomTabNavigator}
+        />
+      ) : (
+        <>
           <Stack.Screen
             name="Login"
             component={LoginScreen}
@@ -39,7 +40,8 @@ export const AuthNavigation = () => {
             name="Signup"
             component={SignupScreen}
           />
-        </Stack.Group>
-    }
-  </Stack.Navigator>
+        </>
+      )}
+    </Stack.Navigator>
+  );
 };

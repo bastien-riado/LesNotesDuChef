@@ -4,40 +4,58 @@ import { Button as PaperButton } from 'react-native-paper';
 
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
+import Spinner from 'react-native-loading-spinner-overlay';
+import { useDispatch, useSelector } from 'react-redux';
 import RecipePreviewComponent from '../components/RecipePreviewComponent';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { deleteRecipe } from '../services/RecipeService';
+import { removeRecipeThunk } from '../store/recipes/thunks';
+import { AppDispatch } from '../store/store';
 
 const RecipeDetailsScreen = ({ route, navigation }: any) => {
-  const handleDelete = async () => {
-    await deleteRecipe(recipe);
-    navigation.goBack();
-  };
-
+  const dispatch = useDispatch<AppDispatch>();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { recipe }: { recipe: Recipe } = route.params;
   const { t } = useTranslation();
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
+  // const handleDelete = async () => {
+  //   await dispatch(removeRecipeThunk(recipe));
+  //   navigation.goBack();
+  // };
+
+  const handleDelete = async () => {
+    setIsLoading(true);
+    await dispatch(removeRecipeThunk(recipe));
+    setIsLoading(false);
+    navigation.goBack();
+  };
 
   const themedStyle = styles(mode);
   return (
     <View style={themedStyle.container}>
+      {isLoading && (
+        <Spinner
+          visible={isLoading}
+          textContent={t('NewRecipe.ByHand.Loading')}
+          textStyle={themedStyle.label}
+          color={COLORS.TEXTCOLOR[mode]}
+        />
+      )}
       <ScrollView>
         <RecipePreviewComponent recipe={recipe} />
         <View style={themedStyle.bottomContainer}>
           <PaperButton
             icon="delete"
-            onPress={handleDelete}
+            onPress={() => handleDelete()}
             mode="elevated"
             buttonColor={COLORS.BGDELETE}
             textColor={COLORS.TEXTCOLOR.dark}
             uppercase={true}
           >
-            {t('NewRecipe.Generated.Save')}
+            {t('RecipeList.Recipe.Delete')}
           </PaperButton>
         </View>
       </ScrollView>

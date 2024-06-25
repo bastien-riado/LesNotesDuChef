@@ -4,9 +4,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
 interface NewRecipeComponentProps {
-  navigation: NewRecipesStackNavigation;
+  navigation: any;
 }
 
 const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) => {

@@ -1,19 +1,27 @@
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button as PaperButton, TextInput } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
+import { RecipeStackParamList } from '../navigation/RecipesStackNavigator';
 import { NewRecipeGeneratedPrompt } from '../services/PromptService';
+import { addRecipeThunk } from '../store/recipes/thunks';
+import { AppDispatch } from '../store/store';
 import RecipePreviewComponent from './RecipePreviewComponent';
 
+type NewRecipeGeneratedComponentNavigationProp = StackNavigationProp<
+  RecipeStackParamList,
+  'Recipes'
+>;
+
 interface NewRecipeComponentProps {
-  navigation: NewRecipesStackNavigation;
+  navigation: NewRecipeGeneratedComponentNavigationProp;
 }
 
 export const parseStringToJson = (input: string): object | Error => {
@@ -32,13 +40,20 @@ const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
   );
   const themedStyle = styles(mode);
   const { t } = useTranslation();
-  const handleSave = () => {
-    //TODO: Implement save recipe
-    console.log('Recipe saved');
-  };
+  const dispatch = useDispatch<AppDispatch>();
+
   const [gptInput, setGptInput] = useState<string>('');
   const [gptOutput, setGptOutput] = useState<Recipe | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleSave = async () => {
+    setIsLoading(true);
+    const success = await dispatch(addRecipeThunk(gptOutput as Recipe));
+    setIsLoading(false);
+    if (success) {
+      navigation.navigate('Recipes');
+    }
+  };
 
   async function handlegptrequest(gptInput: string) {
     setIsLoading(true);

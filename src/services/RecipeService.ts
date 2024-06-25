@@ -4,17 +4,6 @@ import { Recipe } from '../models/RecipeModels';
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
 
 export async function postNewRecipe(recipe: Recipe): Promise<string | null> {
-  if (
-    !recipe ||
-    !recipe.name ||
-    !recipe.description ||
-    !recipe.difficulty ||
-    !recipe.time
-  ) {
-    Alert.alert('Erreur', 'Veuillez remplir tous les champs du formulaire.');
-    return null;
-  }
-
   const recipesRef = dbRef.ref('recipes');
   try {
     const newRecipeRef = recipesRef.push();
@@ -66,7 +55,7 @@ export async function getRecipes(): Promise<Recipe[] | null> {
         ({
           id: recipeId,
           ...data[recipeId],
-        } as Recipe),
+        }) as Recipe,
     );
   } catch (error) {
     console.error('Error fetching data from Firebase:', error);
