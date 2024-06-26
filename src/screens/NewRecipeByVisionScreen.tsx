@@ -4,11 +4,7 @@ import { useSelector } from 'react-redux';
 import NewRecipeByVisionComponent from '../components/NewRecipeByVisionComponent';
 import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
-
-interface NewRecipeByVisionScreenProps {
-  navigation: NewRecipesStackNavigation;
-}
+import { NewRecipeByVisionScreenProps } from '../navigation/NavigationTypes';
 
 const NewRecipeByVisionScreen: React.FC<NewRecipeByVisionScreenProps> = ({
   navigation,

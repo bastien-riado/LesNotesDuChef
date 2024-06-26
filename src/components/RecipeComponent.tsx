@@ -44,6 +44,9 @@ const styles = (mode: Mode) =>
     recipeContainer: {
       padding: 10,
       margin: 10,
+      marginBottom: 5,
+      marginLeft: 16,
+      marginRight: 16,
       borderRadius: 10,
       elevation: 5,
       borderColor: COLORS.TEXTCOLOR[mode],

@@ -7,13 +7,9 @@ import React = require('react');
 import NewRecipeComponent from '../components/NewRecipeComponent';
 import { COLORS } from '../globals/styles/index';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { TabNavigation } from '../navigation/tabNavigation/BottomTabNavigator';
+import { NewRecipeHomeScreenProps } from '../navigation/NavigationTypes';
 
-interface NewRecipeScreenProps {
-  navigation: TabNavigation;
-}
-
-const NewRecipeScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
+const NewRecipeScreen: React.FC<NewRecipeHomeScreenProps> = ({ navigation }) => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );

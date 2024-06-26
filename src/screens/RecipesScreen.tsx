@@ -11,15 +11,12 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import BlankStateComponent from '../components/BlankStateComponent';
 import { COLORS } from '../globals/styles';
 import { RecipesState } from '../models/RecipesStateModels';
-import { UserProfilState } from '../models/UserProfilStateModels';
+import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import { RecipesScreenProps } from '../navigation/NavigationTypes';
 import { fetchRecipesThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 
-interface RecipeScreenProps {
-  navigation: any;
-}
-
-const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {
+const RecipesScreen: React.FC<RecipesScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch<AppDispatch>();
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
@@ -27,6 +24,7 @@ const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {
   const recipes = useSelector(
     (state: { recipes: RecipesState }) => state.recipes.recipes,
   );
+  const themedStyle = styles(mode);
   const { t } = useTranslation();
   const isFocused = useIsFocused();
   const [isInitialLoading, setIsInitialLoading] = useState(true);
@@ -50,7 +48,7 @@ const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {
 
   if (isInitialLoading) {
     return (
-      <View style={styles.container}>
+      <View style={themedStyle.container}>
         <Spinner
           visible={true}
           textContent={t('RecipeList.Loading')}
@@ -60,7 +58,7 @@ const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: COLORS.BG_PRIMARYCOLOR[mode] }]}>
+    <View style={themedStyle.container}>
       {recipes.length === 0 ? (
         <BlankStateComponent
           screenName="Recipes"
@@ -73,12 +71,12 @@ const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = (mode: Mode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
+    },
+  });
 
 export default RecipesScreen;

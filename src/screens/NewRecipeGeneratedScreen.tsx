@@ -7,20 +7,16 @@ import React = require('react');
 import NewRecipeGeneratedComponent from '../components/NewRecipeGeneratedComponent';
 import { COLORS } from '../globals/styles/index';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
+import { NewRecipeGeneratedScreenProps } from '../navigation/NavigationTypes';
 
-interface NewRecipeScreenProps {
-  navigation: NewRecipesStackNavigation;
-}
-
-const NewRecipeGeneratedScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
+const NewRecipeGeneratedScreen: React.FC<NewRecipeGeneratedScreenProps> = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
   const themedStyle = styles(mode);
   return (
     <View style={themedStyle.container}>
-      <NewRecipeGeneratedComponent navigation={navigation} />
+      <NewRecipeGeneratedComponent />
     </View>
   );
 };
@@ -29,7 +25,6 @@ const styles = (mode: Mode) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      padding: 12,
       backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
   });
