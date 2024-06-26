@@ -1,4 +1,4 @@
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
@@ -9,42 +9,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { RecipeStackParamList } from '../navigation/RecipesStackNavigator';
+import { NewRecipeGeneratedScreenNavigationProp } from '../navigation/NavigationTypes';
 import { newRecipeGeneratedPrompt } from '../services/PromptService';
 import { addRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import RecipePreviewComponent from './RecipePreviewComponent';
 
-type NewRecipeGeneratedComponentNavigationProp = StackNavigationProp<
-  RecipeStackParamList,
-  'Recipes'
->;
-
-interface NewRecipeComponentProps {
-  navigation: NewRecipeGeneratedComponentNavigationProp;
-}
-
-export const parseStringToJson = (input: string): object | Error => {
-  try {
-    return JSON.parse(input);
-  } catch (error) {
-    return new Error(`Failed to parse JSON: ${error}`);
-  }
-};
-
-const NewRecipeGeneratedComponent: React.FC<NewRecipeComponentProps> = ({
-  navigation,
-}) => {
+const NewRecipeGeneratedComponent: React.FC = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
   const themedStyle = styles(mode);
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
+  const navigation = useNavigation<NewRecipeGeneratedScreenNavigationProp>();
 
   const [gptInput, setGptInput] = useState<string>('');
   const [gptOutput, setGptOutput] = useState<Recipe | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const parseStringToJson = (input: string): object | Error => {
+    try {
+      return JSON.parse(input);
+    } catch (error) {
+      return new Error(`Failed to parse JSON: ${error}`);
+    }
+  };
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -158,6 +148,7 @@ const styles = (mode: Mode) =>
   StyleSheet.create({
     scrollContainer: {
       flexGrow: 1,
+      padding: 12,
     },
     centerContainer: {
       flex: 1,

@@ -37,8 +37,6 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
     width: '100%',
   },
   listContainer: {

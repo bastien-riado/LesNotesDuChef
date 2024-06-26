@@ -7,13 +7,9 @@ import React = require('react');
 import NewRecipeByHandComponent from '../components/NewRecipeByHandComponent';
 import { COLORS } from '../globals/styles/index';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import { NewRecipesStackNavigation } from '../navigation/NewRecipeStackNavigator';
+import { NewRecipeByHandScreenProps } from '../navigation/NavigationTypes';
 
-interface NewRecipeScreenProps {
-  navigation: NewRecipesStackNavigation;
-}
-
-const NewRecipeByHandScreen: React.FC<NewRecipeScreenProps> = ({ navigation }) => {
+const NewRecipeByHandScreen: React.FC<NewRecipeByHandScreenProps> = ({ navigation }) => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );

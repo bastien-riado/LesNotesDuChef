@@ -10,10 +10,14 @@ import RecipePreviewComponent from '../components/RecipePreviewComponent';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import { RecipeDetailScreenProps } from '../navigation/NavigationTypes';
 import { removeRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 
-const RecipeDetailsScreen = ({ route, navigation }: any) => {
+const RecipeDetailsScreen: React.FC<RecipeDetailScreenProps> = ({
+  route,
+  navigation,
+}: any) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { recipe }: { recipe: Recipe } = route.params;
@@ -21,10 +25,6 @@ const RecipeDetailsScreen = ({ route, navigation }: any) => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
-  // const handleDelete = async () => {
-  //   await dispatch(removeRecipeThunk(recipe));
-  //   navigation.goBack();
-  // };
 
   const handleDelete = async () => {
     setIsLoading(true);
@@ -67,7 +67,7 @@ const styles = (mode: Mode) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      padding: 16,
+      padding: 12,
       backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
     bottomContainer: {
