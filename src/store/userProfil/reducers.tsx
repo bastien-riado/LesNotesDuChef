@@ -24,6 +24,8 @@ export const userProfilReducer = (
         ...state,
         language: action.payload,
       };
+    case 'LOG_OUT':
+      return initialState;
     default:
       return state;
   }

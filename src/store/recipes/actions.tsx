@@ -1,6 +1,10 @@
 import { Recipe } from '../../models/RecipeModels';
 
-export type RecipesAction = GetRecipesAction | AddRecipeAction | RemoveRecipeAction;
+export type RecipesAction =
+  | GetRecipesAction
+  | AddRecipeAction
+  | RemoveRecipeAction
+  | RemoveRecipesAction;
 
 export interface GetRecipesAction {
   type: 'GET_RECIPES';
@@ -14,6 +18,10 @@ export interface AddRecipeAction {
 export interface RemoveRecipeAction {
   type: 'REMOVE_RECIPE';
   payload: Recipe;
+}
+
+export interface RemoveRecipesAction {
+  type: 'REMOVE_RECIPES';
 }
 
 export const getRecipes = (): GetRecipesAction => {
@@ -36,5 +44,11 @@ export const removeRecipe = (recipe: Recipe): RemoveRecipeAction => {
   return {
     type: 'REMOVE_RECIPE',
     payload: recipe,
+  };
+};
+
+export const removeRecipes = (): RemoveRecipesAction => {
+  return {
+    type: 'REMOVE_RECIPES',
   };
 };

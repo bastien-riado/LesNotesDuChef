@@ -5,6 +5,8 @@ import RecipesComponent from '../components/RecipesComponent';
 
 import React, { useEffect, useState } from 'react';
 
+import { useIsFocused } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import Spinner from 'react-native-loading-spinner-overlay';
 import BlankStateComponent from '../components/BlankStateComponent';
 import { COLORS } from '../globals/styles';
@@ -25,25 +27,33 @@ const RecipesScreen: React.FC<RecipeScreenProps> = ({ navigation }) => {
   const recipes = useSelector(
     (state: { recipes: RecipesState }) => state.recipes.recipes,
   );
-
+  const { t } = useTranslation();
+  const isFocused = useIsFocused();
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      if (recipes.length === 0) {
-        await dispatch(fetchRecipesThunk());
+      if (isFocused && recipes.length === 0) {
+        setIsInitialLoading(true);
+        try {
+          await dispatch(fetchRecipesThunk());
+          setIsInitialLoading(false);
+        } catch (error) {
+          console.error('Failed to fetch recipes:', error);
+          setIsInitialLoading(false);
+        }
       }
-      setIsInitialLoading(false);
     };
     fetchInitialData();
-  }, [dispatch, recipes.length]);
+    return () => {};
+  }, [dispatch, isFocused, recipes.length]);
 
   if (isInitialLoading) {
     return (
       <View style={styles.container}>
         <Spinner
           visible={true}
-          textContent="Loading..." // TODO add translations
+          textContent={t('RecipeList.Loading')}
         />
       </View>
     );

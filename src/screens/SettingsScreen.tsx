@@ -14,14 +14,17 @@ import { useSelector } from 'react-redux';
 import { TYPO } from '../globals/styles';
 import { Language, Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { signOut } from '../services/AuthService';
+import { removeRecipes } from '../store/recipes/actions';
 import { useAppDispatch } from '../store/store';
-import { languageChange, switchMode } from '../store/userProfil/actions';
+import { languageChange, logout, switchMode } from '../store/userProfil/actions';
 
 const COLORS = require('../globals/styles/colors.tsx');
 
 const SettingsScreen = () => {
   const handleSignOutButton = async () => {
     await signOut();
+    dispatch(removeRecipes());
+    dispatch(logout());
   };
 
   const theme = useSelector(
@@ -33,7 +36,6 @@ const SettingsScreen = () => {
   const dispatch = useAppDispatch();
   const [mode, setMode] = useState(theme);
   const [language, setLanguage] = useState(langue);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
 
   const handleThemeChange = () => {
@@ -44,7 +46,7 @@ const SettingsScreen = () => {
   const handleLanguageChange = (lng: Language) => {
     i18n.changeLanguage(lng);
     dispatch(languageChange(lng));
-    setIsLanguageModalVisible(false); // Close the modal
+    setIsLanguageModalVisible(false);
   };
 
   useEffect(() => {
