@@ -4,12 +4,9 @@ import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { UserProfilState } from '../models/UserProfilStateModels';
 import SettingsScreen from '../screens/SettingsScreen';
+import { RootStackParamList } from './NavigationTypes';
 
-export type SettingsStackParamList = {
-  Settings: undefined;
-};
-
-const Stack = createStackNavigator<SettingsStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const SettingsStackNavigator = () => {
   const mode = useSelector(

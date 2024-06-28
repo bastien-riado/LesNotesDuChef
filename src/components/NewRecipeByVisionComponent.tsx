@@ -257,6 +257,7 @@ const styles = (mode: Mode) =>
   StyleSheet.create({
     scrollContainer: {
       flexGrow: 1,
+      padding: 12,
     },
     centerContainer: {
       flex: 1,

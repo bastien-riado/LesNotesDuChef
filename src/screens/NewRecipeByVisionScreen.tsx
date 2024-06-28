@@ -24,7 +24,6 @@ const styles = (mode: Mode) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      padding: 12,
       backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
   });

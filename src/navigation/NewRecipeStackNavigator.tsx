@@ -1,5 +1,3 @@
-// newrecipestacknavigation.tsx
-
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -8,16 +6,10 @@ import { UserProfilState } from '../models/UserProfilStateModels';
 import NewRecipeByHandScreen from '../screens/NewRecipeByHandScreen';
 import NewRecipeByVisionScreen from '../screens/NewRecipeByVisionScreen';
 import NewRecipeGeneratedScreen from '../screens/NewRecipeGeneratedScreen';
-import NewRecipeScreen from '../screens/NewRecipeScreen';
+import NewRecipeScreen from '../screens/NewRecipeHomeScreen';
+import { RootStackParamList } from './NavigationTypes';
 
-export type NewRecipeStackParamList = {
-  NewRecipeHome: undefined;
-  NewRecipeByHand: undefined;
-  NewRecipeGenerated: undefined;
-  NewRecipeByVision: undefined;
-};
-
-const Stack = createStackNavigator<NewRecipeStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const NewRecipeStackNavigator = () => {
   const mode = useSelector(

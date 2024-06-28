@@ -2,21 +2,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
-import { Recipe } from '../models/RecipeModels';
+import { RecipeState } from '../models/RecipeStateModels';
 import { UserProfilState } from '../models/UserProfilStateModels';
 import RecipeDetailsScreen from '../screens/RecipeDetailsScreen';
 import RecipesScreen from '../screens/RecipesScreen';
+import { RootStackParamList } from './NavigationTypes';
 
-export type RecipeStackParamList = {
-  Recipes: undefined;
-  RecipeDetails: { recipe: Recipe };
-};
-
-const Stack = createStackNavigator<RecipeStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const RecipesStackNavigator = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
+  );
+  const recipeName = useSelector(
+    (state: { recipe: RecipeState }) => state.recipe.currentRecipe.name,
   );
   const { t } = useTranslation();
 
@@ -35,7 +34,7 @@ const RecipesStackNavigator = () => {
       <Stack.Screen
         name="RecipeDetails"
         component={RecipeDetailsScreen}
-        options={({ route }) => ({ title: route.params.recipe.name })}
+        options={{ title: recipeName }}
       />
     </Stack.Navigator>
   );
