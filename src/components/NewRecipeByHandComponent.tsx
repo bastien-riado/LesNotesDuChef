@@ -25,6 +25,7 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [recipe, setRecipe] = useState<Recipe>({
+    id: '',
     name: '',
     description: '',
     time: '',
