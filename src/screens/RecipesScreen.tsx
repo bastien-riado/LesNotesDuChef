@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'react-native-loading-spinner-overlay';
-import BlankStateComponent from '../components/BlankStateComponent';
+import BlankStateComponent from '../components/custom/BlankStateComponent';
 import { COLORS } from '../globals/styles';
 import { RecipesState } from '../models/RecipesStateModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import React from 'react';
 
 interface RecipePreviewComponentProps {
   recipe: Recipe;
