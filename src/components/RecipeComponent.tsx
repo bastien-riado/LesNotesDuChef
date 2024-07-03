@@ -29,7 +29,6 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation })
   );
 
   useEffect(() => {
-    // If isInDeleteSelectionMode is false, reset the checkbox
     if (!isInDeleteSelectionMode) {
       setChecked(false);
     }
@@ -47,6 +46,11 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation })
     dispatch({
       type: 'IS_IN_DELETE_SELECTION_MODE',
       payload: !isInDeleteSelectionMode,
+    });
+    setChecked(true);
+    dispatch({
+      type: 'ADD_TO_DELETE_SELECTION',
+      payload: recipe,
     });
   };
 
@@ -74,7 +78,6 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation })
     >
       <View style={themedStyle.recipeInfoContainer}>
         <View>
-          <Text style={themedStyle.recipeText}>{recipe.id}</Text>
           <Text style={themedStyle.recipeText}>{recipe.name}</Text>
           <Text style={themedStyle.recipeText}>
             {t('RecipeList.Recipe.Time')}: {recipe.time}

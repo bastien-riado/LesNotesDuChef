@@ -26,6 +26,10 @@
     "Loading": "Loading recipes...",
     "BlankState": "No recipe found",
     "AddButton": "Add a recipe",
+    "DeleteSelectedButton": "Delete selected recipes",
+    "DeleteModalText": "Are you sure you want to delete the selected recipes ?",
+    "CancelButton": "Cancel",
+    "DeleteButton": "Supprimer",
     "Recipe": {
       "Title": "Recipe details",
       "Name": "Name",
