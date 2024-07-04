@@ -4,11 +4,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-interface NewRecipeComponentProps {
+interface NewRecipeHomeComponentProps {
   navigation: any;
 }
 
-const NewRecipeComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) => {
+const NewRecipeHomeComponent: React.FC<NewRecipeHomeComponentProps> = ({
+  navigation,
+}) => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
@@ -64,4 +66,4 @@ const styles = (mode: Mode) =>
     },
   });
 
-export default NewRecipeComponent;
+export default NewRecipeHomeComponent;

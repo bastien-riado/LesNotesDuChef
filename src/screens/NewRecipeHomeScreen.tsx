@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 
 import React = require('react');
 
-import NewRecipeComponent from '../components/NewRecipeComponent';
+import NewRecipeComponent from '../components/NewRecipeHomeComponent';
 import { COLORS } from '../globals/styles/index';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { NewRecipeHomeScreenProps } from '../navigation/NavigationTypes';
 
-const NewRecipeScreen: React.FC<NewRecipeHomeScreenProps> = ({ navigation }) => {
+const NewRecipeHomeScreen: React.FC<NewRecipeHomeScreenProps> = ({ navigation }) => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
@@ -30,4 +30,4 @@ const styles = (mode: Mode) =>
     },
   });
 
-export default NewRecipeScreen;
+export default NewRecipeHomeScreen;

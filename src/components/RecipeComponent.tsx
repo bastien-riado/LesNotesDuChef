@@ -2,10 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import { AppDispatch } from '../store/store';
 
 interface RecipeComponentProps {
   recipe: Recipe;
@@ -13,8 +14,10 @@ interface RecipeComponentProps {
 }
 
 const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const handlePress = () => {
-    navigation.navigate('RecipeDetails', { recipe });
+    dispatch({ type: 'SET_RECIPE', payload: recipe });
+    navigation.navigate('RecipeDetails');
   };
 
   const mode = useSelector(

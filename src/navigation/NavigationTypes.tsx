@@ -1,10 +1,9 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Recipe } from '../models/RecipeModels';
 
 // Define param lists for each navigator
 export type RootStackParamList = {
   Recipes: undefined;
-  RecipeDetails: { recipe: Recipe };
+  RecipeDetails: undefined;
   NewRecipeHome: undefined;
   NewRecipeByHand: undefined;
   NewRecipeGenerated: undefined;
@@ -49,7 +48,6 @@ export interface RecipesScreenProps {
 
 export interface RecipeDetailScreenProps {
   navigation: RecipeDetailsScreenNavigationProp;
-  route: { params: { recipe: Recipe } };
 }
 
 export interface NewRecipeHomeScreenProps {

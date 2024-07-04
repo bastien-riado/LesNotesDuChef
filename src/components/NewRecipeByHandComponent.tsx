@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { Button as PaperButton, TextInput } from 'react-native-paper';
+import { Button as PaperButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { addRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
+import WriteRecipeComponent from './custom/WriteRecipeComponent';
 
 interface NewRecipeComponentProps {
   navigation: any;
@@ -54,40 +55,9 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
           color={COLORS.TEXTCOLOR[mode]}
         />
       )}
-      <TextInput
-        label={t('NewRecipe.Name')}
-        value={recipe.name}
-        onChangeText={(text) => handleChangeText('name', text)}
-        style={themedStyle.input}
-        mode="outlined"
-        textColor={COLORS.TEXTCOLOR[mode]}
-      />
-      <TextInput
-        label={t('NewRecipe.Time')}
-        value={recipe.time}
-        onChangeText={(text) => handleChangeText('time', text)}
-        style={themedStyle.input}
-        mode="outlined"
-        textColor={COLORS.TEXTCOLOR[mode]}
-      />
-      <TextInput
-        label={t('NewRecipe.Difficulty')}
-        value={recipe.difficulty}
-        onChangeText={(text) => handleChangeText('difficulty', text)}
-        style={themedStyle.input}
-        mode="outlined"
-        textColor={COLORS.TEXTCOLOR[mode]}
-      />
-      <TextInput
-        label={t('NewRecipe.Description')}
-        value={recipe.description}
-        onChangeText={(text) => handleChangeText('description', text)}
-        style={themedStyle.multiLineInput}
-        mode="outlined"
-        multiline={true}
-        numberOfLines={18}
-        textColor={COLORS.TEXTCOLOR[mode]}
-        verticalAlign="top"
+      <WriteRecipeComponent
+        recipe={recipe}
+        handleChangeText={(key, value) => handleChangeText(key, value)}
       />
       <PaperButton
         icon="content-save"
