@@ -1,5 +1,4 @@
 import auth from '@react-native-firebase/auth';
-import { Alert } from 'react-native';
 import { Recipe } from '../models/RecipeModels';
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
 
@@ -29,6 +28,12 @@ export async function deleteRecipe(recipe: Recipe): Promise<void> {
   if (recipe.id) {
     dbRef.ref('recipes').child(recipe.id).remove();
   }
+}
+
+export async function deleteRecipes(recipes: Recipe[]): Promise<void> {
+  recipes.forEach((recipe) => {
+    deleteRecipe(recipe);
+  });
 }
 
 export async function getRecipes(): Promise<Recipe[] | null> {

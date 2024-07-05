@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { ViewStyle } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../../globals/styles/index';
+import { RecipesState } from '../../models/RecipesStateModels';
 import { UserProfilState } from '../../models/UserProfilStateModels';
 import NewRecipeStackNavigator from '../NewRecipeStackNavigator';
 import RecipesStackNavigator from '../RecipesStackNavigator';
@@ -14,6 +16,9 @@ const Tab = createBottomTabNavigator();
 const BottomTabNavigator = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
+  );
+  const isInDeleteSelectionMode = useSelector(
+    (state: { recipes: RecipesState }) => state.recipes.isInDeleteSelectionMode,
   );
   const { t } = useTranslation();
 
@@ -40,9 +45,9 @@ const BottomTabNavigator = () => {
     headerShown: false,
     tabBarActiveTintColor: COLORS.ACTIVE_LINK[mode],
     tabBarInactiveTintColor: COLORS.ICONCOLOR[mode],
-    tabBarStyle: {
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
+    tabBarStyle: isInDeleteSelectionMode
+      ? ({ display: 'none' } as ViewStyle)
+      : { backgroundColor: COLORS.BG_PRIMARYCOLOR[mode] },
   });
 
   return (
