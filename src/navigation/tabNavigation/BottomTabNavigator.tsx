@@ -15,6 +15,9 @@ const BottomTabNavigator = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
+  const isInEdition = useSelector(
+    (state: { recipe: { isInEdition: boolean } }) => state.recipe.isInEdition,
+  );
   const { t } = useTranslation();
 
   const screenOptions = ({ route }: any) => ({
@@ -42,6 +45,7 @@ const BottomTabNavigator = () => {
     tabBarInactiveTintColor: COLORS.ICONCOLOR[mode],
     tabBarStyle: {
       backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
+      display: isInEdition ? 'none' : ('flex' as 'none' | 'flex'),
     },
   });
 
@@ -50,7 +54,9 @@ const BottomTabNavigator = () => {
       <Tab.Screen
         name="RecipesStack"
         component={RecipesStackNavigator}
-        options={{ title: t('RecipeList.Title') }}
+        options={{
+          title: t('RecipeList.Title'),
+        }}
       />
       <Tab.Screen
         name="NewRecipeStack"

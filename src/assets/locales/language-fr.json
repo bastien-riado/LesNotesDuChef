@@ -32,7 +32,15 @@
       "Time": "Temps",
       "Difficulty": "Difficulté",
       "Description": "Description",
-      "Delete": "Supprimer la recette"
+      "Delete": "Supprimer la recette",
+      "OptionsMenu": {
+        "Edit": "Modifier la recette"
+      }
+    },
+    "EditRecipe": {
+      "Title": "Modifier la recette",
+      "Loading": "Sauvegarde des modifications...",
+      "Save": "Sauvegarder les modifications"
     }
   },
   "NewRecipe": {

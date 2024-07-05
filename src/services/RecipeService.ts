@@ -1,5 +1,4 @@
 import auth from '@react-native-firebase/auth';
-import { Alert } from 'react-native';
 import { Recipe } from '../models/RecipeModels';
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
 
@@ -28,6 +27,17 @@ export async function postNewRecipe(recipe: Recipe): Promise<string | null> {
 export async function deleteRecipe(recipe: Recipe): Promise<void> {
   if (recipe.id) {
     dbRef.ref('recipes').child(recipe.id).remove();
+  }
+}
+
+export async function updateRecipe(recipe: Recipe): Promise<void> {
+  if (recipe.id) {
+    dbRef.ref('recipes').child(recipe.id).update({
+      name: recipe.name,
+      description: recipe.description,
+      time: recipe.time,
+      difficulty: recipe.difficulty,
+    });
   }
 }
 

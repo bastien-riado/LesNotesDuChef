@@ -4,6 +4,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 export type RootStackParamList = {
   Recipes: undefined;
   RecipeDetails: undefined;
+  EditRecipe: undefined;
   NewRecipeHome: undefined;
   NewRecipeByHand: undefined;
   NewRecipeGenerated: undefined;
@@ -19,6 +20,10 @@ export type RecipesScreenNavigationProp = StackNavigationProp<
 export type RecipeDetailsScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'RecipeDetails'
+>;
+export type EditRecipeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'EditRecipe'
 >;
 export type NewRecipeHomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -48,6 +53,10 @@ export interface RecipesScreenProps {
 
 export interface RecipeDetailScreenProps {
   navigation: RecipeDetailsScreenNavigationProp;
+}
+
+export interface EditRecipeScreenProps {
+  navigation: EditRecipeScreenNavigationProp;
 }
 
 export interface NewRecipeHomeScreenProps {

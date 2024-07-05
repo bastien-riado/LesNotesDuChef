@@ -1,8 +1,14 @@
 import { Alert } from 'react-native';
 import { Recipe } from '../../models/RecipeModels';
-import { deleteRecipe, getRecipes, postNewRecipe } from '../../services/RecipeService';
+import {
+  deleteRecipe,
+  getRecipes,
+  postNewRecipe,
+  updateRecipe,
+} from '../../services/RecipeService';
+import { updateCurrentRecipe } from '../recipe/actions';
 import { AppDispatch } from '../store';
-import { addRecipe, removeRecipe } from './actions';
+import { addRecipe, removeRecipe, updateRecipe as updateRecipeAction } from './actions';
 
 export const fetchRecipesThunk = () => {
   return async (dispatch: AppDispatch) => {
@@ -43,6 +49,14 @@ export const addRecipeThunk = (recipe: Recipe) => {
       console.error(error);
       return false;
     }
+  };
+};
+
+export const updateRecipeThunk = (recipe: Recipe) => {
+  return async (dispatch: AppDispatch) => {
+    await updateRecipe(recipe);
+    dispatch(updateRecipeAction(recipe));
+    dispatch(updateCurrentRecipe(recipe));
   };
 };
 

@@ -10,6 +10,7 @@ const initialState: RecipeState = {
     time: '',
     difficulty: '',
   },
+  isInEdition: false,
 };
 
 export const recipeReducer = (
@@ -22,6 +23,16 @@ export const recipeReducer = (
         ...state,
       };
     case 'SET_RECIPE':
+      return {
+        ...state,
+        currentRecipe: action.payload,
+      };
+    case 'TOGGLE_MODIFICATION':
+      return {
+        ...state,
+        isInEdition: !state.isInEdition,
+      };
+    case 'UPDATE_CURRENT_RECIPE':
       return {
         ...state,
         currentRecipe: action.payload,
