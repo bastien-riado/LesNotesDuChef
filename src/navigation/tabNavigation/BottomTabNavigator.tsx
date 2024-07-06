@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ViewStyle } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../../globals/styles/index';
@@ -20,7 +19,9 @@ const BottomTabNavigator = () => {
 
   const isInEdition = useSelector(
     (state: { recipe: { isInEdition: boolean } }) => state.recipe.isInEdition,
-
+  );
+  const isInDeleteSelectionMode = useSelector(
+    (state: { recipes: RecipesState }) => state.recipes.isInDeleteSelectionMode,
   );
   const { t } = useTranslation();
 
@@ -50,9 +51,9 @@ const BottomTabNavigator = () => {
 
     tabBarStyle: {
       backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-      display: isInEdition ? 'none' : ('flex' as 'none' | 'flex'),
+      display:
+        isInEdition || isInDeleteSelectionMode ? 'none' : ('flex' as 'none' | 'flex'),
     },
-
   });
 
   return (
