@@ -111,6 +111,9 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
 
+    // SplashScreen
+    implementation project(':react-native-splash-screen')
+
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:32.6.0')
 
