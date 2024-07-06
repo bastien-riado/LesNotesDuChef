@@ -7,12 +7,12 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useDispatch, useSelector } from 'react-redux';
-import RecipePreviewComponent from '../components/RecipePreviewComponent';
 import { COLORS } from '../globals/styles';
 import { RecipeState } from '../models/RecipeStateModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { removeRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
+import RecipePreviewComponent from './RecipePreviewComponent';
 
 const RecipeDetailsComponent: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,6 +25,7 @@ const RecipeDetailsComponent: React.FC = () => {
     (state: { recipe: RecipeState }) => state.recipe.currentRecipe,
   );
   const navigation = useNavigation();
+  const themedStyle = styles(mode);
 
   const handleDelete = async () => {
     setIsLoading(true);
@@ -32,7 +33,6 @@ const RecipeDetailsComponent: React.FC = () => {
     setIsLoading(false);
     navigation.goBack();
   };
-  const themedStyle = styles(mode);
 
   return (
     <View style={themedStyle.container}>
@@ -45,9 +45,10 @@ const RecipeDetailsComponent: React.FC = () => {
         />
       )}
       <ScrollView>
-        <RecipePreviewComponent recipe={recipe} />
-        <View style={themedStyle.bottomContainer}>
+        <View>
+          <RecipePreviewComponent recipe={recipe} />
           <PaperButton
+            style={themedStyle.bottomContainer}
             icon="delete"
             onPress={() => handleDelete()}
             mode="elevated"

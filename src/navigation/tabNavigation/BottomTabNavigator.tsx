@@ -17,8 +17,10 @@ const BottomTabNavigator = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
-  const isInDeleteSelectionMode = useSelector(
-    (state: { recipes: RecipesState }) => state.recipes.isInDeleteSelectionMode,
+
+  const isInEdition = useSelector(
+    (state: { recipe: { isInEdition: boolean } }) => state.recipe.isInEdition,
+
   );
   const { t } = useTranslation();
 
@@ -45,9 +47,12 @@ const BottomTabNavigator = () => {
     headerShown: false,
     tabBarActiveTintColor: COLORS.ACTIVE_LINK[mode],
     tabBarInactiveTintColor: COLORS.ICONCOLOR[mode],
-    tabBarStyle: isInDeleteSelectionMode
-      ? ({ display: 'none' } as ViewStyle)
-      : { backgroundColor: COLORS.BG_PRIMARYCOLOR[mode] },
+
+    tabBarStyle: {
+      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
+      display: isInEdition ? 'none' : ('flex' as 'none' | 'flex'),
+    },
+
   });
 
   return (
@@ -55,7 +60,9 @@ const BottomTabNavigator = () => {
       <Tab.Screen
         name="RecipesStack"
         component={RecipesStackNavigator}
-        options={{ title: t('RecipeList.Title') }}
+        options={{
+          title: t('RecipeList.Title'),
+        }}
       />
       <Tab.Screen
         name="NewRecipeStack"

@@ -3,6 +3,7 @@ import { Recipe } from '../../models/RecipeModels';
 export type RecipesAction =
   | GetRecipesAction
   | AddRecipeAction
+  | UpdateRecipeAction
   | RemoveRecipeAction
   | RemoveRecipesAction
   | RemoveRecipesSelectedAction
@@ -17,6 +18,11 @@ export interface GetRecipesAction {
 
 export interface AddRecipeAction {
   type: 'ADD_RECIPE';
+  payload: Recipe;
+}
+
+export interface UpdateRecipeAction {
+  type: 'UPDATE_RECIPE';
   payload: Recipe;
 }
 
@@ -64,6 +70,13 @@ export const addRecipe = (recipe: Recipe, recipeId: string = ''): AddRecipeActio
   return {
     type: 'ADD_RECIPE',
     payload: { ...recipe, id: recipeId },
+  };
+};
+
+export const updateRecipe = (recipe: Recipe): UpdateRecipeAction => {
+  return {
+    type: 'UPDATE_RECIPE',
+    payload: recipe,
   };
 };
 

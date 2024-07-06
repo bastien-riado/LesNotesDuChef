@@ -36,7 +36,15 @@
       "Time": "Time",
       "Difficulty": "Difficulty",
       "Description": "Recipe details",
-      "Delete": "Delete recipe"
+      "Delete": "Delete recipe",
+      "OptionsMenu": {
+        "Edit": "Edit recipe"
+      }
+    },
+    "EditRecipe": {
+      "Title": "Edit recipe",
+      "Loading": "Saving changes...",
+      "Save": "Save changes"
     }
   },
   "NewRecipe": {
