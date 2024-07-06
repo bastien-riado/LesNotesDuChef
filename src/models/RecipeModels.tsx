@@ -1,5 +1,5 @@
 export interface Recipe {
-  id?: string;
+  id: string;
   ownerId?: string;
   name: string;
   description: string;

@@ -2,6 +2,7 @@ import { Alert } from 'react-native';
 import { Recipe } from '../../models/RecipeModels';
 import {
   deleteRecipe,
+
   getRecipes,
   postNewRecipe,
   updateRecipe,
@@ -9,6 +10,19 @@ import {
 import { updateCurrentRecipe } from '../recipe/actions';
 import { AppDispatch } from '../store';
 import { addRecipe, removeRecipe, updateRecipe as updateRecipeAction } from './actions';
+
+  deleteRecipes,
+  getRecipes,
+  postNewRecipe,
+} from '../../services/RecipeService';
+import { AppDispatch } from '../store';
+import {
+  addRecipe,
+  isInDeleteSelectionMode,
+  removeRecipe,
+  removeRecipesSelected,
+} from './actions';
+
 
 export const fetchRecipesThunk = () => {
   return async (dispatch: AppDispatch) => {
@@ -64,5 +78,13 @@ export const removeRecipeThunk = (recipe: Recipe) => {
   return async (dispatch: AppDispatch) => {
     await deleteRecipe(recipe);
     dispatch(removeRecipe(recipe));
+  };
+};
+
+export const removeRecipesSelectedThunk = (recipes: Recipe[]) => {
+  return async (dispatch: AppDispatch) => {
+    await deleteRecipes(recipes);
+    dispatch(removeRecipesSelected());
+    dispatch(isInDeleteSelectionMode(false));
   };
 };
