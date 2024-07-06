@@ -44,7 +44,12 @@
     "EditRecipe": {
       "Title": "Edit recipe",
       "Loading": "Saving changes...",
-      "Save": "Save changes"
+      "Save": "Save changes",
+      "Modal": {
+        "WarningText": "Discard changes ?",
+        "CancelButton": "Cancel",
+        "ConfirmButton": "Discard"
+      }
     }
   },
   "NewRecipe": {

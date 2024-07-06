@@ -1,11 +1,11 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, TouchableOpacity, View } from 'react-native';
-import Modal from 'react-native-modal';
+import { TouchableOpacity, View } from 'react-native';
 import { Menu } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
+import ConfirmModalComponent from '../components/custom/modal/ConfirmModalComponent';
 import { COLORS } from '../globals/styles';
 import { ICONSIZE } from '../globals/styles/typography';
 import { RecipeState } from '../models/RecipeStateModels';
@@ -32,16 +32,12 @@ const RecipesStackNavigator = () => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleModalCancel = () => {
-    closeModal();
-  };
   const handleModalConfirm = ({ navigation }: any) => {
-    closeModal();
+    setIsModalVisible(false);
     dispatch({ type: 'TOGGLE_MODIFICATION' });
     navigation.goBack();
   };
-  const openModal = () => setIsModalVisible(true);
-  const closeModal = () => setIsModalVisible(false);
+
   const openMenu = () => setIsMenuVisible(true);
   const closeMenu = () => setIsMenuVisible(false);
 
@@ -52,6 +48,7 @@ const RecipesStackNavigator = () => {
           visible={isMenuVisible}
           onDismiss={() => closeMenu()}
           style={{ marginTop: 20 }}
+          anchorPosition="bottom"
           anchor={
             <TouchableOpacity
               onPress={() => openMenu()}
@@ -79,33 +76,21 @@ const RecipesStackNavigator = () => {
   };
 
   const confirmModal = ({ navigation }: any) => {
-    //Item modal custom component
     return (
-      <TouchableOpacity onPress={() => openModal()}>
-        <Text>Confirm</Text>
-        <Modal
-          isVisible={isModalVisible}
-          animationIn="zoomIn"
-          animationInTiming={300}
-          animationOut="zoomOut"
-          animationOutTiming={300}
-          backdropColor="black"
-          backdropTransitionInTiming={300}
-          backdropTransitionOutTiming={300}
-          useNativeDriver={true}
-        >
-          <View>
-            <Text>{t('RecipeList.DeleteModalText')}</Text>
-            <View>
-              <TouchableOpacity onPress={() => handleModalCancel()}>
-                <Text>{t('RecipeList.CancelButton')}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleModalConfirm({ navigation })}>
-                <Text>{t('RecipeList.DeleteButton')}</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
+      <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+        <MaterialCommunityIcons
+          name="close"
+          size={ICONSIZE.MEDIUM}
+          style={{ marginLeft: 10, color: COLORS.ICONCOLOR[mode] }}
+        />
+        <ConfirmModalComponent
+          isModalVisible={isModalVisible}
+          warningText={t('RecipeList.EditRecipe.Modal.WarningText')}
+          cancelButtonLabel={t('RecipeList.EditRecipe.Modal.CancelButton')}
+          confirmButtonLabel={t('RecipeList.EditRecipe.Modal.ConfirmButton')}
+          handleModalCancel={() => setIsModalVisible(false)}
+          handleModalConfirm={() => handleModalConfirm({ navigation })}
+        />
       </TouchableOpacity>
     );
   };
@@ -126,8 +111,15 @@ const RecipesStackNavigator = () => {
         name="RecipeDetails"
         component={RecipeDetailsScreen}
         options={({ navigation }) => ({
-          title: recipeName,
+          headerTitle: recipeName,
           headerRight: () => dotMenu({ navigation }),
+          headerBackImage: () => (
+            <MaterialCommunityIcons
+              name="chevron-left"
+              size={ICONSIZE.MEDIUM}
+              color={COLORS.ICONCOLOR[mode]}
+            />
+          ),
         })}
       />
       <Stack.Screen
