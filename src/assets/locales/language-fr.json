@@ -44,7 +44,12 @@
     "EditRecipe": {
       "Title": "Modifier la recette",
       "Loading": "Sauvegarde des modifications...",
-      "Save": "Sauvegarder les modifications"
+      "Save": "Sauvegarder les modifications",
+      "Modal": {
+        "WarningText": "Abandonner les modifications ?",
+        "CancelButton": "Annuler",
+        "ConfirmButton": "Abandonner"
+      }
     }
   },
   "NewRecipe": {

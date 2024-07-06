@@ -1,10 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { BackHandler, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { BackHandler, StyleSheet, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
-import Modal from 'react-native-modal';
 import { Button as PaperButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
@@ -14,6 +13,7 @@ import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { updateRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import WriteRecipeComponent from './custom/WriteRecipeComponent';
+import ConfirmModalComponent from './custom/modal/ConfirmModalComponent';
 
 const EditRecipeComponent = () => {
   const mode = useSelector(
@@ -34,7 +34,7 @@ const EditRecipeComponent = () => {
     time: recipe.time,
     difficulty: recipe.difficulty,
   });
-  const toggleModal = () => setIsModalVisible(!isModalVisible);
+  const closeModal = () => setIsModalVisible(false);
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -50,14 +50,10 @@ const EditRecipeComponent = () => {
     return true;
   };
 
-  const handleModalConfirm = () => {
+  const handleModalGoBack = () => {
     setIsModalVisible(false);
     dispatch({ type: 'TOGGLE_MODIFICATION' });
     navigation.goBack();
-  };
-
-  const handleModalCancel = () => {
-    setIsModalVisible(false);
   };
 
   const handleSaveEdition = async () => {
@@ -96,39 +92,18 @@ const EditRecipeComponent = () => {
             textColor={COLORS.TEXTCOLOR[mode]}
             uppercase={true}
           >
-            {t('RecipeList.Recipe.SaveEdit')}
+            {t('RecipeList.EditRecipe.Save')}
           </PaperButton>
         </View>
       </ScrollView>
-      <Modal
-        isVisible={isModalVisible}
-        animationIn="zoomIn"
-        animationInTiming={300}
-        animationOut="zoomOut"
-        animationOutTiming={300}
-        backdropColor="black"
-        backdropTransitionInTiming={300}
-        backdropTransitionOutTiming={300}
-        useNativeDriver={true}
-      >
-        <View style={themedStyle.modalView}>
-          <Text style={themedStyle.text}>{t('RecipeList.DeleteModalText')}</Text>
-          <View style={themedStyle.modalButtonView}>
-            <TouchableOpacity
-              onPress={() => handleModalCancel()}
-              style={[themedStyle.modalButton, themedStyle.close]}
-            >
-              <Text style={themedStyle.buttonText}>{t('RecipeList.CancelButton')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handleModalConfirm()}
-              style={[themedStyle.modalButton, themedStyle.delete]}
-            >
-              <Text style={themedStyle.buttonText}>{t('RecipeList.DeleteButton')}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      <ConfirmModalComponent
+        isModalVisible={isModalVisible}
+        warningText={t('RecipeList.EditRecipe.Modal.WarningText')}
+        cancelButtonLabel={t('RecipeList.EditRecipe.Modal.CancelButton')}
+        confirmButtonLabel={t('RecipeList.EditRecipe.Modal.ConfirmButton')}
+        handleModalCancel={closeModal}
+        handleModalConfirm={handleModalGoBack}
+      />
     </View>
   );
 };
@@ -143,49 +118,6 @@ const styles = (mode: Mode) =>
     },
     bottomContainer: {
       margin: 20,
-    },
-    text: {
-      color: COLORS.TEXTCOLOR[mode],
-      fontWeight: 'bold',
-      padding: 10,
-      textAlign: 'center',
-      fontSize: 20,
-    },
-    buttonText: {
-      color: COLORS.TEXTCOLOR[mode],
-      fontWeight: 'bold',
-    },
-    modalView: {
-      flex: 1,
-      flexDirection: 'column',
-      width: '100%',
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-      borderRadius: 10,
-      maxHeight: 200,
-    },
-    modalButtonView: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      alignItems: 'center',
-    },
-    modalButton: {
-      padding: 15,
-      paddingLeft: 40,
-      paddingRight: 40,
-      borderRadius: 10,
-      backgroundColor: COLORS.WARNING,
-    },
-    close: {
-      backgroundColor: COLORS.BUTTONCOLOR[mode],
-      elevation: 5,
-    },
-    delete: {
-      backgroundColor: COLORS.BGDELETE,
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingLeft: 20,
-      paddingRight: 20,
     },
   });
 

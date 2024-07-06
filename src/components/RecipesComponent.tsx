@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Animated,
@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Modal from 'react-native-modal';
 import Svg, { Ellipse } from 'react-native-svg';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +18,7 @@ import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { removeRecipesSelectedThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import RecipeComponent from './RecipeComponent';
+import ConfirmModalComponent from './custom/modal/ConfirmModalComponent';
 
 export interface RecipesComponentProps {
   navigation: any;
@@ -38,20 +38,22 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
     (state: { recipes: RecipesState }) => state.recipes.inDeleteSelection,
   );
   const dispatch = useDispatch<AppDispatch>();
-  const themedStyle = styles(mode);
   const slideAnim = useRef(new Animated.Value(100)).current;
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleDeletePress = async () => {
+  const themedStyle = useMemo(() => styles(mode), [mode]);
+
+  const handleDeletePress = useCallback(async () => {
     toggleModal();
     await dispatch(removeRecipesSelectedThunk(inDeleteSelection));
-  };
-  const toggleModal = () => {
+  }, [inDeleteSelection, dispatch]);
+
+  const toggleModal = useCallback(() => {
     if (inDeleteSelection.length > 0) {
-      setIsModalVisible(!isModalVisible);
+      setIsModalVisible((prev) => !prev);
     }
-  };
+  }, [inDeleteSelection]);
 
   useEffect(() => {
     const finalValue = isInDeleteSelectionMode ? 0 : 100;
@@ -74,6 +76,9 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
           />
         )}
         contentContainerStyle={themedStyle.listContainer}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        windowSize={21}
       />
       {isInDeleteSelectionMode && (
         <Animated.View
@@ -84,7 +89,7 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
         >
           <TouchableOpacity
             style={themedStyle.ellipseButton}
-            onPress={() => toggleModal()}
+            onPress={toggleModal}
             disabled={inDeleteSelection.length === 0}
           >
             <Svg
@@ -112,40 +117,15 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
           </TouchableOpacity>
         </Animated.View>
       )}
-      <Modal
-        isVisible={isModalVisible}
-        animationIn="zoomIn"
-        animationInTiming={300}
-        animationOut="zoomOut"
-        animationOutTiming={300}
-        backdropColor="black"
-        backdropTransitionInTiming={300}
-        backdropTransitionOutTiming={300}
-        useNativeDriver={true}
-      >
-        <View style={themedStyle.modalView}>
-          <Text style={themedStyle.text}>{t('RecipeList.DeleteModalText')}</Text>
-          <View style={themedStyle.modalButtonView}>
-            <TouchableOpacity
-              onPress={() => toggleModal()}
-              style={[themedStyle.modalButton, themedStyle.close]}
-            >
-              <Text style={themedStyle.buttonText}>{t('RecipeList.CancelButton')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handleDeletePress()}
-              style={[themedStyle.modalButton, themedStyle.delete]}
-            >
-              <MaterialCommunityIcons
-                name="alert-remove-outline"
-                size={ICONSIZE.SMALL}
-                style={themedStyle.icon}
-              />
-              <Text style={themedStyle.buttonText}>{t('RecipeList.DeleteButton')}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+      <ConfirmModalComponent
+        isModalVisible={isModalVisible}
+        warningText={t('RecipeList.DeleteModalText')}
+        cancelButtonLabel={t('RecipeList.CancelButton')}
+        confirmButtonLabel={t('RecipeList.DeleteButton')}
+        confirmIcon="alert-remove-outline"
+        handleModalCancel={toggleModal}
+        handleModalConfirm={handleDeletePress}
+      />
     </View>
   );
 };

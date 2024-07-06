@@ -2,27 +2,22 @@ import { Alert } from 'react-native';
 import { Recipe } from '../../models/RecipeModels';
 import {
   deleteRecipe,
-
+  deleteRecipes,
   getRecipes,
   postNewRecipe,
   updateRecipe,
 } from '../../services/RecipeService';
 import { updateCurrentRecipe } from '../recipe/actions';
-import { AppDispatch } from '../store';
-import { addRecipe, removeRecipe, updateRecipe as updateRecipeAction } from './actions';
 
-  deleteRecipes,
-  getRecipes,
-  postNewRecipe,
-} from '../../services/RecipeService';
-import { AppDispatch } from '../store';
 import {
   addRecipe,
   isInDeleteSelectionMode,
   removeRecipe,
   removeRecipesSelected,
+  updateRecipe as updateRecipeAction,
 } from './actions';
 
+import { AppDispatch } from '../store';
 
 export const fetchRecipesThunk = () => {
   return async (dispatch: AppDispatch) => {
