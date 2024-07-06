@@ -30,7 +30,6 @@ export async function deleteRecipe(recipe: Recipe): Promise<void> {
   }
 }
 
-
 export async function updateRecipe(recipe: Recipe): Promise<void> {
   if (recipe.id) {
     dbRef.ref('recipes').child(recipe.id).update({
@@ -40,12 +39,12 @@ export async function updateRecipe(recipe: Recipe): Promise<void> {
       difficulty: recipe.difficulty,
     });
   }
+}
 
 export async function deleteRecipes(recipes: Recipe[]): Promise<void> {
   recipes.forEach((recipe) => {
     deleteRecipe(recipe);
   });
-
 }
 
 export async function getRecipes(): Promise<Recipe[] | null> {
