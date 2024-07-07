@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Animated,
@@ -26,7 +26,7 @@ export interface RecipesComponentProps {
   navigation: any;
 }
 
-const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
+const RecipesComponent: React.FC<RecipesComponentProps> = memo(({ navigation }) => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
@@ -61,11 +61,11 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
   }, [inDeleteSelection]);
 
   const filteredRecipes = useMemo(() => {
-    if (!searchQuery) return recipes;
-    const lowercasedQuery = searchQuery.toLowerCase();
-    return recipes.filter((recipe) =>
-      recipe.name.toLowerCase().includes(lowercasedQuery),
-    );
+    return searchQuery === ''
+      ? recipes
+      : recipes.filter((recipe) =>
+          recipe.name.toLowerCase().includes(searchQuery.toLowerCase()),
+        );
   }, [searchQuery, recipes]);
 
   useEffect(() => {
@@ -199,7 +199,7 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
       />
     </View>
   );
-};
+});
 
 const styles = (mode: Mode) =>
   StyleSheet.create({
