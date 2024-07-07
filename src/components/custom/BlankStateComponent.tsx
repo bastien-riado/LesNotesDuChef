@@ -9,7 +9,8 @@ import { Mode, UserProfilState } from '../../models/UserProfilStateModels';
 
 interface BlankStateProps {
   navigation: any;
-  screenName: string;
+  screenName?: string;
+  emptyList?: boolean;
 }
 /**
  * A component that displays a blank state for the screen passed in the props.
@@ -17,9 +18,14 @@ interface BlankStateProps {
  * @component
  * @param {object} navigation - The navigation object used to navigate to other screens.
  * @param {string} screenName - The name of the current screen.
+ * @param {boolean} emptyList - A boolean that indicates if the list is empty.
  * @returns {JSX.Element} The rendered component.
  */
-const BlankStateComponent: React.FC<BlankStateProps> = ({ navigation, screenName }) => {
+const BlankStateComponent: React.FC<BlankStateProps> = ({
+  navigation,
+  screenName,
+  emptyList,
+}) => {
   const mode: Mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
@@ -54,6 +60,9 @@ const BlankStateComponent: React.FC<BlankStateProps> = ({ navigation, screenName
           </PaperButton>
         </ImageBackground>
       )}
+      {emptyList && (
+        <Text style={themedStyle.centeredText}>{t('RecipeList.EmptyList')}</Text>
+      )}
     </>
   );
 };
@@ -70,6 +79,11 @@ const styles = (mode: Mode) =>
     text: {
       textAlign: 'center',
       marginTop: '50%',
+      color: COLORS.TEXTCOLOR[mode],
+    },
+    centeredText: {
+      textAlign: 'center',
+      paddingTop: '50%',
       color: COLORS.TEXTCOLOR[mode],
     },
     header: {

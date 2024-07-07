@@ -25,11 +25,13 @@
     "Title": "Liste des recettes",
     "Loading": "Chargement des recettes...",
     "BlankState": "Tu n'as rien à te mettre sous la dent...",
+    "EmptyList": "Aucune recette trouvée",
     "AddButton": "Ajouter une recette",
     "DeleteSelectedButton": "Supprimer les recettes sélectionnées",
     "DeleteModalText": "Êtes-vous sûr de vouloir supprimer les recettes sélectionnées ?",
     "CancelButton": "Annuler",
     "DeleteButton": "Supprimer",
+    "SearchPlaceholder": "Rechercher une recette",
     "Recipe": {
       "Title": "Détails de la recette",
       "Name": "Nom",
