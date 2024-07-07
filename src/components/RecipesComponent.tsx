@@ -19,6 +19,7 @@ import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { removeRecipesSelectedThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import RecipeComponent from './RecipeComponent';
+import BlankStateComponent from './custom/BlankStateComponent';
 import ConfirmModalComponent from './custom/modal/ConfirmModalComponent';
 
 export interface RecipesComponentProps {
@@ -125,23 +126,31 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
           }}
         />
       </Animated.View>
-      <FlatList
-        data={filteredRecipes}
-        keyExtractor={(item) => item.id}
-        style={{ paddingTop: 70 }}
-        renderItem={({ item }) => (
-          <RecipeComponent
-            recipe={item}
-            navigation={navigation}
-          />
-        )}
-        contentContainerStyle={themedStyle.listContainer}
-        initialNumToRender={10}
-        maxToRenderPerBatch={10}
-        windowSize={21}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-      />
+      {filteredRecipes.length !== 0 && (
+        <FlatList
+          data={filteredRecipes}
+          keyExtractor={(item) => item.id}
+          style={{ paddingTop: 70 }}
+          renderItem={({ item }) => (
+            <RecipeComponent
+              recipe={item}
+              navigation={navigation}
+            />
+          )}
+          contentContainerStyle={themedStyle.listContainer}
+          initialNumToRender={10}
+          maxToRenderPerBatch={10}
+          windowSize={21}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+        />
+      )}
+      {filteredRecipes.length === 0 && (
+        <BlankStateComponent
+          navigation={navigation}
+          emptyList={true}
+        />
+      )}
       {isInDeleteSelectionMode && (
         <Animated.View
           style={[
