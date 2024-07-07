@@ -30,6 +30,7 @@
     "DeleteModalText": "Are you sure you want to delete the selected recipes ?",
     "CancelButton": "Cancel",
     "DeleteButton": "Supprimer",
+    "SearchPlaceholder": "Search a recipe",
     "Recipe": {
       "Title": "Recipe details",
       "Name": "Name",

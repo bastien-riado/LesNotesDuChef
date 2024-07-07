@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Searchbar } from 'react-native-paper';
 import Svg, { Ellipse } from 'react-native-svg';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,6 +42,9 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
   const slideAnim = useRef(new Animated.Value(100)).current;
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchBarAnim = useRef(new Animated.Value(0)).current;
+  const [prevScrollY, setPrevScrollY] = useState(0);
 
   const themedStyle = useMemo(() => styles(mode), [mode]);
 
@@ -55,6 +59,14 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
     }
   }, [inDeleteSelection]);
 
+  const filteredRecipes = useMemo(() => {
+    if (!searchQuery) return recipes;
+    const lowercasedQuery = searchQuery.toLowerCase();
+    return recipes.filter((recipe) =>
+      recipe.name.toLowerCase().includes(lowercasedQuery),
+    );
+  }, [searchQuery, recipes]);
+
   useEffect(() => {
     const finalValue = isInDeleteSelectionMode ? 0 : 100;
     Animated.timing(slideAnim, {
@@ -64,11 +76,59 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
     }).start();
   }, [isInDeleteSelectionMode, slideAnim]);
 
+  const handleScroll = (event: any) => {
+    const currentScrollY = event.nativeEvent.contentOffset.y;
+
+    if (currentScrollY <= 0) {
+      Animated.timing(searchBarAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    } else if (currentScrollY < prevScrollY) {
+      Animated.timing(searchBarAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    } else if (currentScrollY > prevScrollY) {
+      Animated.timing(searchBarAnim, {
+        toValue: -70,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+
+    setPrevScrollY(currentScrollY);
+  };
+
   return (
     <View style={themedStyle.container}>
+      <Animated.View
+        style={[
+          themedStyle.searchBarContainer,
+          { transform: [{ translateY: searchBarAnim }] },
+        ]}
+      >
+        <Searchbar
+          placeholder={t('RecipeList.SearchPlaceholder')}
+          onChangeText={setSearchQuery}
+          value={searchQuery}
+          iconColor={COLORS.ICONCOLOR[mode]}
+          elevation={5}
+          inputStyle={{
+            color: COLORS.TEXTCOLOR[mode],
+          }}
+          style={{
+            margin: 10,
+            backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
+          }}
+        />
+      </Animated.View>
       <FlatList
-        data={recipes}
+        data={filteredRecipes}
         keyExtractor={(item) => item.id}
+        style={{ paddingTop: 70 }}
         renderItem={({ item }) => (
           <RecipeComponent
             recipe={item}
@@ -79,6 +139,8 @@ const RecipesComponent: React.FC<RecipesComponentProps> = ({ navigation }) => {
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         windowSize={21}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
       />
       {isInDeleteSelectionMode && (
         <Animated.View
@@ -135,6 +197,12 @@ const styles = (mode: Mode) =>
     container: {
       flex: 1,
       width: '100%',
+    },
+    searchBarContainer: {
+      position: 'absolute',
+      width: '100%',
+      top: 0,
+      zIndex: 1,
     },
     ellipseContainer: {
       width: '100%',
