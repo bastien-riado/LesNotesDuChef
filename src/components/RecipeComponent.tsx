@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { useTranslation } from 'react-i18next';
-import { Checkbox } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { RecipesState } from '../models/RecipesStateModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { AppDispatch } from '../store/store';
+import RecipeCardComponent from './custom/RecipeCardComponent';
 
 interface RecipeComponentProps {
   recipe: Recipe;
@@ -70,33 +70,13 @@ const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation })
   };
 
   return (
-    <TouchableOpacity
-      onPress={() => handlePress()}
-      style={themedStyle.recipeContainer}
-      onLongPress={() => handleLongPress()}
-      delayLongPress={300}
-    >
-      <View style={themedStyle.recipeInfoContainer}>
-        <View>
-          <Text style={themedStyle.recipeText}>{recipe.name}</Text>
-          <Text style={themedStyle.recipeText}>
-            {t('RecipeList.Recipe.Time')}: {recipe.time}
-          </Text>
-          <Text style={themedStyle.recipeText}>
-            {t('RecipeList.Recipe.Difficulty')}: {recipe.difficulty}
-          </Text>
-        </View>
-        {isInDeleteSelectionMode && (
-          <Checkbox
-            status={checked ? 'checked' : 'unchecked'}
-            color={COLORS.TEXTCOLOR[mode]}
-            onPress={() => {
-              handleCheckboxPress(!checked);
-            }}
-          />
-        )}
-      </View>
-    </TouchableOpacity>
+    <RecipeCardComponent
+      recipe={recipe}
+      handlePress={handlePress}
+      handleLongPress={handleLongPress}
+      handleCheckboxPress={handleCheckboxPress}
+      checked={checked}
+    />
   );
 };
 
