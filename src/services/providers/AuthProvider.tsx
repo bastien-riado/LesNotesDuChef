@@ -6,6 +6,14 @@ import {
   AuthorizationProviderProps,
 } from '../../models/AuthorizationProps';
 
+import { useDispatch } from 'react-redux';
+import {
+  setUserEmail,
+  setUserProfilImage,
+  setUserUid,
+} from '../../store/userProfil/actions';
+import { dbRef } from '../Auth/config/FirebaseConfig';
+
 export const Authorization = createContext<AuthorizationContextProps | undefined>(
   undefined,
 );
@@ -17,13 +25,27 @@ export const AuthorizationProvider: React.FC<AuthorizationProviderProps> = ({
   const [error, setError] = useState('');
   const [alert, setAlert] = useState(false);
   const [user, setUser] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged((authUser) => {
+    const unsubscribe = auth().onAuthStateChanged(async (authUser) => {
       if (authUser) {
         setUser(authUser.uid);
+        dispatch(setUserEmail(authUser.email!));
+        dispatch(setUserUid(authUser.uid));
+
+        const userRef = dbRef.ref(`users/${authUser.uid}`);
+        const snapshot = await userRef.once('value');
+        const userData = snapshot.val();
+        if (userData && userData.profilImage) {
+          dispatch(setUserProfilImage(userData.profilImage));
+        } else {
+          dispatch(setUserProfilImage(''));
+        }
       } else {
         setUser('');
+        dispatch(setUserEmail(''));
+        dispatch(setUserUid(''));
       }
       setIsLoading(false);
     });

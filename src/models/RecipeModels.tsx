@@ -1,6 +1,6 @@
 export interface Recipe {
   id: string;
-  ownerId?: string;
+  ownerId: string;
   name: string;
   description: string;
   time: string;

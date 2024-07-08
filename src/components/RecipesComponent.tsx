@@ -130,7 +130,7 @@ const RecipesComponent: React.FC<RecipesComponentProps> = memo(({ navigation }) 
         <FlatList
           data={filteredRecipes}
           keyExtractor={(item) => item.id}
-          style={{ paddingTop: 70 }}
+          style={{ paddingTop: 55 }}
           renderItem={({ item }) => (
             <RecipeComponent
               recipe={item}
@@ -229,6 +229,7 @@ const styles = (mode: Mode) =>
     },
     listContainer: {
       paddingHorizontal: 0,
+      paddingBottom: 100,
     },
     buttonContent: {
       alignItems: 'center',

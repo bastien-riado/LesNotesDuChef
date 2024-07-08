@@ -95,6 +95,11 @@
       "Title": "Paramètres",
       "ChangeMode": "Changer de mode",
       "SignOut": "Se déconnecter",
+      "ImageModal": {
+        "Title": "Choisir une option",
+        "ChooseButton": "Choisir une image",
+        "TakeButton": "Prendre une photo"
+      },
       "Language": {
         "Title": "Changer de langue",
         "French": "Français",

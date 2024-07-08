@@ -4,6 +4,9 @@ import { LANGUAGE_CHANGE, THEME_CHANGE } from './constants';
 
 //initial state
 const initialState: UserProfilState = {
+  uid: '',
+  email: '',
+  profilImage: '',
   mode: 'light',
   language: 'fr',
 };
@@ -14,6 +17,21 @@ export const userProfilReducer = (
   action: UserProfilAction,
 ): UserProfilState => {
   switch (action.type) {
+    case 'SET_USER_UID':
+      return {
+        ...state,
+        uid: action.payload,
+      };
+    case 'SET_USER_EMAIL':
+      return {
+        ...state,
+        email: action.payload,
+      };
+    case 'SET_USER_PROFIL_IMAGE':
+      return {
+        ...state,
+        profilImage: action.payload,
+      };
     case THEME_CHANGE:
       return {
         ...state,
