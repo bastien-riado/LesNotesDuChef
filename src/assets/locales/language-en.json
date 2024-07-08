@@ -96,6 +96,11 @@
       "Title": "Settings",
       "ChangeMode": "Switch mode",
       "SignOut": "Disconnect",
+      "ImageModal": {
+        "Title": "Choose an option",
+        "ChooseButton": "Choose an image",
+        "TakeButton": "Take a picture"
+      },
       "Language": {
         "Title": "Switch language",
         "French": "French",

@@ -1,5 +1,5 @@
 import { Divider, Text } from '@react-native-material/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Modal,
@@ -17,6 +17,7 @@ import { signOut } from '../services/AuthService';
 import { removeRecipes } from '../store/recipes/actions';
 import { useAppDispatch } from '../store/store';
 import { languageChange, logout, switchMode } from '../store/userProfil/actions';
+import UserProfilComponent from './UserProfilComponent';
 
 const SettingsComponent: React.FC = () => {
   const handleSignOutButton = async () => {
@@ -52,7 +53,7 @@ const SettingsComponent: React.FC = () => {
     setLanguage(langue);
   }, [theme, langue]);
 
-  const themedStyle = styles(mode);
+  const themedStyle = useMemo(() => styles(mode), [mode]);
 
   const languageList = [
     {
@@ -67,6 +68,8 @@ const SettingsComponent: React.FC = () => {
 
   return (
     <View style={themedStyle.container}>
+      <UserProfilComponent />
+      <Divider />
       <TouchableOpacity onPress={handleThemeChange}>
         <View
           style={{
