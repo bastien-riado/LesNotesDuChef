@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { Button as PaperButton } from 'react-native-paper';
 
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { RecipeState } from '../models/RecipeStateModels';
@@ -23,6 +24,9 @@ const RecipeDetailsComponent: React.FC = () => {
   );
   const recipe = useSelector(
     (state: { recipe: RecipeState }) => state.recipe.currentRecipe,
+  );
+  const recipeImage = useSelector(
+    (state: { recipe: RecipeState }) => state.recipe.currentRecipe.image,
   );
   const navigation = useNavigation();
   const themedStyle = styles(mode);
@@ -46,6 +50,12 @@ const RecipeDetailsComponent: React.FC = () => {
       )}
       <ScrollView>
         <View>
+          <Image
+            source={{ uri: recipeImage || 'https://via.placeholder.com/150' }}
+            style={themedStyle.image}
+            resizeMode="cover"
+          />
+
           <RecipePreviewComponent recipe={recipe} />
           <PaperButton
             style={themedStyle.bottomContainer}
@@ -96,6 +106,11 @@ const styles = (mode: Mode) =>
     value: {
       fontSize: 16,
       color: COLORS.TEXTCOLOR[mode],
+    },
+    image: {
+      width: '100%',
+      height: 200,
+      marginBottom: 16,
     },
   });
 

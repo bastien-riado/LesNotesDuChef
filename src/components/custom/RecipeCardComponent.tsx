@@ -40,7 +40,7 @@ const RecipeCardComponent: React.FC<RecipeCardComponentProps> = ({
     >
       <ImageBackground
         source={{
-          uri: 'https://c4.wallpaperflare.com/wallpaper/704/827/686/chicken-meat-grill-lemon-wallpaper-preview.jpg',
+          uri: recipe.image || 'https://via.placeholder.com/150',
         }}
         style={themedStyle.imageBackground}
         imageStyle={{ borderRadius: 10 }}

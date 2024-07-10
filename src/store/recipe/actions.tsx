@@ -4,7 +4,8 @@ export type RecipeAction =
   | GetRecipeAction
   | SetRecipeAction
   | ToggleEditionAction
-  | UpdateCurrentRecipeAction;
+  | UpdateCurrentRecipeAction
+  | SetRecipeImageAction;
 
 export interface GetRecipeAction {
   type: 'GET_RECIPE';
@@ -22,6 +23,11 @@ export interface ToggleEditionAction {
 export interface UpdateCurrentRecipeAction {
   type: 'UPDATE_CURRENT_RECIPE';
   payload: Recipe;
+}
+
+export interface SetRecipeImageAction {
+  type: 'SET_RECIPE_IMAGE';
+  payload: string;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,5 +55,12 @@ export const updateCurrentRecipe = (recipe: Recipe): UpdateCurrentRecipeAction =
   return {
     type: 'UPDATE_CURRENT_RECIPE',
     payload: recipe,
+  };
+};
+
+export const setRecipeImage = (url: string): SetRecipeImageAction => {
+  return {
+    type: 'SET_RECIPE_IMAGE',
+    payload: url,
   };
 };

@@ -41,6 +41,17 @@ export async function updateRecipe(recipe: Recipe): Promise<void> {
   }
 }
 
+export async function updateRecipeImage(
+  recipeId: string,
+  downloadUrl: string,
+): Promise<void> {
+  if (recipeId) {
+    dbRef.ref('recipes').child(recipeId).update({
+      image: downloadUrl,
+    });
+  }
+}
+
 export async function deleteRecipes(recipes: Recipe[]): Promise<void> {
   recipes.forEach((recipe) => {
     deleteRecipe(recipe);
