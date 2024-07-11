@@ -1,12 +1,13 @@
+import { Recipe } from '../../models/RecipeModels';
 import { updateRecipeImage } from '../../services/RecipeService';
+import { updateRecipe } from '../recipes/actions';
 import { AppDispatch } from '../store';
-import { setRecipeImage } from './actions';
+import { updateCurrentRecipe } from './actions';
 
-export const updateRecipeImageThunk = (recipeId: string, downloadUrl: string) => {
+export const updateRecipeImageThunk = (recipe: Recipe, downloadUrl: string) => {
   return async (dispatch: AppDispatch) => {
-    console.log('updateRecipeImageThunk', recipeId, downloadUrl);
-    await updateRecipeImage(recipeId, downloadUrl);
-    console.log('apres le await');
-    dispatch(setRecipeImage(downloadUrl));
+    await updateRecipeImage(recipe.id, downloadUrl);
+    dispatch(updateCurrentRecipe({ ...recipe, image: downloadUrl }));
+    dispatch(updateRecipe({ ...recipe, image: downloadUrl }));
   };
 };

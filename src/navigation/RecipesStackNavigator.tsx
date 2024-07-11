@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import { Menu } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ConfirmModalComponent from '../components/custom/modal/ConfirmModalComponent';
-import ImageSelectionModalComponent from '../components/custom/modal/ImagePickerModalComponent';
+import ImageSelectionModalComponent from '../components/custom/modal/ImageSelectionModalComponent';
 import { COLORS } from '../globals/styles';
 import { ICONSIZE } from '../globals/styles/typography';
 import { RecipeState } from '../models/RecipeStateModels';
@@ -14,13 +14,16 @@ import { UserProfilState } from '../models/UserProfilStateModels';
 import EditRecipeScreen from '../screens/EditRecipeScreen';
 import RecipeDetailsScreen from '../screens/RecipeDetailsScreen';
 import RecipesScreen from '../screens/RecipesScreen';
+
+import { Recipe } from '../models/RecipeModels';
 import { updateRecipeImageThunk } from '../store/recipe/thunks';
+import { useAppDispatch } from '../store/store';
 import { RootStackParamList } from './NavigationTypes';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RecipesStackNavigator = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
@@ -44,9 +47,12 @@ const RecipesStackNavigator = () => {
     navigation.goBack();
   };
 
-  const handleImageSelected = (recipeId: string, downloadURL: string) => {
-    console.log('handleImageSelected', recipeId, downloadURL);
-    updateRecipeImageThunk(recipeId, downloadURL);
+  React.useEffect(() => {
+    console.log('Current Recipe:', recipe);
+  }, [recipe]);
+
+  const handleImageSelected = (recipe: Recipe, downloadURL: string) => {
+    dispatch(updateRecipeImageThunk(recipe, downloadURL));
     setImageModalVisible(false);
   };
 
@@ -87,7 +93,7 @@ const RecipesStackNavigator = () => {
               closeMenu();
               setImageModalVisible(true);
             }}
-            title={t('RecipeList.Recipe.OptionsMenu.SelectImage')}
+            title={t('RecipeList.Recipe.OptionsMenu.ChangeImage')}
           />
         </Menu>
         <ImageSelectionModalComponent
@@ -95,7 +101,7 @@ const RecipesStackNavigator = () => {
           onClose={() => setImageModalVisible(false)}
           uid={uid}
           mode={mode}
-          onImageSelected={() => handleImageSelected(recipe.id, uid)}
+          onImageSelected={(downloadURL) => handleImageSelected(recipe, downloadURL)}
         />
       </View>
     );

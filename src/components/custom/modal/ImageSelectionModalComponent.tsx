@@ -15,9 +15,9 @@ import {
 interface ImageSelectionModalProps {
   isVisible: boolean;
   onClose: () => void;
-  uid: string;
+  onImageSelected: (imageUri: string) => void;
   mode: Mode;
-  onImageSelected: (url: string) => void;
+  uid: string;
 }
 
 const ImageSelectionModalComponent: React.FC<ImageSelectionModalProps> = ({

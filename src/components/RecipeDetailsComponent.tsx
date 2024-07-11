@@ -25,9 +25,6 @@ const RecipeDetailsComponent: React.FC = () => {
   const recipe = useSelector(
     (state: { recipe: RecipeState }) => state.recipe.currentRecipe,
   );
-  const recipeImage = useSelector(
-    (state: { recipe: RecipeState }) => state.recipe.currentRecipe.image,
-  );
   const navigation = useNavigation();
   const themedStyle = styles(mode);
 
@@ -51,7 +48,7 @@ const RecipeDetailsComponent: React.FC = () => {
       <ScrollView>
         <View>
           <Image
-            source={{ uri: recipeImage || 'https://via.placeholder.com/150' }}
+            source={{ uri: recipe.image || 'https://via.placeholder.com/150' }}
             style={themedStyle.image}
             resizeMode="cover"
           />

@@ -7,7 +7,7 @@ import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { updateUserProfileImageInDatabase } from '../services/UserService';
 import { setUserProfilImage } from '../store/userProfil/actions';
-import ImageSelectionModalComponent from './custom/modal/ImagePickerModalComponent';
+import ImageSelectionModalComponent from './custom/modal/ImageSelectionModalComponent';
 
 const UserProfilComponent: React.FC = () => {
   const mode = useSelector(

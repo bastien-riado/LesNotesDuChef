@@ -40,7 +40,8 @@
       "Description": "Description",
       "Delete": "Supprimer la recette",
       "OptionsMenu": {
-        "Edit": "Modifier la recette"
+        "Edit": "Modifier la recette",
+        "ChangeImage": "Changer l'image"
       }
     },
     "EditRecipe": {
