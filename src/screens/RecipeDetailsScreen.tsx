@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ const RecipeDetailsScreen: React.FC = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
-  const themedStyle = styles(mode);
+  const themedStyle = useMemo(() => styles(mode), [mode]);
 
   return (
     <View style={themedStyle.container}>

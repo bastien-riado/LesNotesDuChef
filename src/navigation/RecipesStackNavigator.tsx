@@ -47,10 +47,6 @@ const RecipesStackNavigator = () => {
     navigation.goBack();
   };
 
-  React.useEffect(() => {
-    console.log('Current Recipe:', recipe);
-  }, [recipe]);
-
   const handleImageSelected = (recipe: Recipe, downloadURL: string) => {
     dispatch(updateRecipeImageThunk(recipe, downloadURL));
     setImageModalVisible(false);

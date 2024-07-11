@@ -33,10 +33,11 @@ const RecipeCardComponent: React.FC<RecipeCardComponentProps> = ({
 
   return (
     <TouchableOpacity
-      onPress={() => handlePress()}
+      onPress={handlePress}
       style={themedStyle.recipeContainer}
-      onLongPress={() => handleLongPress()}
+      onLongPress={handleLongPress}
       delayLongPress={300}
+      activeOpacity={0.6}
     >
       <ImageBackground
         source={{
@@ -132,6 +133,7 @@ const styles = (mode: Mode) =>
     },
     nameContainer: {
       top: -40,
+      fontWeight: 'bold',
       paddingLeft: 10,
       paddingRight: 10,
     },

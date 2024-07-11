@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { Button as PaperButton } from 'react-native-paper';
 
@@ -26,7 +26,7 @@ const RecipeDetailsComponent: React.FC = () => {
     (state: { recipe: RecipeState }) => state.recipe.currentRecipe,
   );
   const navigation = useNavigation();
-  const themedStyle = styles(mode);
+  const themedStyle = useMemo(() => styles(mode), [mode]);
 
   const handleDelete = async () => {
     setIsLoading(true);
@@ -36,7 +36,7 @@ const RecipeDetailsComponent: React.FC = () => {
   };
 
   return (
-    <View style={themedStyle.container}>
+    <View>
       {isLoading && (
         <Spinner
           visible={isLoading}
@@ -46,13 +46,12 @@ const RecipeDetailsComponent: React.FC = () => {
         />
       )}
       <ScrollView>
-        <View>
-          <Image
-            source={{ uri: recipe.image || 'https://via.placeholder.com/150' }}
-            style={themedStyle.image}
-            resizeMode="cover"
-          />
-
+        <Image
+          source={{ uri: recipe.image || 'https://via.placeholder.com/150' }}
+          style={themedStyle.image}
+          resizeMode="cover"
+        />
+        <View style={themedStyle.container}>
           <RecipePreviewComponent recipe={recipe} />
           <PaperButton
             style={themedStyle.bottomContainer}
@@ -74,10 +73,8 @@ const RecipeDetailsComponent: React.FC = () => {
 const styles = (mode: Mode) =>
   StyleSheet.create({
     container: {
-      flex: 1,
       paddingLeft: 12,
       paddingRight: 12,
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
     },
     bottomContainer: {
       marginTop: 16,
@@ -106,8 +103,9 @@ const styles = (mode: Mode) =>
     },
     image: {
       width: '100%',
-      height: 200,
-      marginBottom: 16,
+      height: 250,
+      borderBottomLeftRadius: 15,
+      borderBottomRightRadius: 15,
     },
   });
 

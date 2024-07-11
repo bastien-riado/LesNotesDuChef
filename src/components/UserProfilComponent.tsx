@@ -60,17 +60,24 @@ const styles = (mode: Mode) =>
   StyleSheet.create({
     container: {
       alignItems: 'center',
-      justifyContent: 'space-evenly',
+      justifyContent: 'flex-start',
       flexDirection: 'row',
+
+      borderRadius: 10,
     },
     profileImage: {
-      width: 100,
-      height: 100,
-      borderRadius: 50,
+      width: 120,
+      height: 120,
+      borderRadius: 60,
+      marginRight: 10,
+      marginLeft: 30,
     },
     emailText: {
       fontSize: 16,
       color: COLORS.TEXTCOLOR[mode],
+      flexShrink: 1,
+      flexWrap: 'wrap',
+      maxWidth: '80%',
     },
   });
 

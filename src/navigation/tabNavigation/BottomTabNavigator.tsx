@@ -25,36 +25,46 @@ const BottomTabNavigator = () => {
   );
   const { t } = useTranslation();
 
-  const screenOptions = ({ route }: any) => ({
-    tabBarIcon: ({ color, size }: any) => {
-      let iconName: string = '';
+  const screenOptions = ({ route, navigation }: any) => {
+    const routeName = navigation
+      .getState()
+      .routes[navigation.getState().index]?.state?.routes?.slice(-1)[0]?.name;
+    // Utiliser cette methode pour chacher le tebBar
+    const isRecipeDetailsScreen = routeName === 'RecipeDetails';
 
-      if (route.name === 'RecipesStack') {
-        iconName = 'view-list';
-      } else if (route.name === 'NewRecipeStack') {
-        iconName = 'plus';
-      } else if (route.name === 'SettingsStack') {
-        iconName = 'cog';
-      }
+    return {
+      tabBarIcon: ({ color, size }: any) => {
+        let iconName: string = '';
 
-      return (
-        <MaterialCommunityIcons
-          name={iconName}
-          size={size}
-          color={color}
-        />
-      );
-    },
-    headerShown: false,
-    tabBarActiveTintColor: COLORS.ACTIVE_LINK[mode],
-    tabBarInactiveTintColor: COLORS.ICONCOLOR[mode],
+        if (route.name === 'RecipesStack') {
+          iconName = 'view-list';
+        } else if (route.name === 'NewRecipeStack') {
+          iconName = 'plus';
+        } else if (route.name === 'SettingsStack') {
+          iconName = 'cog';
+        }
 
-    tabBarStyle: {
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-      display:
-        isInEdition || isInDeleteSelectionMode ? 'none' : ('flex' as 'none' | 'flex'),
-    },
-  });
+        return (
+          <MaterialCommunityIcons
+            name={iconName}
+            size={size}
+            color={color}
+          />
+        );
+      },
+      headerShown: false,
+      tabBarActiveTintColor: COLORS.ACTIVE_LINK[mode],
+      tabBarInactiveTintColor: COLORS.ICONCOLOR[mode],
+
+      tabBarStyle: {
+        backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
+        display:
+          isInEdition || isInDeleteSelectionMode || isRecipeDetailsScreen
+            ? 'none'
+            : ('flex' as 'none' | 'flex'),
+      },
+    };
+  };
 
   return (
     <Tab.Navigator screenOptions={screenOptions}>
