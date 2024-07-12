@@ -9,6 +9,7 @@ const initialState: RecipeState = {
     description: '',
     time: '',
     difficulty: '',
+    image: '',
   },
   isInEdition: false,
 };
@@ -36,6 +37,14 @@ export const recipeReducer = (
       return {
         ...state,
         currentRecipe: action.payload,
+      };
+    case 'SET_RECIPE_IMAGE':
+      return {
+        ...state,
+        currentRecipe: {
+          ...state.currentRecipe,
+          image: action.payload,
+        },
       };
 
     default:

@@ -33,14 +33,15 @@ const RecipeCardComponent: React.FC<RecipeCardComponentProps> = ({
 
   return (
     <TouchableOpacity
-      onPress={() => handlePress()}
+      onPress={handlePress}
       style={themedStyle.recipeContainer}
-      onLongPress={() => handleLongPress()}
+      onLongPress={handleLongPress}
       delayLongPress={300}
+      activeOpacity={0.6}
     >
       <ImageBackground
         source={{
-          uri: 'https://c4.wallpaperflare.com/wallpaper/704/827/686/chicken-meat-grill-lemon-wallpaper-preview.jpg',
+          uri: recipe.image || 'https://via.placeholder.com/150',
         }}
         style={themedStyle.imageBackground}
         imageStyle={{ borderRadius: 10 }}
@@ -132,6 +133,7 @@ const styles = (mode: Mode) =>
     },
     nameContainer: {
       top: -40,
+      fontWeight: 'bold',
       paddingLeft: 10,
       paddingRight: 10,
     },

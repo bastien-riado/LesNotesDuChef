@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ const NewRecipeHomeComponent: React.FC<NewRecipeHomeComponentProps> = ({
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
-  const themedStyle = styles(mode);
+  const themedStyle = useMemo(() => styles(mode), [mode]);
   const { t } = useTranslation();
 
   return (

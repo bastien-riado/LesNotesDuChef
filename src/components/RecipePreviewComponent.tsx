@@ -1,10 +1,10 @@
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
-import React from 'react';
 
 interface RecipePreviewComponentProps {
   recipe: Recipe;
@@ -19,7 +19,7 @@ const RecipePreviewComponent: React.FC<RecipePreviewComponentProps> = ({
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
-  const themedStyle = styles(mode);
+  const themedStyle = useMemo(() => styles(mode), [mode]);
 
   return (
     <View>
