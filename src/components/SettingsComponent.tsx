@@ -1,18 +1,12 @@
-import { Divider, Text } from '@react-native-material/core';
-import React, { useEffect, useMemo, useState } from 'react';
+import { Divider } from '@react-native-material/core';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { Modal, TouchableWithoutFeedback } from 'react-native';
 import { Button as PaperButton } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
-import { COLORS, TYPO } from '../globals/styles';
-import { Language, Mode, UserProfilState } from '../models/UserProfilStateModels';
+import styled from 'styled-components/native';
+import { TYPO } from '../globals/styles';
 import { signOut } from '../services/AuthService';
 import { removeRecipes } from '../store/recipes/actions';
 import { useAppDispatch } from '../store/store';
@@ -20,194 +14,157 @@ import { languageChange, logout, switchMode } from '../store/userProfil/actions'
 import UserProfilComponent from './UserProfilComponent';
 
 const SettingsComponent: React.FC = () => {
-  const handleSignOutButton = async () => {
-    await signOut();
-    dispatch(removeRecipes());
-    dispatch(logout());
-  };
-
-  const theme = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-  const langue = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.language,
-  );
   const dispatch = useAppDispatch();
+  const { t, i18n } = useTranslation();
+
+  const theme = useSelector((state: { userProfil: any }) => state.userProfil.mode);
+  const langue = useSelector((state: { userProfil: any }) => state.userProfil.language);
+
   const [mode, setMode] = useState(theme);
   const [language, setLanguage] = useState(langue);
   const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
-
-  const handleThemeChange = () => {
-    dispatch(switchMode(theme === 'light' ? 'dark' : 'light'));
-  };
-
-  const { t, i18n } = useTranslation();
-  const handleLanguageChange = (lng: Language) => {
-    i18n.changeLanguage(lng);
-    dispatch(languageChange(lng));
-    setIsLanguageModalVisible(false);
-  };
 
   useEffect(() => {
     setMode(theme);
     setLanguage(langue);
   }, [theme, langue]);
 
-  const themedStyle = useMemo(() => styles(mode), [mode]);
+  const handleSignOutButton = async () => {
+    await signOut();
+    dispatch(removeRecipes());
+    dispatch(logout());
+  };
+
+  const handleThemeChange = () => {
+    dispatch(switchMode(mode === 'light' ? 'dark' : 'light'));
+  };
+
+  const handleLanguageChange = (lng: any) => {
+    i18n.changeLanguage(lng);
+    dispatch(languageChange(lng));
+    setIsLanguageModalVisible(false);
+  };
 
   const languageList = [
-    {
-      label: t('UserProfil.Settings.Language.French'),
-      value: 'fr',
-    },
-    {
-      label: t('UserProfil.Settings.Language.English'),
-      value: 'en',
-    },
+    { label: t('UserProfil.Settings.Language.French'), value: 'fr' },
+    { label: t('UserProfil.Settings.Language.English'), value: 'en' },
   ];
 
+  const renderLanguageModal = () => (
+    <Modal
+      visible={isLanguageModalVisible}
+      onRequestClose={() => setIsLanguageModalVisible(false)}
+      transparent
+    >
+      <TouchableWithoutFeedback onPress={() => setIsLanguageModalVisible(false)}>
+        <ModalContainer>
+          <TouchableWithoutFeedback>
+            <ModalContent>
+              {languageList.map((item) => (
+                <LanguageItem
+                  key={item.value}
+                  onPress={() => handleLanguageChange(item.value)}
+                  selected={language === item.value}
+                >
+                  <LanguageText>{item.label}</LanguageText>
+                </LanguageItem>
+              ))}
+            </ModalContent>
+          </TouchableWithoutFeedback>
+        </ModalContainer>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
+
   return (
-    <View style={themedStyle.container}>
+    <Container>
       <UserProfilComponent />
-      <Divider />
-      <TouchableOpacity onPress={handleThemeChange}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 16,
-            paddingVertical: 10,
-          }}
-        >
-          <MaterialCommunityIcons
-            name={mode === 'light' ? 'weather-night' : 'white-balance-sunny'}
-            size={TYPO.ICONSIZE.MEDIUM}
-            style={themedStyle.icon}
-          />
-          <Text
-            style={{
-              color: themedStyle.text.color,
-              marginLeft: 34,
-              fontWeight: 'bold',
-            }}
-          >
-            {t('UserProfil.Settings.ChangeMode')}
-          </Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => setIsLanguageModalVisible(true)}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 16,
-            paddingVertical: 10,
-          }}
-        >
-          <MaterialCommunityIcons
-            name="web"
-            size={TYPO.ICONSIZE.MEDIUM}
-            style={themedStyle.icon}
-          />
-          <Text
-            style={{
-              color: themedStyle.text.color,
-              marginLeft: 34,
-              fontWeight: 'bold',
-            }}
-          >
-            {t('UserProfil.Settings.Language.Title')}
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <Modal
-        visible={isLanguageModalVisible}
-        onRequestClose={() => setIsLanguageModalVisible(false)}
-        transparent
-      >
-        <TouchableWithoutFeedback onPress={() => setIsLanguageModalVisible(false)}>
-          <View style={themedStyle.modalContainer}>
-            <TouchableWithoutFeedback>
-              <View style={themedStyle.modalContent}>
-                {languageList.map((item) => (
-                  <TouchableOpacity
-                    key={item.value}
-                    onPress={() => handleLanguageChange(item.value as Language)}
-                    style={[
-                      themedStyle.languageItem,
-                      language === item.value && themedStyle.selectedLanguageItem,
-                    ]}
-                  >
-                    <Text style={themedStyle.languageText}>{item.label}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-
-      <Divider />
-      <PaperButton
-        icon="logout"
-        onPress={handleSignOutButton}
-        mode="elevated"
-        buttonColor={COLORS.BGDELETE}
-        textColor={COLORS.TEXTCOLOR.dark}
-        uppercase={true}
-      >
+      <CustomDivider />
+      <OptionContainer onPress={handleThemeChange}>
+        <Icon
+          name={mode === 'light' ? 'weather-night' : 'white-balance-sunny'}
+          size={TYPO.ICONSIZE.MEDIUM}
+        />
+        <OptionText>{t('UserProfil.Settings.ChangeMode')}</OptionText>
+      </OptionContainer>
+      <OptionContainer onPress={() => setIsLanguageModalVisible(true)}>
+        <Icon
+          name="web"
+          size={TYPO.ICONSIZE.MEDIUM}
+        />
+        <OptionText>{t('UserProfil.Settings.Language.Title')}</OptionText>
+      </OptionContainer>
+      {renderLanguageModal()}
+      <CustomDivider />
+      <DisconectButton onPress={handleSignOutButton}>
         {t('UserProfil.Settings.SignOut')}
-      </PaperButton>
-    </View>
+      </DisconectButton>
+    </Container>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    container: {
-      padding: 12,
-      gap: 12,
-      flex: 1,
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
-    text: {
-      color: COLORS.TEXTCOLOR[mode],
-    },
-    icon: {
-      color: COLORS.ICONCOLOR[mode],
-    },
-    signOutButton: {
-      backgroundColor: 'red',
-    },
-    modalContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-      width: '80%',
-      backgroundColor: 'white',
-      padding: 20,
-      borderRadius: 10,
-    },
-    languageItem: {
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      borderRadius: 5,
-    },
-    selectedLanguageItem: {
-      backgroundColor: 'lightgray',
-    },
-    languageText: {
-      fontSize: 16,
-    },
-    closeButton: {
-      textAlign: 'center',
-      marginTop: 20,
-      color: 'blue',
-    },
-  });
+const Container = styled.View`
+  padding: 12px;
+  background-color: ${(props) => props.theme.backgroundPrimary};
+`;
+
+const CustomDivider = styled(Divider).attrs((props) => ({
+  color: props.theme.divider,
+}))``;
+
+const DisconectButton = styled(PaperButton).attrs((props) => ({
+  icon: 'logout',
+  mode: 'contained',
+  buttonColor: props.theme.backgroundDanger,
+  textColor: props.theme.textDanger,
+  uppercase: true,
+}))`
+  margin-top: 12px;
+  margin-bottom: 12px;
+`;
+
+const Icon = styled(MaterialCommunityIcons)`
+  color: ${(props) => props.theme.icon};
+`;
+
+const OptionContainer = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  padding: 12px;
+`;
+
+const OptionText = styled.Text`
+  color: ${(props) => props.theme.text};
+  margin-left: 34px;
+  font-weight: bold;
+  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
+`;
+
+const ModalContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalContent = styled.View`
+  width: 80%;
+  background-color: ${(props) => props.theme.backgroundSecondary};
+  padding: 20px;
+  border-radius: 10px;
+`;
+
+const LanguageItem = styled.TouchableOpacity<{ selected: boolean }>`
+  padding-vertical: 10px;
+  padding-horizontal: 20px;
+  border-radius: 5px;
+  background-color: ${(props) =>
+    props.selected ? props.theme.activeLink : 'transparent'};
+`;
+
+const LanguageText = styled.Text`
+  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
+  color: ${(props) => props.theme.text};
+`;
 
 export default SettingsComponent;

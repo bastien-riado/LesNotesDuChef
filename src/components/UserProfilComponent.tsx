@@ -1,29 +1,20 @@
 // components/UserProfilComponent.tsx
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { COLORS } from '../globals/styles';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import styled from 'styled-components/native';
+
+import { FONTSIZE } from '../globals/styles/typography';
+import { UserProfilState } from '../models/UserProfilStateModels';
 import { updateUserProfileImageInDatabase } from '../services/UserService';
 import { setUserProfilImage } from '../store/userProfil/actions';
 import ImageSelectionModalComponent from './custom/modal/ImageSelectionModalComponent';
 
 const UserProfilComponent: React.FC = () => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-  const email = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.email,
-  );
-  const uid = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.uid,
-  );
-  const profilImage = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.profilImage,
+  const { mode, email, uid, profilImage } = useSelector(
+    (state: { userProfil: UserProfilState }) => state.userProfil,
   );
   const [isModalVisible, setModalVisible] = useState(false);
-  const themedStyle = useMemo(() => styles(mode), [mode]);
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -35,16 +26,11 @@ const UserProfilComponent: React.FC = () => {
   };
 
   return (
-    <View style={themedStyle.container}>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <Image
-          source={{ uri: profilImage || defaultImage }}
-          style={themedStyle.profileImage}
-        />
-      </TouchableOpacity>
-
-      <Text style={themedStyle.emailText}>{email}</Text>
-
+    <Container>
+      <ProfileTouchable onPress={() => setModalVisible(true)}>
+        <ProfileImage source={{ uri: profilImage || defaultImage }} />
+      </ProfileTouchable>
+      <EmailText>{email}</EmailText>
       <ImageSelectionModalComponent
         isVisible={isModalVisible}
         onClose={() => setModalVisible(false)}
@@ -52,33 +38,34 @@ const UserProfilComponent: React.FC = () => {
         mode={mode}
         onImageSelected={handleImageSelected}
       />
-    </View>
+    </Container>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    container: {
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-      flexDirection: 'row',
+const Container = styled.View`
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  border-radius: 10px;
+  margin-bottom: 12px;
+`;
 
-      borderRadius: 10,
-    },
-    profileImage: {
-      width: 120,
-      height: 120,
-      borderRadius: 60,
-      marginRight: 10,
-      marginLeft: 30,
-    },
-    emailText: {
-      fontSize: 16,
-      color: COLORS.TEXTCOLOR[mode],
-      flexShrink: 1,
-      flexWrap: 'wrap',
-      maxWidth: '80%',
-    },
-  });
+const ProfileTouchable = styled.TouchableOpacity``;
+
+const ProfileImage = styled.Image`
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  margin-right: 10px;
+  margin-left: 10px;
+`;
+
+const EmailText = styled.Text`
+  font-size: ${FONTSIZE.MEDIUM}px;
+  color: ${(props) => props.theme.text};
+  flex-shrink: 1;
+  flex-wrap: wrap;
+  max-width: 80%;
+`;
 
 export default UserProfilComponent;
