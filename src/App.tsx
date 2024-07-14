@@ -3,8 +3,16 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
-import { Provider as ReduxProvider } from 'react-redux';
+import { Provider as ReduxProvider, useSelector } from 'react-redux';
+import { ThemeProvider } from 'styled-components/native';
 import '../i18n.config';
+import {
+  darkTheme,
+  lightTheme,
+  navigationDarkTheme,
+  navigationLightTheme,
+} from './globals/themes';
+import { UserProfilState } from './models/UserProfilStateModels';
 import { Navigation } from './navigation';
 import { AuthorizationProvider } from './services/providers/AuthProvider';
 import store from './store/store';
@@ -16,13 +24,26 @@ export default function App() {
 
   return (
     <ReduxProvider store={store}>
-      <NavigationContainer>
+      <AppContainer />
+    </ReduxProvider>
+  );
+}
+
+const AppContainer = () => {
+  const mode = useSelector(
+    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
+  );
+  const styledTheme = mode === 'light' ? lightTheme : darkTheme;
+  const navigationTheme = mode === 'light' ? navigationLightTheme : navigationDarkTheme;
+  return (
+    <ThemeProvider theme={styledTheme}>
+      <NavigationContainer theme={navigationTheme}>
         <AuthorizationProvider>
           <PaperProvider>
             <Navigation />
           </PaperProvider>
         </AuthorizationProvider>
       </NavigationContainer>
-    </ReduxProvider>
+    </ThemeProvider>
   );
-}
+};
