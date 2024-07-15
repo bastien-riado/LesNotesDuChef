@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import { Button as PaperButton } from 'react-native-paper';
+import styled from 'styled-components/native';
 
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +27,6 @@ const RecipeDetailsComponent: React.FC = () => {
     (state: { recipe: RecipeState }) => state.recipe.currentRecipe,
   );
   const navigation = useNavigation();
-  const themedStyle = useMemo(() => styles(mode), [mode]);
 
   const handleDelete = async () => {
     setIsLoading(true);
@@ -41,20 +41,18 @@ const RecipeDetailsComponent: React.FC = () => {
         <Spinner
           visible={isLoading}
           textContent={t('NewRecipe.ByHand.Loading')}
-          textStyle={themedStyle.label}
+          textStyle={{ fontSize: 16, fontWeight: 'bold', color: COLORS.TEXTCOLOR[mode] }}
           color={COLORS.TEXTCOLOR[mode]}
         />
       )}
       <ScrollView>
-        <Image
+        <StyledImage
           source={{ uri: recipe.image || 'https://via.placeholder.com/150' }}
-          style={themedStyle.image}
           resizeMode="cover"
         />
-        <View style={themedStyle.container}>
+        <Container>
           <RecipePreviewComponent recipe={recipe} />
-          <PaperButton
-            style={themedStyle.bottomContainer}
+          <BottomContainer
             icon="delete"
             onPress={() => handleDelete()}
             mode="elevated"
@@ -63,50 +61,53 @@ const RecipeDetailsComponent: React.FC = () => {
             uppercase={true}
           >
             {t('RecipeList.Recipe.Delete')}
-          </PaperButton>
-        </View>
+          </BottomContainer>
+        </Container>
       </ScrollView>
     </View>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    container: {
-      paddingLeft: 12,
-      paddingRight: 12,
-    },
-    bottomContainer: {
-      marginTop: 16,
-      marginBottom: 16,
-      alignItems: 'center',
-    },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 16,
-      color: COLORS.TEXTCOLOR[mode],
-    },
-    infoContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: 8,
-    },
-    label: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: COLORS.TEXTCOLOR[mode],
-    },
-    value: {
-      fontSize: 16,
-      color: COLORS.TEXTCOLOR[mode],
-    },
-    image: {
-      width: '100%',
-      height: 250,
-      borderBottomLeftRadius: 15,
-      borderBottomRightRadius: 15,
-    },
-  });
+const Container = styled.View`
+  padding-left: 12px;
+  padding-right: 12px;
+`;
+
+const BottomContainer = styled(PaperButton)`
+  margin-top: 16px;
+  margin-bottom: 16px;
+  align-items: center;
+`;
+
+const Title = styled.Text<{ mode: Mode }>`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: ${(props) => COLORS.TEXTCOLOR[props.mode]};
+`;
+
+const InfoContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 8px;
+`;
+
+const Label = styled.Text<{ mode: Mode }>`
+  font-size: 16px;
+  font-weight: bold;
+  color: ${(props) => COLORS.TEXTCOLOR[props.mode]};
+`;
+
+const Value = styled.Text<{ mode: Mode }>`
+  font-size: 16px;
+  color: ${(props) => COLORS.TEXTCOLOR[props.mode]};
+`;
+
+const StyledImage = styled.Image`
+  width: 100%;
+  height: 250px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+`;
 
 export default RecipeDetailsComponent;

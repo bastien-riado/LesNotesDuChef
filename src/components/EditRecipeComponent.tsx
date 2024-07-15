@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { t } from 'i18next';
 import React, { useEffect, useState } from 'react';
-import { BackHandler, StyleSheet, View } from 'react-native';
+import { BackHandler, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button as PaperButton } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components/native';
 import { COLORS } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
 import { RecipeState } from '../models/RecipeStateModels';
@@ -15,12 +16,11 @@ import { AppDispatch } from '../store/store';
 import WriteRecipeComponent from './custom/WriteRecipeComponent';
 import ConfirmModalComponent from './custom/modal/ConfirmModalComponent';
 
-const EditRecipeComponent = () => {
+const EditRecipeComponent: React.FC = () => {
   const mode = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.mode,
   );
   const navigation = useNavigation();
-  const themedStyle = styles(mode);
   const dispatch = useDispatch<AppDispatch>();
   const recipe = useSelector(
     (state: { recipe: RecipeState }) => state.recipe.currentRecipe,
@@ -69,7 +69,7 @@ const EditRecipeComponent = () => {
   };
 
   return (
-    <View style={themedStyle.container}>
+    <Container mode={mode}>
       {isLoading && (
         <Spinner
           visible={isLoading}
@@ -83,8 +83,7 @@ const EditRecipeComponent = () => {
             recipe={editedRecipe}
             handleChangeText={(key, value) => handleChangeText(key, value)}
           />
-          <PaperButton
-            style={themedStyle.bottomContainer}
+          <BottomContainer
             icon="content-save-outline"
             onPress={() => handleSaveEdition()}
             mode="elevated"
@@ -93,7 +92,7 @@ const EditRecipeComponent = () => {
             uppercase={true}
           >
             {t('RecipeList.EditRecipe.Save')}
-          </PaperButton>
+          </BottomContainer>
         </View>
       </ScrollView>
       <ConfirmModalComponent
@@ -104,21 +103,19 @@ const EditRecipeComponent = () => {
         handleModalCancel={closeModal}
         handleModalConfirm={handleModalGoBack}
       />
-    </View>
+    </Container>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      paddingLeft: 12,
-      paddingRight: 12,
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
-    bottomContainer: {
-      margin: 20,
-    },
-  });
+const Container = styled.View<{ mode: Mode }>`
+  flex: 1;
+  padding-left: 12px;
+  padding-right: 12px;
+  background-color: ${(props) => COLORS.BG_PRIMARYCOLOR[props.mode]};
+`;
+
+const BottomContainer = styled(PaperButton)`
+  margin: 20px;
+`;
 
 export default EditRecipeComponent;

@@ -1,14 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button as PaperButton, TextInput } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
-import { COLORS } from '../globals/styles';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components/native';
+import { RESPONSIVE } from '../globals/dimensions';
 import { Recipe } from '../models/RecipeModels';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { NewRecipeGeneratedScreenNavigationProp } from '../navigation/NavigationTypes';
 import { newRecipeGeneratedPrompt } from '../services/PromptService';
 import { addRecipeThunk } from '../store/recipes/thunks';
@@ -16,10 +14,6 @@ import { AppDispatch } from '../store/store';
 import RecipePreviewComponent from './RecipePreviewComponent';
 
 const NewRecipeGeneratedComponent: React.FC = () => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-  const themedStyle = styles(mode);
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigation<NewRecipeGeneratedScreenNavigationProp>();
@@ -92,7 +86,7 @@ const NewRecipeGeneratedComponent: React.FC = () => {
   }
 
   return (
-    <ScrollView contentContainerStyle={themedStyle.scrollContainer}>
+    <ScrollContainer>
       {isLoading && (
         <Spinner
           visible={isLoading}
@@ -100,26 +94,22 @@ const NewRecipeGeneratedComponent: React.FC = () => {
         />
       )}
       {!gptOutput && (
-        <View style={themedStyle.centerContainer}>
-          <TextInput
-            style={themedStyle.multiLineInput}
+        <CenterContainer>
+          <StyledTextInput
             onChangeText={(text) => setGptInput(text)}
             label={t('NewRecipe.Generated.Placeholder')}
             multiline={true}
             mode="outlined"
             value={gptInput}
           />
-          <PaperButton
+          <StyledPaperButton
             icon="chat-processing"
             onPress={() => handlegptrequest(gptInput)}
             mode="elevated"
-            buttonColor={COLORS.BUTTONCOLOR[mode]}
-            textColor={COLORS.TEXTCOLOR[mode]}
-            style={{ width: '80%', alignSelf: 'center' }}
           >
             {t('NewRecipe.Generated.Button')}
-          </PaperButton>
-        </View>
+          </StyledPaperButton>
+        </CenterContainer>
       )}
       {gptOutput && (
         <>
@@ -127,53 +117,52 @@ const NewRecipeGeneratedComponent: React.FC = () => {
             recipe={gptOutput}
             displayName={true}
           />
-          <View style={themedStyle.bottomContainer}>
-            <PaperButton
+          <BottomContainer>
+            <StyledPaperButton
               icon="content-save"
               onPress={() => handleSave()}
               mode="elevated"
-              buttonColor={COLORS.BUTTONCOLOR[mode]}
-              textColor={COLORS.TEXTCOLOR[mode]}
             >
               {t('NewRecipe.Generated.Save')}
-            </PaperButton>
-          </View>
+            </StyledPaperButton>
+          </BottomContainer>
         </>
       )}
-    </ScrollView>
+    </ScrollContainer>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    scrollContainer: {
-      flexGrow: 1,
-      padding: 12,
-    },
-    centerContainer: {
-      flex: 1,
-      justifyContent: 'center',
-    },
-    input: {
-      height: 40,
-      width: '80%',
-      margin: 12,
-      borderWidth: 1,
-      padding: 10,
-      color: COLORS.TEXTCOLOR[mode],
-    },
-    bottomContainer: {
-      marginTop: 16,
-      marginBottom: 16,
-      alignItems: 'center',
-    },
-    multiLineInput: {
-      margin: 12,
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
-    textTest: {
-      color: 'red',
-    },
-  });
+const ScrollContainer = styled.ScrollView`
+  flex-grow: 1;
+  padding-left: 12px;
+  padding-right: 12px;
+`;
+
+const CenterContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  height: ${RESPONSIVE.HEIGHT(86)}px;
+`;
+
+const BottomContainer = styled.View`
+  margin-top: 16px;
+  margin-bottom: 16px;
+  align-items: center;
+`;
+
+const StyledTextInput = styled(TextInput).attrs((props) => ({
+  textColor: props.theme.text,
+}))`
+  margin: 12px;
+  background-color: ${(props) => props.theme.backgroundPrimary};
+`;
+
+const StyledPaperButton = styled(PaperButton).attrs((props) => ({
+  buttonColor: props.theme.button,
+  textColor: props.theme.text,
+}))`
+  width: 80%;
+  align-self: center;
+`;
 
 export default NewRecipeGeneratedComponent;

@@ -1,17 +1,15 @@
 import { Text } from '@react-native-material/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ImageBackground, StyleSheet } from 'react-native';
 import { Button as PaperButton } from 'react-native-paper';
-import { useSelector } from 'react-redux';
-import { COLORS } from '../../globals/styles';
-import { Mode, UserProfilState } from '../../models/UserProfilStateModels';
+import styled from 'styled-components/native';
 
 interface BlankStateProps {
   navigation: any;
   screenName?: string;
   emptyList?: boolean;
 }
+
 /**
  * A component that displays a blank state for the screen passed in the props.
  *
@@ -26,11 +24,7 @@ const BlankStateComponent: React.FC<BlankStateProps> = ({
   screenName,
   emptyList,
 }) => {
-  const mode: Mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
   const { t } = useTranslation();
-  const themedStyle = styles(mode);
 
   const handleNewRecipe = () => {
     navigation.navigate('NewRecipeStack', {
@@ -41,55 +35,52 @@ const BlankStateComponent: React.FC<BlankStateProps> = ({
   return (
     <>
       {screenName === 'Recipes' && (
-        <ImageBackground
+        <StyledImageBackground
           source={require('../../assets/img/blankstate_recipes_list.png')}
-          style={themedStyle.imageBackground}
           resizeMode="contain"
         >
-          <Text style={themedStyle.text}>{t('RecipeList.BlankState')}</Text>
-          <PaperButton
+          <StyledText>{t('RecipeList.BlankState')}</StyledText>
+          <StyledPaperButton
             icon="pencil-plus-outline"
             onPress={() => handleNewRecipe()}
             mode="elevated"
-            buttonColor={COLORS.BUTTONCOLOR[mode]}
-            textColor={COLORS.TEXTCOLOR[mode]}
             uppercase={true}
-            style={{ width: '80%', alignSelf: 'center', marginTop: 250 }}
           >
             {t('RecipeList.AddButton')}
-          </PaperButton>
-        </ImageBackground>
+          </StyledPaperButton>
+        </StyledImageBackground>
       )}
-      {emptyList && (
-        <Text style={themedStyle.centeredText}>{t('RecipeList.EmptyList')}</Text>
-      )}
+      {emptyList && <CenteredText>{t('RecipeList.EmptyList')}</CenteredText>}
     </>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    imageBackground: {
-      flex: 1,
-      width: '100%',
-      height: '100%',
-      resizeMode: 'contain',
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
-    text: {
-      textAlign: 'center',
-      marginTop: '50%',
-      color: COLORS.TEXTCOLOR[mode],
-    },
-    centeredText: {
-      textAlign: 'center',
-      paddingTop: '50%',
-      color: COLORS.TEXTCOLOR[mode],
-    },
-    header: {
-      color: '#6c757d',
-      fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
-    },
-  });
+const StyledImageBackground = styled.ImageBackground`
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background-color: ${(props) => props.theme.backgroundPrimary};
+`;
+
+const StyledText = styled(Text)`
+  text-align: center;
+  margin-top: 50%;
+  color: ${(props) => props.theme.text};
+`;
+
+const CenteredText = styled(Text)`
+  text-align: center;
+  padding-top: 50%;
+  color: ${(props) => props.theme.text};
+`;
+
+const StyledPaperButton = styled(PaperButton).attrs((props) => ({
+  buttonColor: props.theme.button,
+  textColor: props.theme.text,
+}))`
+  width: 80%;
+  align-self: center;
+  margin-top: 250px;
+`;
 
 export default BlankStateComponent;

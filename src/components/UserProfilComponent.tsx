@@ -1,4 +1,3 @@
-// components/UserProfilComponent.tsx
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';

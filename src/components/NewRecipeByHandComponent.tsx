@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button as PaperButton } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
-import { COLORS } from '../globals/styles';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components/native';
 import { Recipe } from '../models/RecipeModels';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { addRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import WriteRecipeComponent from './custom/WriteRecipeComponent';
@@ -17,20 +15,18 @@ interface NewRecipeComponentProps {
 }
 
 const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigation }) => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-  const themedStyle = styles(mode);
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [recipe, setRecipe] = useState<Recipe>({
     id: '',
+    ownerId: '',
     name: '',
     description: '',
     time: '',
     difficulty: '',
+    image: '',
   });
 
   const handleChangeText = (key: keyof Recipe, value: string) => {
@@ -49,50 +45,40 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
   return (
     <ScrollView>
       {isLoading && (
-        <Spinner
+        <CustomSpinner
           visible={isLoading}
           textContent={t('NewRecipe.ByHand.Loading')}
-          textStyle={themedStyle.textTest}
-          color={COLORS.TEXTCOLOR[mode]}
         />
       )}
       <WriteRecipeComponent
         recipe={recipe}
         handleChangeText={(key, value) => handleChangeText(key, value)}
       />
-      <PaperButton
+      <StyledButton
         icon="content-save"
         onPress={() => handleSaveButton()}
-        mode="elevated"
-        buttonColor={COLORS.BUTTONCOLOR[mode]}
-        textColor={COLORS.TEXTCOLOR[mode]}
-        style={{ width: '80%', alignSelf: 'center', marginBottom: 4 }}
+        mode="contained"
       >
         {t('NewRecipe.Save')}
-      </PaperButton>
+      </StyledButton>
     </ScrollView>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    input: {
-      width: '100%',
-      marginBottom: 12,
-      color: COLORS.TEXTCOLOR[mode],
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
+const StyledButton = styled(PaperButton).attrs((props) => ({
+  buttonColor: props.theme.button,
+  textColor: props.theme.text,
+}))`
+  width: 80%;
+  align-self: center;
+  margin-bottom: 4px;
+  button-color: ${(props) => props.theme.button};
+  text-color: ${(props) => props.theme.text};
+`;
 
-    multiLineInput: {
-      width: '100%',
-      marginBottom: 12,
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-      minHeight: 64,
-      textAlignVertical: 'top',
-    },
-    textTest: {
-      color: COLORS.TEXTCOLOR[mode],
-    },
-  });
+const CustomSpinner = styled(Spinner).attrs((props) => ({
+  textStyle: { color: props.theme.text },
+  color: props.theme.text,
+}))``;
 
 export default NewRecipeByHandComponent;

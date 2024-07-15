@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { COLORS } from '../globals/styles';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import styled from 'styled-components/native';
+import { FONTSIZE } from '../globals/styles/typography';
+
 interface NewRecipeHomeComponentProps {
   navigation: any;
 }
@@ -11,59 +10,45 @@ interface NewRecipeHomeComponentProps {
 const NewRecipeHomeComponent: React.FC<NewRecipeHomeComponentProps> = ({
   navigation,
 }) => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-  const themedStyle = useMemo(() => styles(mode), [mode]);
   const { t } = useTranslation();
 
   return (
-    <View style={themedStyle.container}>
-      <TouchableOpacity
-        style={themedStyle.button}
-        onPress={() => navigation.navigate('NewRecipeByHand')}
-      >
-        <Text style={themedStyle.buttonText}>{t('NewRecipe.Selection.ByHand')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={themedStyle.button}
-        onPress={() => navigation.navigate('NewRecipeGenerated')}
-      >
-        <Text style={themedStyle.buttonText}>{t('NewRecipe.Selection.Generated')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={themedStyle.button}
-        onPress={() => navigation.navigate('NewRecipeByVision')}
-      >
-        <Text style={themedStyle.buttonText}>{t('NewRecipe.Selection.Vision')}</Text>
-      </TouchableOpacity>
-    </View>
+    <Container>
+      <StyledButton onPress={() => navigation.navigate('NewRecipeByHand')}>
+        <ButtonText>{t('NewRecipe.Selection.ByHand')}</ButtonText>
+      </StyledButton>
+      <StyledButton onPress={() => navigation.navigate('NewRecipeGenerated')}>
+        <ButtonText>{t('NewRecipe.Selection.Generated')}</ButtonText>
+      </StyledButton>
+      <StyledButton onPress={() => navigation.navigate('NewRecipeByVision')}>
+        <ButtonText>{t('NewRecipe.Selection.Vision')}</ButtonText>
+      </StyledButton>
+    </Container>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
-    button: {
-      height: 60,
-      width: '80%',
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderColor: COLORS.TEXTCOLOR[mode],
-      borderRadius: 10,
-      marginVertical: 10,
-      elevation: 5,
-      backgroundColor: COLORS.BG_SECONDARYCOLOR[mode],
-    },
-    buttonText: {
-      fontSize: 18,
-      color: COLORS.TEXTCOLOR[mode],
-    },
-  });
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.theme.backgroundPrimary};
+`;
+
+const StyledButton = styled.TouchableOpacity`
+  height: 60px;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  border-color: ${(props) => props.theme.text};
+  border-radius: 10px;
+  margin-vertical: 10px;
+  elevation: 5;
+  background-color: ${(props) => props.theme.backgroundSecondary};
+`;
+
+const ButtonText = styled.Text`
+  font-size: ${FONTSIZE.LARGE}px;
+  color: ${(props) => props.theme.text};
+`;
 
 export default NewRecipeHomeComponent;
