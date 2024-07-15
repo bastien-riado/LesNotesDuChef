@@ -34,8 +34,10 @@ const ConfirmModalComponent = (props: ConfirmModalComponentProps) => {
       useNativeDriver={true}
     >
       <ModalView>
-        <WarningText>{props.warningText}</WarningText>
-        <ModalButtonView>
+        <TopHalf>
+          <WarningText>{props.warningText}</WarningText>
+        </TopHalf>
+        <BottomHalf>
           <ModalButton
             onPress={props.handleModalCancel}
             color="cancel"
@@ -54,19 +56,33 @@ const ConfirmModalComponent = (props: ConfirmModalComponentProps) => {
             )}
             <ButtonText>{props.confirmButtonLabel}</ButtonText>
           </ModalButton>
-        </ModalButtonView>
+        </BottomHalf>
       </ModalView>
     </Modal>
   );
 };
 
 const ModalView = styled.View`
-  flex: 1;
-  flex-direction: column;
-  width: 100%;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
   background-color: ${(props) => props.theme.backgroundPrimary};
   border-radius: 10px;
-  max-height: 200px;
+`;
+
+const TopHalf = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const BottomHalf = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 90%;
 `;
 
 const WarningText = styled.Text`
@@ -77,26 +93,24 @@ const WarningText = styled.Text`
   font-size: ${FONTSIZE.LARGE}px;
 `;
 
-const ModalButtonView = styled.View`
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-`;
-
 const ModalButton = styled.TouchableOpacity<{ color: 'cancel' | 'confirm' }>`
-  padding: 15px 40px;
+  padding: 20px;
   border-radius: 10px;
   background-color: ${(props) =>
     props.color === 'cancel' ? props.theme.button : props.theme.backgroundDanger};
   elevation: ${(props) => (props.color === 'cancel' ? 5 : 0)};
-  flex-direction: ${(props) => (props.color === 'confirm' ? 'row' : 'column')};
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin: 0 5px;
 `;
 
 const ButtonText = styled.Text`
   color: ${(props) => props.theme.text};
   font-weight: bold;
+  font-size: ${FONTSIZE.MEDIUM}px;
+  text-align: center;
 `;
 
 const ConfirmIcon = styled(MaterialCommunityIcons)`

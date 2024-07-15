@@ -11,7 +11,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { useDispatch, useSelector } from 'react-redux';
 import { COLORS } from '../globals/styles';
 import { RecipeState } from '../models/RecipeStateModels';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import { UserProfilState } from '../models/UserProfilStateModels';
 import { removeRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import RecipePreviewComponent from './RecipePreviewComponent';
@@ -79,35 +79,9 @@ const BottomContainer = styled(PaperButton)`
   align-items: center;
 `;
 
-const Title = styled.Text<{ mode: Mode }>`
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 16px;
-  color: ${(props) => COLORS.TEXTCOLOR[props.mode]};
-`;
-
-const InfoContainer = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 8px;
-`;
-
-const Label = styled.Text<{ mode: Mode }>`
-  font-size: 16px;
-  font-weight: bold;
-  color: ${(props) => COLORS.TEXTCOLOR[props.mode]};
-`;
-
-const Value = styled.Text<{ mode: Mode }>`
-  font-size: 16px;
-  color: ${(props) => COLORS.TEXTCOLOR[props.mode]};
-`;
-
 const StyledImage = styled.Image`
-  width: 100%;
+  width: auto;
   height: 250px;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
 `;
 
 export default RecipeDetailsComponent;
