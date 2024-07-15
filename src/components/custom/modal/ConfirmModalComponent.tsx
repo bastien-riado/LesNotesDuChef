@@ -1,11 +1,8 @@
-import { useMemo } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
 import Modal from 'react-native-modal';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useSelector } from 'react-redux';
-import { COLORS } from '../../../globals/styles';
-import { ICONSIZE } from '../../../globals/styles/typography';
-import { Mode, UserProfilState } from '../../../models/UserProfilStateModels';
+import styled from 'styled-components/native';
+import { FONTSIZE, ICONSIZE } from '../../../globals/styles/typography';
 
 interface ConfirmModalComponentProps {
   isModalVisible: boolean;
@@ -24,11 +21,6 @@ interface ConfirmModalComponentProps {
  * @returns {JSX.Element} The rendered component.
  */
 const ConfirmModalComponent = (props: ConfirmModalComponentProps) => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-  const themedStyle = useMemo(() => styles(mode), [mode]);
-
   return (
     <Modal
       isVisible={props.isModalVisible}
@@ -41,83 +33,75 @@ const ConfirmModalComponent = (props: ConfirmModalComponentProps) => {
       backdropTransitionOutTiming={300}
       useNativeDriver={true}
     >
-      <View style={themedStyle.modalView}>
-        <Text style={themedStyle.warningText}>{props.warningText}</Text>
-        <View style={themedStyle.modalButtonView}>
-          <TouchableOpacity
+      <ModalView>
+        <WarningText>{props.warningText}</WarningText>
+        <ModalButtonView>
+          <ModalButton
             onPress={props.handleModalCancel}
-            style={[themedStyle.modalButton, themedStyle.cancel]}
+            color="cancel"
           >
-            <Text style={themedStyle.buttonText}>{props.cancelButtonLabel}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            <ButtonText>{props.cancelButtonLabel}</ButtonText>
+          </ModalButton>
+          <ModalButton
             onPress={props.handleModalConfirm}
-            style={[themedStyle.modalButton, themedStyle.confirm]}
+            color="confirm"
           >
             {props.confirmIcon && (
-              <MaterialCommunityIcons
+              <ConfirmIcon
                 name={props.confirmIcon}
                 size={ICONSIZE.SMALL}
-                style={themedStyle.icon}
               />
             )}
-            <Text style={themedStyle.buttonText}>{props.confirmButtonLabel}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+            <ButtonText>{props.confirmButtonLabel}</ButtonText>
+          </ModalButton>
+        </ModalButtonView>
+      </ModalView>
     </Modal>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    modalView: {
-      flex: 1,
-      flexDirection: 'column',
-      width: '100%',
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-      borderRadius: 10,
-      maxHeight: 200,
-    },
-    warningText: {
-      color: COLORS.TEXTCOLOR[mode],
-      fontWeight: 'bold',
-      padding: 10,
-      textAlign: 'center',
-      fontSize: 20,
-    },
-    modalButtonView: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-      alignItems: 'center',
-    },
-    modalButton: {
-      padding: 15,
-      paddingLeft: 40,
-      paddingRight: 40,
-      borderRadius: 10,
-      backgroundColor: COLORS.WARNING,
-    },
-    cancel: {
-      backgroundColor: COLORS.BUTTONCOLOR[mode],
-      elevation: 5,
-    },
-    confirm: {
-      backgroundColor: COLORS.BGDELETE,
-      flexDirection: 'row',
-      alignItems: 'center',
-      paddingLeft: 20,
-      paddingRight: 20,
-    },
-    buttonText: {
-      color: COLORS.TEXTCOLOR[mode],
-      fontWeight: 'bold',
-    },
-    icon: {
-      color: COLORS.ICONCOLOR[mode],
-      marginRight: 10,
-    },
-  });
+const ModalView = styled.View`
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  background-color: ${(props) => props.theme.backgroundPrimary};
+  border-radius: 10px;
+  max-height: 200px;
+`;
+
+const WarningText = styled.Text`
+  color: ${(props) => props.theme.text};
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  font-size: ${FONTSIZE.LARGE}px;
+`;
+
+const ModalButtonView = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const ModalButton = styled.TouchableOpacity<{ color: 'cancel' | 'confirm' }>`
+  padding: 15px 40px;
+  border-radius: 10px;
+  background-color: ${(props) =>
+    props.color === 'cancel' ? props.theme.button : props.theme.backgroundDanger};
+  elevation: ${(props) => (props.color === 'cancel' ? 5 : 0)};
+  flex-direction: ${(props) => (props.color === 'confirm' ? 'row' : 'column')};
+  align-items: center;
+`;
+
+const ButtonText = styled.Text`
+  color: ${(props) => props.theme.text};
+  font-weight: bold;
+`;
+
+const ConfirmIcon = styled(MaterialCommunityIcons)`
+  color: ${(props) => props.theme.icon};
+  margin-right: 10px;
+`;
 
 export default ConfirmModalComponent;

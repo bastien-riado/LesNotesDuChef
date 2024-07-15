@@ -1,11 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { useSelector } from 'react-redux';
-import { COLORS } from '../../globals/styles';
+import styled from 'styled-components/native';
 import { Recipe } from '../../models/RecipeModels';
-import { Mode, UserProfilState } from '../../models/UserProfilStateModels';
 
 interface WriteRecipeComponentProps {
   recipe: Recipe;
@@ -25,67 +22,51 @@ const WriteRecipeComponent: React.FC<WriteRecipeComponentProps> = ({
   recipe,
   handleChangeText,
 }) => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
   const { t } = useTranslation();
-  const themedStyle = styles(mode);
+
   return (
-    <View>
-      <TextInput
+    <Container>
+      <StyledTextInput
         label={t('NewRecipe.Name')}
         value={recipe.name}
         onChangeText={(text) => handleChangeText('name', text)}
-        style={themedStyle.input}
         mode="outlined"
-        textColor={COLORS.TEXTCOLOR[mode]}
       />
-      <TextInput
+      <StyledTextInput
         label={t('NewRecipe.Time')}
         value={recipe.time}
         onChangeText={(text) => handleChangeText('time', text)}
-        style={themedStyle.input}
         mode="outlined"
-        textColor={COLORS.TEXTCOLOR[mode]}
       />
-      <TextInput
+      <StyledTextInput
         label={t('NewRecipe.Difficulty')}
         value={recipe.difficulty}
         onChangeText={(text) => handleChangeText('difficulty', text)}
-        style={themedStyle.input}
         mode="outlined"
-        textColor={COLORS.TEXTCOLOR[mode]}
       />
-      <TextInput
+      <StyledTextInput
         label={t('NewRecipe.Description')}
         value={recipe.description}
         onChangeText={(text) => handleChangeText('description', text)}
-        style={themedStyle.multiLineInput}
         mode="outlined"
         multiline={true}
         numberOfLines={18}
-        textColor={COLORS.TEXTCOLOR[mode]}
-        verticalAlign="top"
       />
-    </View>
+    </Container>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    input: {
-      width: '100%',
-      marginBottom: 12,
-      color: COLORS.TEXTCOLOR[mode],
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
-    multiLineInput: {
-      width: '100%',
-      marginBottom: 12,
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-      minHeight: 64,
-      textAlignVertical: 'top',
-    },
-  });
+const Container = styled.View`
+  flex: 1;
+`;
+
+const StyledTextInput = styled(TextInput).attrs((props) => ({
+  textColor: props.theme.text,
+}))`
+  width: 100%;
+  margin-bottom: 12px;
+  background-color: ${(props) => props.theme.backgroundPrimary};
+  color: ${(props) => props.theme.text};
+`;
 
 export default WriteRecipeComponent;

@@ -1,10 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
-import { COLORS } from '../globals/styles';
+import styled from 'styled-components/native';
+import { TYPO } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 
 interface RecipePreviewComponentProps {
   recipe: Recipe;
@@ -16,53 +14,53 @@ const RecipePreviewComponent: React.FC<RecipePreviewComponentProps> = ({
   displayName,
 }) => {
   const { t } = useTranslation();
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-  const themedStyle = useMemo(() => styles(mode), [mode]);
-
   return (
-    <View>
-      <View style={themedStyle.infoContainer}>
-        {displayName && (
-          <>
-            <Text style={themedStyle.label}>{t('RecipeList.Recipe.Name')}:</Text>
-            <Text style={themedStyle.value}>{recipe.name}</Text>
-          </>
-        )}
-      </View>
-      <View style={themedStyle.infoContainer}>
-        <Text style={themedStyle.label}>{t('RecipeList.Recipe.Time')}:</Text>
-        <Text style={themedStyle.value}>{recipe.time}</Text>
-      </View>
-      <View style={themedStyle.infoContainer}>
-        <Text style={themedStyle.label}>{t('RecipeList.Recipe.Difficulty')}:</Text>
-        <Text style={themedStyle.value}>{recipe.difficulty}</Text>
-      </View>
-      <View>
-        <Text style={themedStyle.label}>{t('RecipeList.Recipe.Description')}</Text>
-        <Text style={themedStyle.value}>{recipe.description}</Text>
-      </View>
-    </View>
+    <Container>
+      {displayName && (
+        <InfoContainer>
+          <Label>{t('RecipeList.Recipe.Name')}:</Label>
+          <Value>{recipe.name}</Value>
+        </InfoContainer>
+      )}
+      <InfoContainer>
+        <Label>{t('RecipeList.Recipe.Time')}:</Label>
+        <Value>{recipe.time}</Value>
+      </InfoContainer>
+      <InfoContainer>
+        <Label>{t('RecipeList.Recipe.Difficulty')}:</Label>
+        <Value>{recipe.difficulty}</Value>
+      </InfoContainer>
+      <DescriptionContainer>
+        <Label>{t('RecipeList.Recipe.Description')}</Label>
+        <Value>{recipe.description}</Value>
+      </DescriptionContainer>
+    </Container>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    infoContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginBottom: 8,
-    },
-    label: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      color: COLORS.TEXTCOLOR[mode],
-    },
-    value: {
-      fontSize: 16,
-      color: COLORS.TEXTCOLOR[mode],
-    },
-  });
+const Container = styled.View`
+  margin-top: 12px;
+`;
+
+const InfoContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 8px;
+`;
+
+const DescriptionContainer = styled.View`
+  margin-top: 8px;
+`;
+
+const Label = styled.Text`
+  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
+  font-weight: bold;
+  color: ${(props) => props.theme.text};
+`;
+
+const Value = styled.Text`
+  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
+  color: ${(props) => props.theme.text};
+`;
 
 export default RecipePreviewComponent;

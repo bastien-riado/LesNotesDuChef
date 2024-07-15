@@ -1,10 +1,10 @@
-// components/ImageSelectionModalComponent.tsx
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modal';
-import { COLORS } from '../../../globals/styles';
+import styled from 'styled-components/native';
+
+import { FONTSIZE } from '../../../globals/styles/typography';
 import { Mode } from '../../../models/UserProfilStateModels';
 import {
   handleImageSelection,
@@ -44,66 +44,55 @@ const ImageSelectionModalComponent: React.FC<ImageSelectionModalProps> = ({
     );
   };
 
-  const themedStyle = useMemo(() => styles(mode), [mode]);
-
   return (
     <Modal
       isVisible={isVisible}
       onBackdropPress={onClose}
       useNativeDriver={true}
     >
-      <View style={themedStyle.modalContent}>
-        <Text style={themedStyle.modalTitle}>
-          {t('UserProfil.Settings.ImageModal.Title')}
-        </Text>
-        <TouchableOpacity
-          style={themedStyle.modalButton}
-          onPress={() => openCamera(handleImageSelectionCallback)}
-        >
-          <Text style={themedStyle.modalButtonText}>
+      <ModalContent>
+        <ModalTitle>{t('UserProfil.Settings.ImageModal.Title')}</ModalTitle>
+        <ModalButton onPress={() => openCamera(handleImageSelectionCallback)}>
+          <ModalButtonText>
             {t('UserProfil.Settings.ImageModal.TakeButton')}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={themedStyle.modalButton}
-          onPress={() => openGallery(handleImageSelectionCallback)}
-        >
-          <Text style={themedStyle.modalButtonText}>
+          </ModalButtonText>
+        </ModalButton>
+        <ModalButton onPress={() => openGallery(handleImageSelectionCallback)}>
+          <ModalButtonText>
             {t('UserProfil.Settings.ImageModal.ChooseButton')}
-          </Text>
-        </TouchableOpacity>
-        {isLoading && (
-          <Spinner
-            visible={isLoading}
-            textStyle={{ color: COLORS.TEXTCOLOR[mode] }}
-          />
-        )}
-      </View>
+          </ModalButtonText>
+        </ModalButton>
+        {isLoading && <CustomSpinner visible={isLoading} />}
+      </ModalContent>
     </Modal>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    modalContent: {
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-      padding: 20,
-      borderRadius: 10,
-    },
-    modalTitle: {
-      fontSize: 20,
-      marginBottom: 20,
-      textAlign: 'center',
-      color: COLORS.TEXTCOLOR[mode],
-    },
-    modalButton: {
-      padding: 15,
-    },
-    modalButtonText: {
-      fontSize: 18,
-      color: COLORS.TEXTCOLOR[mode],
-      textAlign: 'center',
-    },
-  });
+const CustomSpinner = styled(Spinner).attrs((props) => ({
+  textStyle: { color: props.theme.text },
+}))``;
+
+const ModalContent = styled.View`
+  background-color: ${(props) => props.theme.backgroundPrimary};
+  padding: 20px;
+  border-radius: 10px;
+`;
+
+const ModalTitle = styled.Text`
+  font-size: ${FONTSIZE.LARGE}px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: ${(props) => props.theme.text};
+`;
+
+const ModalButton = styled.TouchableOpacity`
+  padding: 15px;
+`;
+
+const ModalButtonText = styled.Text`
+  font-size: ${FONTSIZE.MEDIUM}px;
+  color: ${(props) => props.theme.text};
+  text-align: center;
+`;
 
 export default ImageSelectionModalComponent;

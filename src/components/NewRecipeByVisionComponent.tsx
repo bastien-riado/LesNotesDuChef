@@ -1,8 +1,6 @@
 import storage from '@react-native-firebase/storage';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
 import {
   ImageLibraryOptions,
   ImagePickerResponse,
@@ -12,10 +10,11 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button as PaperButton } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useDispatch, useSelector } from 'react-redux';
-import { COLORS, TYPO } from '../globals/styles';
+import { useDispatch } from 'react-redux';
+import styled from 'styled-components/native';
+import { RESPONSIVE } from '../globals/dimensions';
+import { TYPO } from '../globals/styles';
 import { Recipe } from '../models/RecipeModels';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { newRecipeByVisionPrompt } from '../services/PromptService';
 import { addRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
@@ -36,11 +35,7 @@ export const parseStringToJson = (input: string): object | Error => {
 const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
   navigation,
 }) => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
   const { t } = useTranslation();
-  const themedStyle = styles(mode);
   const dispatch = useDispatch<AppDispatch>();
 
   const [image, setImage] = useState<{ uri: string } | null>(null);
@@ -167,7 +162,7 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
   }
 
   return (
-    <ScrollView contentContainerStyle={themedStyle.scrollContainer}>
+    <ScrollContainer>
       {isLoading && (
         <Spinner
           visible={isLoading}
@@ -175,131 +170,120 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
         />
       )}
       {visionResponse && (
-        <View>
+        <ScrollContainerRes>
           <RecipePreviewComponent
             recipe={visionResponse}
             displayName={true}
-          ></RecipePreviewComponent>
-          <PaperButton
+          />
+          <StyledPaperButton
             icon="content-save"
             onPress={() => handleSave()}
             mode="elevated"
-            buttonColor={COLORS.BUTTONCOLOR[mode]}
-            textColor={COLORS.TEXTCOLOR[mode]}
-            style={themedStyle.button}
           >
             {t('NewRecipe.Vision.CreateButton')}
-          </PaperButton>
-        </View>
+          </StyledPaperButton>
+        </ScrollContainerRes>
       )}
       {image && !visionResponse && (
-        <View style={themedStyle.centerContainer}>
-          <Image
-            source={{ uri: image.uri }}
-            style={themedStyle.image}
-          />
-          <TouchableOpacity
-            onPress={() => setImage(null)}
-            style={themedStyle.cancelButton}
-          >
-            <MaterialCommunityIcons
+        <CenterContainer>
+          <StyledImage source={{ uri: image.uri }} />
+          <CancelButton onPress={() => setImage(null)}>
+            <CancelIcon
               name="close"
               size={TYPO.ICONSIZE.MEDIUM}
-              style={themedStyle.cancelButtoncontent}
             />
-          </TouchableOpacity>
-
-          <PaperButton
+          </CancelButton>
+          <StyledPaperButton
             icon="file-import"
             onPress={() => handleVisionRequest(image)}
             mode="elevated"
-            buttonColor={COLORS.BUTTONCOLOR[mode]}
-            textColor={COLORS.TEXTCOLOR[mode]}
-            style={themedStyle.button}
           >
             {t('NewRecipe.Vision.ImportButton')}
-          </PaperButton>
-        </View>
+          </StyledPaperButton>
+        </CenterContainer>
       )}
       {!image && (
-        <View style={themedStyle.centerContainer}>
-          <Text style={themedStyle.informationText}>
-            {t('NewRecipe.Vision.Information')}
-          </Text>
-          <PaperButton
+        <CenterContainer>
+          <InformationText>{t('NewRecipe.Vision.Information')}</InformationText>
+          <StyledPaperButton
             icon="folder-image"
             onPress={() => handleChoosePhoto()}
             mode="elevated"
-            buttonColor={COLORS.BUTTONCOLOR[mode]}
-            textColor={COLORS.TEXTCOLOR[mode]}
-            style={themedStyle.button}
           >
             {t('NewRecipe.Vision.ChooseButton')}
-          </PaperButton>
-          <PaperButton
+          </StyledPaperButton>
+          <StyledPaperButton
             icon="camera"
             onPress={() => handleTakePhoto()}
             mode="elevated"
-            buttonColor={COLORS.BUTTONCOLOR[mode]}
-            textColor={COLORS.TEXTCOLOR[mode]}
-            style={themedStyle.button}
           >
             {t('NewRecipe.Vision.TakeButton')}
-          </PaperButton>
-          <Text style={themedStyle.warningText}>{t('NewRecipe.Vision.Warning')}</Text>
-        </View>
+          </StyledPaperButton>
+          <WarningText>{t('NewRecipe.Vision.Warning')}</WarningText>
+        </CenterContainer>
       )}
-    </ScrollView>
+    </ScrollContainer>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    scrollContainer: {
-      flexGrow: 1,
-      padding: 12,
-    },
-    centerContainer: {
-      flex: 1,
-      justifyContent: 'center',
-    },
-    informationText: {
-      color: COLORS.TEXTCOLOR[mode],
-      textAlign: 'center',
-    },
-    image: {
-      alignSelf: 'center',
-      width: 300,
-      height: 400,
-    },
-    button: {
-      marginVertical: 10,
-      alignSelf: 'center',
-    },
-    cancelButton: {
-      position: 'absolute',
-      top: 65,
-      right: 15,
-      width: 40,
-      height: 40,
-      borderRadius: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: COLORS.CLOSEBUTTONCOLOR[mode],
-    },
-    cancelButtoncontent: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      color: COLORS.CLOSEICONCOLOR[mode],
-    },
-    warningText: {
-      color: COLORS.WARNING,
-      textAlign: 'center',
-    },
-    div: {
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
+const ScrollContainer = styled.ScrollView`
+  flex-grow: 1;
+  padding-left: 12px;
+  padding-right: 12px;
+`;
+
+const ScrollContainerRes = styled.ScrollView`
+  flex-grow: 1;
+`;
+
+const CenterContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  height: ${RESPONSIVE.HEIGHT(86)}px;
+`;
+
+const StyledImage = styled.Image`
+  align-self: center;
+  width: 300px;
+  height: 400px;
+`;
+
+const StyledPaperButton = styled(PaperButton).attrs((props) => ({
+  buttonColor: props.theme.button,
+  textColor: props.theme.text,
+}))`
+  margin-vertical: 10px;
+  align-self: center;
+`;
+
+const CancelButton = styled.TouchableOpacity`
+  position: absolute;
+  top: 75px;
+  right: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
+  background-color: ${(props) => props.theme.closeButton};
+`;
+
+const CancelIcon = styled(MaterialCommunityIcons)`
+  justify-content: center;
+  align-items: center;
+  color: ${(props) => props.theme.closeIcon};
+`;
+
+const InformationText = styled.Text`
+  color: ${(props) => props.theme.text};
+  text-align: center;
+  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
+`;
+
+const WarningText = styled.Text`
+  color: ${(props) => props.theme.warning};
+  text-align: center;
+  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
+`;
 
 export default NewRecipeByVisionComponent;
