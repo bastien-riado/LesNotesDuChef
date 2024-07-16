@@ -3,6 +3,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
+import Animated, {
+  Easing,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
@@ -36,22 +43,67 @@ const RecipesStackNavigator = () => {
   const uid = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.uid,
   );
-  const isInEdition = useSelector(
-    (state: { recipe: RecipeState }) => state.recipe.isInEdition,
-  );
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isImageOptionsVisible, setImageOptionsVisible] = useState(false);
-
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const translateX = useSharedValue(0);
+
   const handleSheetChanges = useCallback((index: number) => {
     if (index === -1) {
       setImageOptionsVisible(false);
     }
   }, []);
+
+  const handleChevronPress = useCallback(() => {
+    setImageOptionsVisible(false);
+  }, []);
+
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
+  const handleChangeImagePress = () => {
+    runOnJS(setImageOptionsVisible)(true);
+    translateX.value = withTiming(
+      -400,
+      {
+        duration: 200,
+        easing: Easing.out(Easing.exp),
+      },
+      () => {
+        translateX.value = 300;
+        translateX.value = withTiming(0, {
+          duration: 200,
+          easing: Easing.out(Easing.exp),
+        });
+      },
+    );
+  };
+
+  const handleChangeImageBackPress = () => {
+    runOnJS(setImageOptionsVisible)(false);
+    translateX.value = withTiming(
+      400,
+      {
+        duration: 200,
+        easing: Easing.out(Easing.exp),
+      },
+      () => {
+        translateX.value = -300;
+        translateX.value = withTiming(0, {
+          duration: 200,
+          easing: Easing.out(Easing.exp),
+        });
+      },
+    );
+  };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: translateX.value }],
+    };
+  });
 
   const dotMenuOptions = [
     {
@@ -66,11 +118,10 @@ const RecipesStackNavigator = () => {
     },
     {
       text: t('RecipeList.Recipe.OptionsMenu.ChangeImage'),
-      onPress: () => {
-        setImageOptionsVisible(true);
-      },
+      onPress: handleChangeImagePress,
     },
   ];
+
   const imageOptions = [
     {
       text: t('UserProfil.Settings.ImageModal.TakeButton'),
@@ -81,13 +132,36 @@ const RecipesStackNavigator = () => {
       onPress: () => openGallery(handleImageSelectionCallback),
     },
   ];
+
   const nbOptions = dotMenuOptions.length;
   const snapPoint = nbOptions * 12.5 + '%';
-  const imageSnapPoint = imageOptions.length * 12.5 + '%';
+  const imageSnapPoint = imageOptions.length * 12.5 + 2 + '%';
   const snapPoints = useMemo(
     () => ['3%', isImageOptionsVisible ? imageSnapPoint : snapPoint],
     [isImageOptionsVisible],
   );
+
+  const CustomHandle = ({ onPress }: any) => {
+    return (
+      <View
+        style={{
+          alignItems: 'center',
+          paddingTop: 10,
+        }}
+      >
+        <TouchableOpacity
+          onPress={onPress}
+          style={{ backgroundColor: 'lightgrey', borderRadius: 50 }}
+        >
+          <MaterialCommunityIcons
+            name="chevron-left"
+            size={30}
+            color={COLORS.ICONCOLOR.light}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   const handleImageSelectionCallback = (response: any) => {
     handleImageSelection(
@@ -128,25 +202,32 @@ const RecipesStackNavigator = () => {
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enableDynamicSizing
+          handleComponent={
+            isImageOptionsVisible
+              ? () => <CustomHandle onPress={handleChangeImageBackPress} />
+              : undefined
+          }
         >
           <CustomBottomSheetView>
-            {isImageOptionsVisible
-              ? imageOptions.map((option, index) => (
-                  <MenuItem
-                    key={index}
-                    onPress={option.onPress}
-                  >
-                    <MenuItemText>{option.text}</MenuItemText>
-                  </MenuItem>
-                ))
-              : dotMenuOptions.map((option, index) => (
-                  <MenuItem
-                    key={index}
-                    onPress={() => option.onPress({ navigation })}
-                  >
-                    <MenuItemText>{option.text}</MenuItemText>
-                  </MenuItem>
-                ))}
+            <SubMenuContainer style={animatedStyle}>
+              {isImageOptionsVisible
+                ? imageOptions.map((option, index) => (
+                    <MenuItem
+                      key={index}
+                      onPress={option.onPress}
+                    >
+                      <MenuItemText>{option.text}</MenuItemText>
+                    </MenuItem>
+                  ))
+                : dotMenuOptions.map((option, index) => (
+                    <MenuItem
+                      key={index}
+                      onPress={() => option.onPress({ navigation })}
+                    >
+                      <MenuItemText>{option.text}</MenuItemText>
+                    </MenuItem>
+                  ))}
+            </SubMenuContainer>
           </CustomBottomSheetView>
         </CustomBottomSheetModal>
       </View>
@@ -219,6 +300,9 @@ const CustomBottomSheetModal = styled(BottomSheetModal).attrs((props) => ({
   backgroundStyle: {
     backgroundColor: props.theme.backgroundPrimary,
   },
+  handleIndicatorStyle: {
+    backgroundColor: props.theme.text,
+  },
 }))``;
 
 const MenuItem = styled.TouchableOpacity.attrs({
@@ -240,6 +324,12 @@ const CustomBottomSheetView = styled(BottomSheetView)`
   flex: 1;
   align-items: center;
   padding: 20px;
+`;
+
+const SubMenuContainer = styled(Animated.View)`
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export default RecipesStackNavigator;
