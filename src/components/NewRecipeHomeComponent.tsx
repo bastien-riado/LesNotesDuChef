@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import LinearGradient from 'react-native-linear-gradient';
+import styled, { useTheme } from 'styled-components/native';
 import { FONTSIZE } from '../globals/styles/typography';
 
 interface NewRecipeHomeComponentProps {
@@ -14,15 +15,15 @@ const NewRecipeHomeComponent: React.FC<NewRecipeHomeComponentProps> = ({
 
   return (
     <Container>
-      <StyledButton onPress={() => navigation.navigate('NewRecipeByHand')}>
+      <GradientButton onPress={() => navigation.navigate('NewRecipeByHand')}>
         <ButtonText>{t('NewRecipe.Selection.ByHand')}</ButtonText>
-      </StyledButton>
-      <StyledButton onPress={() => navigation.navigate('NewRecipeGenerated')}>
+      </GradientButton>
+      <GradientButton onPress={() => navigation.navigate('NewRecipeGenerated')}>
         <ButtonText>{t('NewRecipe.Selection.Generated')}</ButtonText>
-      </StyledButton>
-      <StyledButton onPress={() => navigation.navigate('NewRecipeByVision')}>
+      </GradientButton>
+      <GradientButton onPress={() => navigation.navigate('NewRecipeByVision')}>
         <ButtonText>{t('NewRecipe.Selection.Vision')}</ButtonText>
-      </StyledButton>
+      </GradientButton>
     </Container>
   );
 };
@@ -34,16 +35,31 @@ const Container = styled.View`
   background-color: ${(props) => props.theme.backgroundPrimary};
 `;
 
+const GradientButton = ({ children, onPress }: any) => {
+  const theme = useTheme();
+  return (
+    <StyledButton onPress={onPress}>
+      <ButtonGradient colors={theme.linearGradient}>{children}</ButtonGradient>
+    </StyledButton>
+  );
+};
+
 const StyledButton = styled.TouchableOpacity`
-  height: 60px;
+  height: 150px;
   width: 80%;
   justify-content: center;
   align-items: center;
-  border-color: ${(props) => props.theme.text};
   border-radius: 10px;
   margin-vertical: 10px;
   elevation: 5;
-  background-color: ${(props) => props.theme.backgroundSecondary};
+`;
+
+const ButtonGradient = styled(LinearGradient)`
+  flex: 1;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
 `;
 
 const ButtonText = styled.Text`

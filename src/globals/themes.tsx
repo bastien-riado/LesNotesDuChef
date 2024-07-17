@@ -18,6 +18,7 @@ export const lightTheme = {
   backgroundDanger: '#ff0000',
   textDanger: '#ffffff',
   divider: '#dcdcdc',
+  linearGradient: ['#ADD8E6', '#FFFFFF'],
 };
 
 export const darkTheme = {
@@ -38,6 +39,7 @@ export const darkTheme = {
   backgroundDanger: '#ff0000',
   textDanger: '#ffffff',
   divider: '#444444',
+  linearGradient: ['#D8BFD8', '#4B0082'],
 };
 
 export const navigationLightTheme = {

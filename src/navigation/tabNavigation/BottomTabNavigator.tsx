@@ -31,6 +31,10 @@ const BottomTabNavigator = () => {
       .routes[navigation.getState().index]?.state?.routes?.slice(-1)[0]?.name;
     // Utiliser cette methode pour chacher le tebBar
     const isRecipeDetailsScreen = routeName === 'RecipeDetails';
+    const isInNewRecipeStack =
+      routeName === 'NewRecipeByHand' ||
+      routeName === 'NewRecipeGenerated' ||
+      routeName === 'NewRecipeByVision';
 
     return {
       tabBarIcon: ({ color, size }: any) => {
@@ -59,7 +63,10 @@ const BottomTabNavigator = () => {
       tabBarStyle: {
         backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
         display:
-          isInEdition || isInDeleteSelectionMode || isRecipeDetailsScreen
+          isInEdition ||
+          isInDeleteSelectionMode ||
+          isRecipeDetailsScreen ||
+          isInNewRecipeStack
             ? 'none'
             : ('flex' as 'none' | 'flex'),
       },
