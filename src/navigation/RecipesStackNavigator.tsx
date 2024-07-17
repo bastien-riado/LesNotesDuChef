@@ -118,6 +118,7 @@ const RecipesStackNavigator = () => {
     },
     {
       text: t('RecipeList.Recipe.OptionsMenu.ChangeImage'),
+      icon: 'chevron-right',
       onPress: handleChangeImagePress,
     },
   ];
@@ -224,7 +225,10 @@ const RecipesStackNavigator = () => {
                       key={index}
                       onPress={() => option.onPress({ navigation })}
                     >
-                      <MenuItemText>{option.text}</MenuItemText>
+                      <MenuItemContainer>
+                        <MenuItemText>{option.text}</MenuItemText>
+                        {option.icon && <MenuItemIcon name={option.icon} />}
+                      </MenuItemContainer>
                     </MenuItem>
                   ))}
             </SubMenuContainer>
@@ -312,6 +316,23 @@ const MenuItem = styled.TouchableOpacity.attrs({
   width: 100%;
   align-items: center;
   background-color: ${(props) => props.theme.backgroundSecondary};
+`;
+
+const MenuItemContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+`;
+
+const MenuItemIcon = styled(MaterialCommunityIcons).attrs((props) => ({
+  size: ICONSIZE.MEDIUM,
+  color: props.theme.text,
+}))`
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-${ICONSIZE.MEDIUM / 2}px);
 `;
 
 const MenuItemText = styled.Text`
