@@ -1,12 +1,13 @@
+import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import { Divider } from '@react-native-material/core';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, TouchableWithoutFeedback } from 'react-native';
 import { Button as PaperButton } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { TYPO } from '../globals/styles';
+import { FONTSIZE } from '../globals/styles/typography';
 import { signOut } from '../services/AuthService';
 import { removeRecipes } from '../store/recipes/actions';
 import { useAppDispatch } from '../store/store';
@@ -22,7 +23,7 @@ const SettingsComponent: React.FC = () => {
 
   const [mode, setMode] = useState(theme);
   const [language, setLanguage] = useState(langue);
-  const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   useEffect(() => {
     setMode(theme);
@@ -42,38 +43,60 @@ const SettingsComponent: React.FC = () => {
   const handleLanguageChange = (lng: any) => {
     i18n.changeLanguage(lng);
     dispatch(languageChange(lng));
-    setIsLanguageModalVisible(false);
+    bottomSheetModalRef.current?.close();
   };
 
-  const languageList = [
-    { label: t('UserProfil.Settings.Language.French'), value: 'fr' },
-    { label: t('UserProfil.Settings.Language.English'), value: 'en' },
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const languageOptions = [
+    {
+      text: 'Français',
+      onPress: () => handleLanguageChange('fr'),
+    },
+    {
+      text: 'English',
+      onPress: () => handleLanguageChange('en'),
+    },
+    {
+      text: 'Español',
+      onPress: () => handleLanguageChange('es'),
+    },
+    {
+      text: 'Deutsch',
+      onPress: () => handleLanguageChange('de'),
+    },
+    {
+      text: 'Italiano',
+      onPress: () => handleLanguageChange('it'),
+    },
   ];
 
+  const nbOptions = languageOptions.length;
+  const snapPoint = nbOptions * 10 + '%';
+  const snapPoints = useMemo(() => [snapPoint], [snapPoint]);
+
   const renderLanguageModal = () => (
-    <Modal
-      visible={isLanguageModalVisible}
-      onRequestClose={() => setIsLanguageModalVisible(false)}
-      transparent
+    <CustomBottomSheetModal
+      ref={bottomSheetModalRef}
+      index={0}
+      snapPoints={snapPoints}
+      enableDynamicSizing
     >
-      <TouchableWithoutFeedback onPress={() => setIsLanguageModalVisible(false)}>
-        <ModalContainer>
-          <TouchableWithoutFeedback>
-            <ModalContent>
-              {languageList.map((item) => (
-                <LanguageItem
-                  key={item.value}
-                  onPress={() => handleLanguageChange(item.value)}
-                  selected={language === item.value}
-                >
-                  <LanguageText>{item.label}</LanguageText>
-                </LanguageItem>
-              ))}
-            </ModalContent>
-          </TouchableWithoutFeedback>
-        </ModalContainer>
-      </TouchableWithoutFeedback>
-    </Modal>
+      <CustomBottomSheetView>
+        <SubMenuContainer>
+          {languageOptions.map((option, index) => (
+            <MenuItem
+              key={index}
+              onPress={option.onPress}
+            >
+              <MenuItemText>{option.text}</MenuItemText>
+            </MenuItem>
+          ))}
+        </SubMenuContainer>
+      </CustomBottomSheetView>
+    </CustomBottomSheetModal>
   );
 
   return (
@@ -87,7 +110,7 @@ const SettingsComponent: React.FC = () => {
         />
         <OptionText>{t('UserProfil.Settings.ChangeMode')}</OptionText>
       </OptionContainer>
-      <OptionContainer onPress={() => setIsLanguageModalVisible(true)}>
+      <OptionContainer onPress={handlePresentModalPress}>
         <Icon
           name="web"
           size={TYPO.ICONSIZE.MEDIUM}
@@ -103,6 +126,44 @@ const SettingsComponent: React.FC = () => {
   );
 };
 
+const CustomBottomSheetModal = styled(BottomSheetModal).attrs((props) => ({
+  containerStyle: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  backgroundStyle: {
+    backgroundColor: props.theme.backgroundPrimary,
+  },
+  handleIndicatorStyle: {
+    backgroundColor: props.theme.text,
+  },
+}))``;
+
+const MenuItem = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.6,
+})`
+  padding: 20px;
+  width: 100%;
+  align-items: center;
+  background-color: ${(props) => props.theme.backgroundSecondary};
+`;
+
+const MenuItemText = styled.Text`
+  font-size: ${FONTSIZE.MEDIUM}px;
+  color: ${(props) => props.theme.text};
+  font-weight: bold;
+`;
+
+const CustomBottomSheetView = styled(BottomSheetView)`
+  flex: 1;
+  align-items: center;
+  padding: 20px;
+`;
+
+const SubMenuContainer = styled.View`
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+`;
 const Container = styled.View`
   padding: 12px;
   background-color: ${(props) => props.theme.backgroundPrimary};
@@ -138,33 +199,6 @@ const OptionText = styled.Text`
   margin-left: 34px;
   font-weight: bold;
   font-size: ${TYPO.FONTSIZE.MEDIUM}px;
-`;
-
-const ModalContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
-`;
-
-const ModalContent = styled.View`
-  width: 80%;
-  background-color: ${(props) => props.theme.backgroundSecondary};
-  padding: 20px;
-  border-radius: 10px;
-`;
-
-const LanguageItem = styled.TouchableOpacity<{ selected: boolean }>`
-  padding-vertical: 10px;
-  padding-horizontal: 20px;
-  border-radius: 5px;
-  background-color: ${(props) =>
-    props.selected ? props.theme.activeLink : 'transparent'};
-`;
-
-const LanguageText = styled.Text`
-  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
-  color: ${(props) => props.theme.text};
 `;
 
 export default SettingsComponent;

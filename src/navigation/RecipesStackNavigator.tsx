@@ -55,10 +55,6 @@ const RecipesStackNavigator = () => {
     }
   }, []);
 
-  const handleChevronPress = useCallback(() => {
-    setImageOptionsVisible(false);
-  }, []);
-
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -138,7 +134,7 @@ const RecipesStackNavigator = () => {
   const snapPoint = nbOptions * 12.5 + '%';
   const imageSnapPoint = imageOptions.length * 12.5 + 2 + '%';
   const snapPoints = useMemo(
-    () => ['3%', isImageOptionsVisible ? imageSnapPoint : snapPoint],
+    () => [isImageOptionsVisible ? imageSnapPoint : snapPoint],
     [isImageOptionsVisible],
   );
 
@@ -199,7 +195,7 @@ const RecipesStackNavigator = () => {
         </TouchableOpacity>
         <CustomBottomSheetModal
           ref={bottomSheetModalRef}
-          index={1}
+          index={0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enableDynamicSizing
