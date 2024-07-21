@@ -8,6 +8,15 @@ const resources = {
   fr: {
     translation: require('./src/assets/locales/language-fr.json'),
   },
+  es: {
+    translation: require('./src/assets/locales/language-es.json'),
+  },
+  de: {
+    translation: require('./src/assets/locales/language-de.json'),
+  },
+  it: {
+    translation: require('./src/assets/locales/language-it.json'),
+  },
 };
 
 i18n.use(initReactI18next).init({

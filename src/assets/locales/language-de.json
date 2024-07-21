@@ -1,0 +1,111 @@
+{
+  "Auth": {
+    "SignIn": {
+      "Title": "Einloggen",
+      "Email": "E-Mail",
+      "Password": "Passwort",
+      "NoAccount": "Kein Konto?",
+      "Loading": "Einloggen...",
+      "EmptyFields": "Bitte alle Felder ausfüllen",
+      "UserNotFound": "Benutzer nicht gefunden",
+      "Error": "Ungültiges E-Mail-Format oder falsches Passwort"
+    },
+    "SignUp": {
+      "Title": "Konto erstellen",
+      "Email": "E-Mail",
+      "Password": "Passwort",
+      "RepeatPassword": "Passwort wiederholen",
+      "AlreadyHaveAccount": "Bereits ein Konto?",
+      "Loading": "Konto wird erstellt...",
+      "EmptyFields": "Bitte alle Felder ausfüllen",
+      "PasswordNotMatch": "Passwörter stimmen nicht überein"
+    }
+  },
+  "RecipeList": {
+    "Title": "Rezeptliste",
+    "Loading": "Rezepte werden geladen...",
+    "BlankState": "Nichts zu essen...",
+    "EmptyList": "Keine Rezepte gefunden",
+    "AddButton": "Rezept hinzufügen",
+    "DeleteSelectedButton": "Ausgewählte Rezepte löschen",
+    "DeleteModalText": "Sind Sie sicher, dass Sie die ausgewählten Rezepte löschen möchten?",
+    "CancelButton": "Abbrechen",
+    "DeleteButton": "Löschen",
+    "SearchPlaceholder": "Rezept suchen",
+    "Recipe": {
+      "Title": "Rezeptdetails",
+      "Name": "Name",
+      "Time": "Zeit",
+      "Difficulty": "Schwierigkeit",
+      "Description": "Beschreibung",
+      "Delete": "Rezept löschen",
+      "OptionsMenu": {
+        "Edit": "Rezept bearbeiten",
+        "ChangeImage": "Bild ändern"
+      }
+    },
+    "EditRecipe": {
+      "Title": "Rezept bearbeiten",
+      "Loading": "Änderungen werden gespeichert...",
+      "Save": "Änderungen speichern",
+      "Modal": {
+        "WarningText": "Änderungen verwerfen?",
+        "CancelButton": "Abbrechen",
+        "ConfirmButton": "Verwerfen"
+      }
+    }
+  },
+  "NewRecipe": {
+    "Title": "Neues Rezept",
+    "Name": "Name",
+    "Time": "Zeit",
+    "Difficulty": "Schwierigkeit",
+    "Description": "Beschreibung",
+    "Save": "Speichern",
+    "Selection": {
+      "ByHand": "Von Hand schreiben",
+      "Generated": "Rezept generieren",
+      "Vision": "Per Bild importieren"
+    },
+    "ByHand": {
+      "Loading": "Rezept wird hinzugefügt..."
+    },
+    "Vision": {
+      "ChooseButton": "Bild wählen",
+      "TakeButton": "Foto machen",
+      "ImportButton": "Rezept aus diesem Bild importieren",
+      "CancelButton": "Anderes Foto machen",
+      "CreateButton": "Rezept zu meinem Katalog hinzufügen",
+      "Information": "Sie können ein Rezept importieren, indem Sie ein Foto machen oder ein Bild aus Ihrer Galerie wählen",
+      "Warning": "Achtung, das Bild wird durch künstliche Intelligenz erkannt und das Ergebnis kann nicht genau mit Ihrem Bild übereinstimmen.",
+      "Loading": "Rezept wird importiert..."
+    },
+    "Generated": {
+      "Placeholder": "Worauf haben Sie Lust?",
+      "Button": "Rezept generieren",
+      "Loading": "Rezept wird generiert...",
+      "Save": "In meinem Katalog speichern"
+    },
+    "Error": {
+      "Title": "Fehler",
+      "EmptyFields": "Bitte alle Felder ausfüllen"
+    }
+  },
+  "UserProfil": {
+    "Settings": {
+      "Title": "Einstellungen",
+      "ChangeMode": "Modus wechseln",
+      "SignOut": "Abmelden",
+      "ImageModal": {
+        "Title": "Option wählen",
+        "ChooseButton": "Bild wählen",
+        "TakeButton": "Foto machen"
+      },
+      "Language": {
+        "Title": "Sprache wechseln",
+        "French": "Französisch",
+        "English": "Englisch"
+      }
+    }
+  }
+}

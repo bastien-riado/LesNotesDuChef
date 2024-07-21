@@ -1,0 +1,111 @@
+{
+  "Auth": {
+    "SignIn": {
+      "Title": "Iniciar sesión",
+      "Email": "Correo electrónico",
+      "Password": "Contraseña",
+      "NoAccount": "¿No tienes una cuenta?",
+      "Loading": "Conectando...",
+      "EmptyFields": "Por favor, rellena todos los campos",
+      "UserNotFound": "Usuario no encontrado",
+      "Error": "Formato de correo electrónico inválido o contraseña incorrecta"
+    },
+    "SignUp": {
+      "Title": "Crear una cuenta",
+      "Email": "Correo electrónico",
+      "Password": "Contraseña",
+      "RepeatPassword": "Repetir la contraseña",
+      "AlreadyHaveAccount": "¿Ya tienes una cuenta?",
+      "Loading": "Creando cuenta...",
+      "EmptyFields": "Por favor, rellena todos los campos",
+      "PasswordNotMatch": "Las contraseñas no coinciden"
+    }
+  },
+  "RecipeList": {
+    "Title": "Lista de recetas",
+    "Loading": "Cargando recetas...",
+    "BlankState": "No tienes nada para comer...",
+    "EmptyList": "No se encontraron recetas",
+    "AddButton": "Agregar una receta",
+    "DeleteSelectedButton": "Eliminar recetas seleccionadas",
+    "DeleteModalText": "¿Estás seguro de que deseas eliminar las recetas seleccionadas?",
+    "CancelButton": "Cancelar",
+    "DeleteButton": "Eliminar",
+    "SearchPlaceholder": "Buscar una receta",
+    "Recipe": {
+      "Title": "Detalles de la receta",
+      "Name": "Nombre",
+      "Time": "Tiempo",
+      "Difficulty": "Dificultad",
+      "Description": "Descripción",
+      "Delete": "Eliminar la receta",
+      "OptionsMenu": {
+        "Edit": "Editar la receta",
+        "ChangeImage": "Cambiar imagen"
+      }
+    },
+    "EditRecipe": {
+      "Title": "Editar la receta",
+      "Loading": "Guardando cambios...",
+      "Save": "Guardar cambios",
+      "Modal": {
+        "WarningText": "¿Abandonar los cambios?",
+        "CancelButton": "Cancelar",
+        "ConfirmButton": "Abandonar"
+      }
+    }
+  },
+  "NewRecipe": {
+    "Title": "Nueva receta",
+    "Name": "Nombre",
+    "Time": "Tiempo",
+    "Difficulty": "Dificultad",
+    "Description": "Descripción",
+    "Save": "Guardar",
+    "Selection": {
+      "ByHand": "Escribir a mano",
+      "Generated": "Generar una receta",
+      "Vision": "Importar por imagen"
+    },
+    "ByHand": {
+      "Loading": "Añadiendo la receta..."
+    },
+    "Vision": {
+      "ChooseButton": "Elegir una imagen",
+      "TakeButton": "Tomar una foto",
+      "ImportButton": "Importar la receta desde esta imagen",
+      "CancelButton": "Tomar otra foto",
+      "CreateButton": "Añadir la receta a mi catálogo",
+      "Information": "Puedes importar una receta tomando una foto o eligiendo una imagen de tu galería",
+      "Warning": "Atención, la imagen es reconocida por inteligencia artificial y el resultado puede no coincidir exactamente con tu imagen.",
+      "Loading": "Importando la receta..."
+    },
+    "Generated": {
+      "Placeholder": "¿Qué te apetece?",
+      "Button": "Generar la receta",
+      "Loading": "Generando la receta...",
+      "Save": "Guardar en mi catálogo"
+    },
+    "Error": {
+      "Title": "Error",
+      "EmptyFields": "Por favor, rellena todos los campos"
+    }
+  },
+  "UserProfil": {
+    "Settings": {
+      "Title": "Configuraciones",
+      "ChangeMode": "Cambiar de modo",
+      "SignOut": "Cerrar sesión",
+      "ImageModal": {
+        "Title": "Elegir una opción",
+        "ChooseButton": "Elegir una imagen",
+        "TakeButton": "Tomar una foto"
+      },
+      "Language": {
+        "Title": "Cambiar de idioma",
+        "French": "Francés",
+        "English": "Inglés"
+      }
+    }
+  }
+}

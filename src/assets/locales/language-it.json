@@ -1,0 +1,111 @@
+{
+  "Auth": {
+    "SignIn": {
+      "Title": "Accedi",
+      "Email": "Email",
+      "Password": "Password",
+      "NoAccount": "Non hai un account?",
+      "Loading": "Connessione...",
+      "EmptyFields": "Per favore, riempi tutti i campi",
+      "UserNotFound": "Utente non trovato",
+      "Error": "Formato email non valido o password errata"
+    },
+    "SignUp": {
+      "Title": "Crea un account",
+      "Email": "Email",
+      "Password": "Password",
+      "RepeatPassword": "Ripeti la password",
+      "AlreadyHaveAccount": "Hai già un account?",
+      "Loading": "Creazione dell'account...",
+      "EmptyFields": "Per favore, riempi tutti i campi",
+      "PasswordNotMatch": "Le password non corrispondono"
+    }
+  },
+  "RecipeList": {
+    "Title": "Elenco delle ricette",
+    "Loading": "Caricamento delle ricette...",
+    "BlankState": "Non hai nulla da mangiare...",
+    "EmptyList": "Nessuna ricetta trovata",
+    "AddButton": "Aggiungi una ricetta",
+    "DeleteSelectedButton": "Elimina le ricette selezionate",
+    "DeleteModalText": "Sei sicuro di voler eliminare le ricette selezionate?",
+    "CancelButton": "Annulla",
+    "DeleteButton": "Elimina",
+    "SearchPlaceholder": "Cerca una ricetta",
+    "Recipe": {
+      "Title": "Dettagli della ricetta",
+      "Name": "Nome",
+      "Time": "Tempo",
+      "Difficulty": "Difficoltà",
+      "Description": "Descrizione",
+      "Delete": "Elimina la ricetta",
+      "OptionsMenu": {
+        "Edit": "Modifica la ricetta",
+        "ChangeImage": "Cambia immagine"
+      }
+    },
+    "EditRecipe": {
+      "Title": "Modifica la ricetta",
+      "Loading": "Salvataggio delle modifiche...",
+      "Save": "Salva modifiche",
+      "Modal": {
+        "WarningText": "Abbandonare le modifiche?",
+        "CancelButton": "Annulla",
+        "ConfirmButton": "Abbandona"
+      }
+    }
+  },
+  "NewRecipe": {
+    "Title": "Nuova ricetta",
+    "Name": "Nome",
+    "Time": "Tempo",
+    "Difficulty": "Difficoltà",
+    "Description": "Descrizione",
+    "Save": "Salva",
+    "Selection": {
+      "ByHand": "Scrivi a mano",
+      "Generated": "Genera una ricetta",
+      "Vision": "Importa tramite immagine"
+    },
+    "ByHand": {
+      "Loading": "Aggiunta della ricetta..."
+    },
+    "Vision": {
+      "ChooseButton": "Scegli un'immagine",
+      "TakeButton": "Scatta una foto",
+      "ImportButton": "Importa la ricetta da questa immagine",
+      "CancelButton": "Scatta un'altra foto",
+      "CreateButton": "Aggiungi la ricetta al mio catalogo",
+      "Information": "Puoi importare una ricetta scattando una foto o scegliendo un'immagine dalla tua galleria",
+      "Warning": "Attenzione, l'immagine è riconosciuta dall'intelligenza artificiale e il risultato potrebbe non corrispondere esattamente alla tua immagine.",
+      "Loading": "Importazione della ricetta..."
+    },
+    "Generated": {
+      "Placeholder": "Di cosa hai voglia?",
+      "Button": "Genera la ricetta",
+      "Loading": "Generazione della ricetta...",
+      "Save": "Salva nel mio catalogo"
+    },
+    "Error": {
+      "Title": "Errore",
+      "EmptyFields": "Per favore, riempi tutti i campi"
+    }
+  },
+  "UserProfil": {
+    "Settings": {
+      "Title": "Impostazioni",
+      "ChangeMode": "Cambia modalità",
+      "SignOut": "Disconnetti",
+      "ImageModal": {
+        "Title": "Scegli un'opzione",
+        "ChooseButton": "Scegli un'immagine",
+        "TakeButton": "Scatta una foto"
+      },
+      "Language": {
+        "Title": "Cambia lingua",
+        "French": "Francese",
+        "English": "Inglese"
+      }
+    }
+  }
+}
