@@ -13,7 +13,7 @@ import Animated, {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import ConfirmModalComponent from '../components/custom/modal/ConfirmModalComponent';
+import ConfirmModalComponent from '../components/custom/modal/ConfirmModalComponent/ConfirmModalComponent';
 import { COLORS } from '../globals/styles';
 import { FONTSIZE, ICONSIZE } from '../globals/styles/typography';
 import { RecipeState } from '../models/RecipeStateModels';

@@ -14,7 +14,7 @@ import { removeRecipesSelectedThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import RecipeComponent from './RecipeComponent';
 import BlankStateComponent from './custom/BlankStateComponent';
-import ConfirmModalComponent from './custom/modal/ConfirmModalComponent';
+import ConfirmModalComponent from './custom/modal/ConfirmModalComponent/ConfirmModalComponent';
 
 export interface RecipesComponentProps {
   navigation: any;

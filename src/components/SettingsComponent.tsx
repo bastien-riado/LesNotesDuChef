@@ -54,22 +54,27 @@ const SettingsComponent: React.FC = () => {
     {
       text: 'Français',
       onPress: () => handleLanguageChange('fr'),
+      value: 'fr',
     },
     {
       text: 'English',
       onPress: () => handleLanguageChange('en'),
+      value: 'en',
     },
     {
       text: 'Español',
       onPress: () => handleLanguageChange('es'),
+      value: 'es',
     },
     {
       text: 'Deutsch',
       onPress: () => handleLanguageChange('de'),
+      value: 'de',
     },
     {
       text: 'Italiano',
       onPress: () => handleLanguageChange('it'),
+      value: 'it',
     },
   ];
 
@@ -90,6 +95,7 @@ const SettingsComponent: React.FC = () => {
             <MenuItem
               key={index}
               onPress={option.onPress}
+              selected={language === option.value}
             >
               <MenuItemText>{option.text}</MenuItemText>
             </MenuItem>
@@ -140,11 +146,12 @@ const CustomBottomSheetModal = styled(BottomSheetModal).attrs((props) => ({
 
 const MenuItem = styled.TouchableOpacity.attrs({
   activeOpacity: 0.6,
-})`
+})<{ selected: boolean }>`
   padding: 20px;
   width: 100%;
   align-items: center;
-  background-color: ${(props) => props.theme.backgroundSecondary};
+  background-color: ${(props) =>
+    props.selected ? props.theme.activeLink : props.theme.backgroundSecondary};
 `;
 
 const MenuItemText = styled.Text`
