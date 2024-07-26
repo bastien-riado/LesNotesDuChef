@@ -15,7 +15,7 @@ import { UserProfilState } from '../models/UserProfilStateModels';
 import { removeRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import RecipePreviewComponent from './RecipePreviewComponent';
-import ConfirmModalComponent from './custom/modal/ConfirmModalComponent';
+import ConfirmModalComponent from './custom/modal/ConfirmModalComponent/ConfirmModalComponent';
 
 const RecipeDetailsComponent: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

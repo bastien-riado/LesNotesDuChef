@@ -14,7 +14,7 @@ import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 import { updateRecipeThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 import WriteRecipeComponent from './custom/WriteRecipeComponent';
-import ConfirmModalComponent from './custom/modal/ConfirmModalComponent';
+import ConfirmModalComponent from './custom/modal/ConfirmModalComponent/ConfirmModalComponent';
 
 const EditRecipeComponent: React.FC = () => {
   const mode = useSelector(
