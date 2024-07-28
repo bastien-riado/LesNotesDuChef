@@ -3,6 +3,12 @@ import { Recipe } from '../models/RecipeModels';
 import { dbRef } from '../services/Auth/config/FirebaseConfig';
 
 export async function postNewRecipe(recipe: Recipe): Promise<string | null> {
+  const user = auth().currentUser;
+  if (!user) {
+    console.error('User is not authenticated.');
+    return null;
+  }
+
   const recipesRef = dbRef.ref('recipes');
   try {
     const newRecipeRef = recipesRef.push();
@@ -15,7 +21,7 @@ export async function postNewRecipe(recipe: Recipe): Promise<string | null> {
     await newRecipeRef.update({
       ...recipe,
       id: recipeId,
-      ownerId: auth().currentUser!.uid,
+      ownerId: user.uid,
     });
     return recipeId;
   } catch (error) {
@@ -26,19 +32,33 @@ export async function postNewRecipe(recipe: Recipe): Promise<string | null> {
 
 export async function deleteRecipe(recipe: Recipe): Promise<void> {
   if (recipe.id) {
-    dbRef.ref('recipes').child(recipe.id).remove();
+    try {
+      await dbRef.ref('recipes').child(recipe.id).remove();
+    } catch (error) {
+      console.error('Error deleting recipe:', error);
+      throw error;
+    }
+  } else {
+    console.error('Recipe ID is not provided.');
   }
 }
 
 export async function updateRecipe(recipe: Recipe): Promise<void> {
   if (recipe.id) {
-    dbRef.ref('recipes').child(recipe.id).update({
-      name: recipe.name,
-      description: recipe.description,
-      time: recipe.time,
-      difficulty: recipe.difficulty,
-      image: recipe.image,
-    });
+    try {
+      await dbRef.ref('recipes').child(recipe.id).update({
+        name: recipe.name,
+        description: recipe.description,
+        time: recipe.time,
+        difficulty: recipe.difficulty,
+        image: recipe.image,
+      });
+    } catch (error) {
+      console.error('Error updating recipe:', error);
+      throw error;
+    }
+  } else {
+    console.error('Recipe ID is not provided.');
   }
 }
 
@@ -61,26 +81,29 @@ export async function updateRecipeImage(
 }
 
 export async function deleteRecipes(recipes: Recipe[]): Promise<void> {
-  recipes.forEach((recipe) => {
-    deleteRecipe(recipe);
-  });
+  try {
+    await Promise.all(recipes.map((recipe) => deleteRecipe(recipe)));
+  } catch (error) {
+    console.error('Error deleting multiple recipes:', error);
+    throw error;
+  }
 }
 
 export async function getRecipes(): Promise<Recipe[] | null> {
+  const user = auth().currentUser;
+  if (!user) {
+    console.error('User is not authenticated.');
+    return null;
+  }
+  console.log('Authenticated user ID:', user.uid);
   try {
-    const userId = auth().currentUser?.uid;
-    if (!userId) {
-      return null;
-    }
-
-    const data = await dbRef
+    const snapshot = await dbRef
       .ref('recipes')
       .orderByChild('ownerId')
-      .equalTo(userId)
-      .once('value')
-      .then((t) => t.val())
-      .catch(console.error);
+      .equalTo(user.uid)
+      .once('value');
 
+    const data = snapshot.val();
     if (!data) {
       return null;
     }

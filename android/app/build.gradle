@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'com.facebook.react'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.appdistribution'
 }
 
 
@@ -103,6 +104,18 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            firebaseAppDistribution {
+              artifactType="APK"
+              releaseNotesFile="${project.rootDir}/releasenotes.txt"
+              
+              // Read testers from testers.txt file
+                def testersFile = file("${project.rootDir}/testers.txt")
+                if (testersFile.exists()) {
+                    testers = testersFile.text.trim().replaceAll("\\s+", ",")
+                } else {
+                    println "testers.txt file not found!"
+                }
+          }
         }
     }
 }
