@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import SettingsComponent from '../components/SettingsComponent';
+import SettingsComponent from '../components/SettingsComponent/SettingsComponent';
 
 import { SettingsScreenProps } from '../navigation/NavigationTypes';
 

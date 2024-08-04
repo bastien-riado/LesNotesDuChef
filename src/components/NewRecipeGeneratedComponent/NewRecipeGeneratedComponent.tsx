@@ -1,17 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Spinner from 'react-native-loading-spinner-overlay';
-import { Button as PaperButton, TextInput } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components/native';
-import { RESPONSIVE } from '../globals/dimensions';
-import { Recipe } from '../models/RecipeModels';
-import { NewRecipeGeneratedScreenNavigationProp } from '../navigation/NavigationTypes';
-import { newRecipeGeneratedPrompt } from '../services/PromptService';
-import { addRecipeThunk } from '../store/recipes/thunks';
-import { AppDispatch } from '../store/store';
-import RecipePreviewComponent from './RecipePreviewComponent';
+import { Recipe } from '../../models/RecipeModels';
+import { NewRecipeGeneratedScreenNavigationProp } from '../../navigation/NavigationTypes';
+import { newRecipeGeneratedPrompt } from '../../services/PromptService';
+import { addRecipeThunk } from '../../store/recipes/thunks';
+import { AppDispatch } from '../../store/store';
+import RecipePreviewComponent from '../RecipePreviewComponent/RecipePreviewComponent';
+import {
+  BottomContainer,
+  InputContainer,
+  Loader,
+  OutputContainer,
+  StyledPaperButton,
+  StyledTextInput,
+} from './styles';
 
 const NewRecipeGeneratedComponent: React.FC = () => {
   const { t } = useTranslation();
@@ -86,15 +90,15 @@ const NewRecipeGeneratedComponent: React.FC = () => {
   }
 
   return (
-    <ScrollContainer>
+    <>
       {isLoading && (
-        <Spinner
+        <Loader
           visible={isLoading}
           textContent={t('NewRecipe.Generated.Loading')}
         />
       )}
       {!gptOutput && (
-        <CenterContainer>
+        <InputContainer>
           <StyledTextInput
             onChangeText={(text) => setGptInput(text)}
             label={t('NewRecipe.Generated.Placeholder')}
@@ -109,10 +113,10 @@ const NewRecipeGeneratedComponent: React.FC = () => {
           >
             {t('NewRecipe.Generated.Button')}
           </StyledPaperButton>
-        </CenterContainer>
+        </InputContainer>
       )}
       {gptOutput && (
-        <>
+        <OutputContainer>
           <RecipePreviewComponent
             recipe={gptOutput}
             displayName={true}
@@ -126,43 +130,10 @@ const NewRecipeGeneratedComponent: React.FC = () => {
               {t('NewRecipe.Generated.Save')}
             </StyledPaperButton>
           </BottomContainer>
-        </>
+        </OutputContainer>
       )}
-    </ScrollContainer>
+    </>
   );
 };
-
-const ScrollContainer = styled.ScrollView`
-  flex-grow: 1;
-  padding-left: 12px;
-  padding-right: 12px;
-`;
-
-const CenterContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  height: ${RESPONSIVE.HEIGHT(86)}px;
-`;
-
-const BottomContainer = styled.View`
-  margin-top: 16px;
-  margin-bottom: 16px;
-  align-items: center;
-`;
-
-const StyledTextInput = styled(TextInput).attrs((props) => ({
-  textColor: props.theme.text,
-}))`
-  margin: 12px;
-  background-color: ${(props) => props.theme.backgroundPrimary};
-`;
-
-const StyledPaperButton = styled(PaperButton).attrs((props) => ({
-  buttonColor: props.theme.button,
-  textColor: props.theme.text,
-}))`
-  width: 80%;
-  align-self: center;
-`;
 
 export default NewRecipeGeneratedComponent;

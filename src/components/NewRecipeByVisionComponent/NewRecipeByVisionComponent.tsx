@@ -7,18 +7,26 @@ import {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import Spinner from 'react-native-loading-spinner-overlay';
-import { Button as PaperButton } from 'react-native-paper';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components/native';
-import { RESPONSIVE } from '../globals/dimensions';
-import { TYPO } from '../globals/styles';
-import { Recipe } from '../models/RecipeModels';
-import { newRecipeByVisionPrompt } from '../services/PromptService';
-import { addRecipeThunk } from '../store/recipes/thunks';
-import { AppDispatch } from '../store/store';
-import RecipePreviewComponent from './RecipePreviewComponent';
+import { TYPO } from '../../globals/styles';
+import { Recipe } from '../../models/RecipeModels';
+import { newRecipeByVisionPrompt } from '../../services/PromptService';
+import { addRecipeThunk } from '../../store/recipes/thunks';
+import { AppDispatch } from '../../store/store';
+import RecipePreviewComponent from '../RecipePreviewComponent/RecipePreviewComponent';
+import {
+  CancelButton,
+  CancelIcon,
+  HomeContainer,
+  ImageContainer,
+  InformationText,
+  Loader,
+  ScrollContainerRes,
+  StyledImage,
+  StyledImageContainer,
+  StyledPaperButton,
+  WarningText,
+} from './styles';
 
 interface NewRecipeByVisionComponentProps {
   navigation: any;
@@ -162,48 +170,15 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
   }
 
   return (
-    <ScrollContainer>
+    <>
       {isLoading && (
-        <Spinner
+        <Loader
           visible={isLoading}
           textContent={t('NewRecipe.Vision.Loading')}
         />
       )}
-      {visionResponse && (
-        <ScrollContainerRes>
-          <RecipePreviewComponent
-            recipe={visionResponse}
-            displayName={true}
-          />
-          <StyledPaperButton
-            icon="content-save"
-            onPress={() => handleSave()}
-            mode="elevated"
-          >
-            {t('NewRecipe.Vision.CreateButton')}
-          </StyledPaperButton>
-        </ScrollContainerRes>
-      )}
-      {image && !visionResponse && (
-        <CenterContainer>
-          <StyledImage source={{ uri: image.uri }} />
-          <CancelButton onPress={() => setImage(null)}>
-            <CancelIcon
-              name="close"
-              size={TYPO.ICONSIZE.MEDIUM}
-            />
-          </CancelButton>
-          <StyledPaperButton
-            icon="file-import"
-            onPress={() => handleVisionRequest(image)}
-            mode="elevated"
-          >
-            {t('NewRecipe.Vision.ImportButton')}
-          </StyledPaperButton>
-        </CenterContainer>
-      )}
       {!image && (
-        <CenterContainer>
+        <HomeContainer>
           <InformationText>{t('NewRecipe.Vision.Information')}</InformationText>
           <StyledPaperButton
             icon="folder-image"
@@ -220,70 +195,45 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
             {t('NewRecipe.Vision.TakeButton')}
           </StyledPaperButton>
           <WarningText>{t('NewRecipe.Vision.Warning')}</WarningText>
-        </CenterContainer>
+        </HomeContainer>
       )}
-    </ScrollContainer>
+      {image && !visionResponse && (
+        <ImageContainer>
+          <StyledImageContainer>
+            <StyledImage source={{ uri: image.uri }} />
+            <CancelButton onPress={() => setImage(null)}>
+              <CancelIcon
+                name="close"
+                size={TYPO.ICONSIZE.MEDIUM}
+              />
+            </CancelButton>
+          </StyledImageContainer>
+          <StyledPaperButton
+            icon="file-import"
+            onPress={() => handleVisionRequest(image)}
+            mode="elevated"
+          >
+            {t('NewRecipe.Vision.ImportButton')}
+          </StyledPaperButton>
+        </ImageContainer>
+      )}
+      {visionResponse && (
+        <ScrollContainerRes>
+          <RecipePreviewComponent
+            recipe={visionResponse}
+            displayName={true}
+          />
+          <StyledPaperButton
+            icon="content-save"
+            onPress={() => handleSave()}
+            mode="elevated"
+          >
+            {t('NewRecipe.Vision.CreateButton')}
+          </StyledPaperButton>
+        </ScrollContainerRes>
+      )}
+    </>
   );
 };
-
-const ScrollContainer = styled.ScrollView`
-  flex-grow: 1;
-  padding-left: 12px;
-  padding-right: 12px;
-`;
-
-const ScrollContainerRes = styled.ScrollView`
-  flex-grow: 1;
-`;
-
-const CenterContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  height: ${RESPONSIVE.HEIGHT(86)}px;
-`;
-
-const StyledImage = styled.Image`
-  align-self: center;
-  width: 300px;
-  height: 400px;
-`;
-
-const StyledPaperButton = styled(PaperButton).attrs((props) => ({
-  buttonColor: props.theme.button,
-  textColor: props.theme.text,
-}))`
-  margin-vertical: 10px;
-  align-self: center;
-`;
-
-const CancelButton = styled.TouchableOpacity`
-  position: absolute;
-  top: 75px;
-  right: 15px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
-  justify-content: center;
-  align-items: center;
-  background-color: ${(props) => props.theme.closeButton};
-`;
-
-const CancelIcon = styled(MaterialCommunityIcons)`
-  justify-content: center;
-  align-items: center;
-  color: ${(props) => props.theme.closeIcon};
-`;
-
-const InformationText = styled.Text`
-  color: ${(props) => props.theme.text};
-  text-align: center;
-  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
-`;
-
-const WarningText = styled.Text`
-  color: ${(props) => props.theme.warning};
-  text-align: center;
-  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
-`;
 
 export default NewRecipeByVisionComponent;

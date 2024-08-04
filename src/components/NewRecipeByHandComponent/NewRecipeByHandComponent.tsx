@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView } from 'react-native-gesture-handler';
-import Spinner from 'react-native-loading-spinner-overlay';
-import { Button as PaperButton } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components/native';
-import { Recipe } from '../models/RecipeModels';
-import { addRecipeThunk } from '../store/recipes/thunks';
-import { AppDispatch } from '../store/store';
-import WriteRecipeComponent from './custom/WriteRecipeComponent';
+import { Recipe } from '../../models/RecipeModels';
+import { addRecipeThunk } from '../../store/recipes/thunks';
+import { AppDispatch } from '../../store/store';
+import WriteRecipeComponent from '../custom/WriteRecipeComponent/WriteRecipeComponent';
+import { Loader, ScrollViewContainer, StyledButton } from './styles';
 
 interface NewRecipeComponentProps {
   navigation: any;
@@ -43,9 +40,9 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
   };
 
   return (
-    <ScrollView>
+    <ScrollViewContainer>
       {isLoading && (
-        <CustomSpinner
+        <Loader
           visible={isLoading}
           textContent={t('NewRecipe.ByHand.Loading')}
         />
@@ -57,28 +54,12 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
       <StyledButton
         icon="content-save"
         onPress={() => handleSaveButton()}
-        mode="contained"
+        mode="elevated"
       >
         {t('NewRecipe.Save')}
       </StyledButton>
-    </ScrollView>
+    </ScrollViewContainer>
   );
 };
-
-const StyledButton = styled(PaperButton).attrs((props) => ({
-  buttonColor: props.theme.button,
-  textColor: props.theme.text,
-}))`
-  width: 80%;
-  align-self: center;
-  margin-bottom: 4px;
-  button-color: ${(props) => props.theme.button};
-  text-color: ${(props) => props.theme.text};
-`;
-
-const CustomSpinner = styled(Spinner).attrs((props) => ({
-  textStyle: { color: props.theme.text },
-  color: props.theme.text,
-}))``;
 
 export default NewRecipeByHandComponent;

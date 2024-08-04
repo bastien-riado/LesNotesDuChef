@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
-import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Recipe } from '../models/RecipeModels';
-import { RecipesState } from '../models/RecipesStateModels';
-import { AppDispatch } from '../store/store';
-import RecipeCardComponent from './custom/RecipeCardComponent';
+import { Recipe } from '../../models/RecipeModels';
+import { RecipesState } from '../../models/RecipesStateModels';
+import { AppDispatch } from '../../store/store';
+import RecipeCardComponent from '../custom/RecipeCardComponent/RecipeCardComponent';
 
 interface RecipeComponentProps {
   recipe: Recipe;
@@ -14,7 +13,6 @@ interface RecipeComponentProps {
 
 const RecipeComponent: React.FC<RecipeComponentProps> = ({ recipe, navigation }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { t } = useTranslation();
   const [checked, setChecked] = useState(false);
   const isInDeleteSelectionMode = useSelector(
     (state: { recipes: RecipesState }) => state.recipes.isInDeleteSelectionMode,

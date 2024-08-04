@@ -1,8 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import LinearGradient from 'react-native-linear-gradient';
-import styled, { useTheme } from 'styled-components/native';
-import { FONTSIZE } from '../globals/styles/typography';
+import { useTheme } from 'styled-components/native';
+import { ButtonGradient, ButtonText, Container, StyledButton } from './styles';
 
 interface NewRecipeHomeComponentProps {
   navigation: any;
@@ -28,13 +27,6 @@ const NewRecipeHomeComponent: React.FC<NewRecipeHomeComponentProps> = ({
   );
 };
 
-const Container = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: ${(props) => props.theme.backgroundPrimary};
-`;
-
 const GradientButton = ({ children, onPress }: any) => {
   const theme = useTheme();
   return (
@@ -43,28 +35,5 @@ const GradientButton = ({ children, onPress }: any) => {
     </StyledButton>
   );
 };
-
-const StyledButton = styled.TouchableOpacity`
-  height: 150px;
-  width: 80%;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  margin-vertical: 10px;
-  elevation: 5;
-`;
-
-const ButtonGradient = styled(LinearGradient)`
-  flex: 1;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-`;
-
-const ButtonText = styled.Text`
-  font-size: ${FONTSIZE.LARGE}px;
-  color: ${(props) => props.theme.text};
-`;
 
 export default NewRecipeHomeComponent;

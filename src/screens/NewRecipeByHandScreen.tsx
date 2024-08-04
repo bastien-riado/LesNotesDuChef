@@ -1,33 +1,20 @@
-import { StyleSheet, View } from 'react-native';
-
-import { useSelector } from 'react-redux';
-
 import React = require('react');
 
-import NewRecipeByHandComponent from '../components/NewRecipeByHandComponent';
-import { COLORS } from '../globals/styles/index';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import styled from 'styled-components/native';
+import NewRecipeByHandComponent from '../components/NewRecipeByHandComponent/NewRecipeByHandComponent';
 import { NewRecipeByHandScreenProps } from '../navigation/NavigationTypes';
 
 const NewRecipeByHandScreen: React.FC<NewRecipeByHandScreenProps> = ({ navigation }) => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-  const themedStyle = styles(mode);
   return (
-    <View style={themedStyle.container}>
+    <Container>
       <NewRecipeByHandComponent navigation={navigation} />
-    </View>
+    </Container>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 12,
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
-  });
+const Container = styled.View`
+  flex: 1;
+  background-color: ${(props) => props.theme.backgroundPrimary};
+`;
 
 export default NewRecipeByHandScreen;

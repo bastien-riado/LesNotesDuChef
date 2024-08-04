@@ -1,30 +1,20 @@
-import React, { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 
-import { useSelector } from 'react-redux';
-import RecipeDetailsComponent from '../components/RecipeDetailsComponent';
-import { COLORS } from '../globals/styles';
-import { Mode, UserProfilState } from '../models/UserProfilStateModels';
+import styled from 'styled-components';
+import RecipeDetailsComponent from '../components/RecipeDetailsComponent/RecipeDetailsComponent';
 
 const RecipeDetailsScreen: React.FC = () => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-  const themedStyle = useMemo(() => styles(mode), [mode]);
-
   return (
-    <View style={themedStyle.container}>
+    <ViewContainer>
       <RecipeDetailsComponent />
-    </View>
+    </ViewContainer>
   );
 };
 
-const styles = (mode: Mode) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
-    },
-  });
+const ViewContainer = styled(View)`
+  flex: 1;
+  background-color: ${(props) => props.theme.backgroundPrimary};
+`;
 
 export default RecipeDetailsScreen;
