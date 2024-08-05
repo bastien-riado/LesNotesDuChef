@@ -95,7 +95,6 @@ export async function getRecipes(): Promise<Recipe[] | null> {
     console.error('User is not authenticated.');
     return null;
   }
-  console.log('Authenticated user ID:', user.uid);
   try {
     const snapshot = await dbRef
       .ref('recipes')

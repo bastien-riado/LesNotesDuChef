@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { useSelector } from 'react-redux';
-import EditRecipeComponent from '../components/EditRecipeComponent';
+import EditRecipeComponent from '../components/EditRecipeComponent/EditRecipeComponent';
 import { COLORS } from '../globals/styles';
 import { Mode, UserProfilState } from '../models/UserProfilStateModels';
 

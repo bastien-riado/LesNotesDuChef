@@ -1,7 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useContext } from 'react';
-import LoginScreen from '../../screens/authScreens/LoginScreen';
-import SignupScreen from '../../screens/authScreens/SignupScreen';
+
+import LoginScreen from '../../screens/authScreens/LoginScreen/LoginScreen';
+import SignupScreen from '../../screens/authScreens/SignupScreen/SignupScreen';
 import { Authorization } from '../../services/providers/AuthProvider';
 import BottomTabNavigator from '../tabNavigation/BottomTabNavigator';
 

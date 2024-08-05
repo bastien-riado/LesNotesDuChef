@@ -1,18 +1,29 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components/native';
 
-import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
-import { FONTSIZE } from '../globals/styles/typography';
-import { UserProfilState } from '../models/UserProfilStateModels';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { Dimensions } from 'react-native';
+import { vs } from 'react-native-size-matters';
+import { UserProfilState } from '../../models/UserProfilStateModels';
 import {
   handleImageSelection,
   openCamera,
   openGallery,
-} from '../services/ImageSelectionService';
-import { updateUserProfileImageInDatabase } from '../services/UserService';
-import { setUserProfilImage } from '../store/userProfil/actions';
+} from '../../services/ImageSelectionService';
+import { updateUserProfileImageInDatabase } from '../../services/UserService';
+import { setUserProfilImage } from '../../store/userProfil/actions';
+import {
+  Container,
+  CustomBottomSheetModal,
+  CustomBottomSheetView,
+  EmailText,
+  MenuItem,
+  MenuItemText,
+  ProfileImage,
+  ProfileTouchable,
+  SubMenuContainer,
+} from './styles';
 
 const UserProfilComponent: React.FC = () => {
   const { email, uid, profilImage } = useSelector(
@@ -54,9 +65,14 @@ const UserProfilComponent: React.FC = () => {
     },
   ];
 
-  const nbOptions = imageOptions.length;
-  const snapPoint = nbOptions * 12.5 + '%';
-  const snapPoints = useMemo(() => [snapPoint], [snapPoint]);
+  const windowHeight = Dimensions.get('window').height;
+  const modalHeight = vs(imageOptions.length * 50);
+  const maxModalHeight = vs(windowHeight * 0.5);
+
+  const snapPoints = useMemo(() => {
+    const height = Math.min(modalHeight, maxModalHeight);
+    return [height + 60];
+  }, [modalHeight, maxModalHeight]);
 
   return (
     <Container>
@@ -68,7 +84,6 @@ const UserProfilComponent: React.FC = () => {
         ref={bottomSheetModalRef}
         index={0}
         snapPoints={snapPoints}
-        enableDynamicSizing
       >
         <CustomBottomSheetView>
           <SubMenuContainer>
@@ -86,70 +101,5 @@ const UserProfilComponent: React.FC = () => {
     </Container>
   );
 };
-
-const Container = styled.View`
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-  border-radius: 10px;
-  margin-bottom: 12px;
-`;
-
-const ProfileTouchable = styled.TouchableOpacity``;
-
-const ProfileImage = styled.Image`
-  width: 120px;
-  height: 120px;
-  border-radius: 60px;
-  margin-right: 10px;
-  margin-left: 10px;
-`;
-
-const EmailText = styled.Text`
-  font-size: ${FONTSIZE.MEDIUM}px;
-  color: ${(props) => props.theme.text};
-  flex-shrink: 1;
-  flex-wrap: wrap;
-  max-width: 80%;
-`;
-
-const CustomBottomSheetModal = styled(BottomSheetModal).attrs((props) => ({
-  containerStyle: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  backgroundStyle: {
-    backgroundColor: props.theme.backgroundPrimary,
-  },
-  handleIndicatorStyle: {
-    backgroundColor: props.theme.text,
-  },
-}))``;
-
-const MenuItem = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.6,
-})`
-  padding: 20px;
-  width: 100%;
-  align-items: center;
-  background-color: ${(props) => props.theme.backgroundSecondary};
-`;
-
-const MenuItemText = styled.Text`
-  font-size: ${FONTSIZE.MEDIUM}px;
-  color: ${(props) => props.theme.text};
-  font-weight: bold;
-`;
-
-const CustomBottomSheetView = styled(BottomSheetView)`
-  flex: 1;
-  align-items: center;
-  padding: 20px;
-`;
-
-const SubMenuContainer = styled.View`
-  width: 100%;
-  flex-direction: column;
-  justify-content: center;
-`;
 
 export default UserProfilComponent;

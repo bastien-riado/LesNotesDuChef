@@ -1,8 +1,11 @@
-import { Text } from '@react-native-material/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button as PaperButton } from 'react-native-paper';
-import styled from 'styled-components/native';
+import {
+  CenteredText,
+  StyledImageBackground,
+  StyledPaperButton,
+  StyledText,
+} from './styles';
 
 interface BlankStateProps {
   navigation: any;
@@ -36,7 +39,7 @@ const BlankStateComponent: React.FC<BlankStateProps> = ({
     <>
       {screenName === 'Recipes' && (
         <StyledImageBackground
-          source={require('../../assets/img/blankstate_recipes_list.png')}
+          source={require('../../../assets/img/blankstate_recipes_list.png')}
           resizeMode="contain"
         >
           <StyledText>{t('RecipeList.BlankState')}</StyledText>
@@ -54,33 +57,5 @@ const BlankStateComponent: React.FC<BlankStateProps> = ({
     </>
   );
 };
-
-const StyledImageBackground = styled.ImageBackground`
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  background-color: ${(props) => props.theme.backgroundPrimary};
-`;
-
-const StyledText = styled(Text)`
-  text-align: center;
-  margin-top: 50%;
-  color: ${(props) => props.theme.text};
-`;
-
-const CenteredText = styled(Text)`
-  text-align: center;
-  padding-top: 50%;
-  color: ${(props) => props.theme.text};
-`;
-
-const StyledPaperButton = styled(PaperButton).attrs((props) => ({
-  buttonColor: props.theme.button,
-  textColor: props.theme.text,
-}))`
-  width: 80%;
-  align-self: center;
-  margin-top: 250px;
-`;
 
 export default BlankStateComponent;

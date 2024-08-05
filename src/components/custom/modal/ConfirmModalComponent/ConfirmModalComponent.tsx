@@ -1,8 +1,6 @@
 import React from 'react';
 import Modal from 'react-native-modal';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import styled from 'styled-components/native';
-import { FONTSIZE, ICONSIZE } from '../../../../globals/styles/typography';
+import { ICONSIZE } from '../../../../globals/styles/typography';
 import {
   BottomHalf,
   ButtonText,

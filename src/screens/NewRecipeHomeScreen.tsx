@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import NewRecipeHomeComponent from '../components/NewRecipeHomeComponent';
+import NewRecipeHomeComponent from '../components/NewRecipeHomeComponent/NewRecipeHomeComponent';
 import { NewRecipeHomeScreenProps } from '../navigation/NavigationTypes';
 
 const NewRecipeHomeScreen: React.FC<NewRecipeHomeScreenProps> = ({ navigation }) => {

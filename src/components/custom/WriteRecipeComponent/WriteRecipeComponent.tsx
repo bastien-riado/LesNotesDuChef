@@ -2,7 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TextInput } from 'react-native-paper';
 import styled from 'styled-components/native';
-import { Recipe } from '../../models/RecipeModels';
+import { Recipe } from '../../../models/RecipeModels';
+import { Container, StyledTextInput } from './styles';
 
 interface WriteRecipeComponentProps {
   recipe: Recipe;
@@ -55,18 +56,5 @@ const WriteRecipeComponent: React.FC<WriteRecipeComponentProps> = ({
     </Container>
   );
 };
-
-const Container = styled.View`
-  flex: 1;
-`;
-
-const StyledTextInput = styled(TextInput).attrs((props) => ({
-  textColor: props.theme.text,
-}))`
-  width: 100%;
-  margin-bottom: 12px;
-  background-color: ${(props) => props.theme.backgroundPrimary};
-  color: ${(props) => props.theme.text};
-`;
 
 export default WriteRecipeComponent;
