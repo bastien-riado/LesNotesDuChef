@@ -3,9 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
-import { COLORS } from '../../globals/styles/index';
+import { useTheme } from 'styled-components';
 import { RecipesState } from '../../models/RecipesStateModels';
-import { UserProfilState } from '../../models/UserProfilStateModels';
 import NewRecipeStackNavigator from '../NewRecipeStackNavigator';
 import RecipesStackNavigator from '../RecipesStackNavigator';
 import SettingsStackNavigator from '../SettingsStackNavigator';
@@ -13,10 +12,6 @@ import SettingsStackNavigator from '../SettingsStackNavigator';
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
-  const mode = useSelector(
-    (state: { userProfil: UserProfilState }) => state.userProfil.mode,
-  );
-
   const isInEdition = useSelector(
     (state: { recipe: { isInEdition: boolean } }) => state.recipe.isInEdition,
   );
@@ -24,12 +19,13 @@ const BottomTabNavigator = () => {
     (state: { recipes: RecipesState }) => state.recipes.isInDeleteSelectionMode,
   );
   const { t } = useTranslation();
+  const theme = useTheme();
 
   const screenOptions = ({ route, navigation }: any) => {
     const routeName = navigation
       .getState()
       .routes[navigation.getState().index]?.state?.routes?.slice(-1)[0]?.name;
-    // Utiliser cette methode pour chacher le tebBar
+    // Utiliser cette methode pour cacher la tabBar
     const isRecipeDetailsScreen = routeName === 'RecipeDetails';
     const isInNewRecipeStack =
       routeName === 'NewRecipeByHand' ||
@@ -57,11 +53,11 @@ const BottomTabNavigator = () => {
         );
       },
       headerShown: false,
-      tabBarActiveTintColor: COLORS.ACTIVE_LINK[mode],
-      tabBarInactiveTintColor: COLORS.ICONCOLOR[mode],
+      tabBarActiveTintColor: theme.activeNavigation,
+      tabBarInactiveTintColor: theme.icon,
 
       tabBarStyle: {
-        backgroundColor: COLORS.BG_PRIMARYCOLOR[mode],
+        backgroundColor: theme.backgroundPrimary,
         display:
           isInEdition ||
           isInDeleteSelectionMode ||

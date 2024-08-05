@@ -1,6 +1,7 @@
 import { Image, View } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button } from 'react-native-paper';
+import { s } from 'react-native-size-matters';
 import styled from 'styled-components';
 
 const Container = styled(View)`
@@ -11,10 +12,12 @@ const Container = styled(View)`
 const BottomContainer = styled(Button).attrs((props) => ({
   buttonColor: props.theme.backgroundDanger,
   textColor: props.theme.textDanger,
+  contentStyle: { paddingHorizontal: s(12) },
 }))`
-  margin-top: 16px;
-  margin-bottom: 16px;
-  align-items: center;
+  margin-top: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 12px;
 `;
 
 const StyledImage = styled(Image)`
