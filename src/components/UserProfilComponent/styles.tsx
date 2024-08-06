@@ -1,4 +1,8 @@
-import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import {
+  BottomSheetModal,
+  BottomSheetScrollView,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
 import { s } from 'react-native-size-matters';
 import styled from 'styled-components/native';
 import { FONTSIZE } from '../../globals/styles/typography';
@@ -40,6 +44,14 @@ const CustomBottomSheetModal = styled(BottomSheetModal).attrs((props) => ({
   },
 }))``;
 
+const MenuScrollView = styled(BottomSheetScrollView).attrs((props) => ({
+  contentContainerStyle: {
+    alignItems: 'center',
+    backgroundColor: props.theme.backgroundPrimary,
+    padding: 20,
+  },
+}))``;
+
 const MenuItem = styled.TouchableOpacity.attrs({
   activeOpacity: 0.6,
 })`
@@ -74,6 +86,7 @@ export {
   EmailText,
   MenuItem,
   MenuItemText,
+  MenuScrollView,
   ProfileImage,
   ProfileTouchable,
   SubMenuContainer,

@@ -4,6 +4,7 @@ import { RecipesAction } from './actions';
 //initial state
 const initialState: RecipesState = {
   recipes: [],
+  hasFetched: false,
   isInDeleteSelectionMode: false,
   inDeleteSelection: [],
 };
@@ -17,13 +18,13 @@ export const recipesReducer = (
     case 'GET_RECIPES':
       return {
         ...state,
+        hasFetched: action.payload,
       };
     case 'ADD_RECIPE':
       return {
         ...state,
         recipes: [action.payload, ...state.recipes],
       };
-
     case 'UPDATE_RECIPE':
       return {
         ...state,

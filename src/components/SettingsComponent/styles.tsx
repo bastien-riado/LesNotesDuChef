@@ -1,4 +1,8 @@
-import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import {
+  BottomSheetModal,
+  BottomSheetScrollView,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
 import { Divider } from '@react-native-material/core';
 import { Button } from 'react-native-paper';
 import { s } from 'react-native-size-matters';
@@ -35,11 +39,43 @@ const MenuItemText = styled.Text`
   font-weight: bold;
 `;
 
+const PatchNoteTitleView = styled.View`
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-direction: column;
+`;
+
+const PatchNoteText = styled.Text`
+  font-size: ${FONTSIZE.MEDIUM}px;
+  color: ${(props) => props.theme.text};
+  font-weight: normal;
+  margin-left: 10px;
+`;
+
 const CustomBottomSheetView = styled(BottomSheetView)`
   flex: 1;
   align-items: center;
   padding: 20px;
 `;
+
+const PatchNoteScrollView = styled(BottomSheetScrollView).attrs((props) => ({
+  contentContainerStyle: {
+    alignItems: 'flex-start',
+    backgroundColor: props.theme.backgroundPrimary,
+    padding: 20,
+  },
+}))``;
+
+const LanguageScrollView = styled(BottomSheetScrollView).attrs((props) => ({
+  contentContainerStyle: {
+    alignItems: 'center',
+    backgroundColor: props.theme.backgroundPrimary,
+    padding: 20,
+  },
+}))``;
 
 const SubMenuContainer = styled.View`
   width: 100%;
@@ -54,7 +90,7 @@ const Container = styled.View`
 const CustomDivider = styled(Divider).attrs((props) => ({
   color: props.theme.divider,
 }))`
-  margin: 10px;
+  margin: 8px;
 `;
 
 const DisconectButton = styled(Button).attrs((props) => ({
@@ -69,11 +105,37 @@ const Icon = styled(MaterialCommunityIcons)`
   color: ${(props) => props.theme.icon};
 `;
 
+const DisplayName = styled.Text`
+  font-size: ${TYPO.FONTSIZE.LARGE}px;
+  color: ${(props) => props.theme.text};
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const AppInfos = styled.Text`
+  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
+  color: ${(props) => props.theme.text};
+  font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const GroupOptionsContainer = styled.View``;
+
 const OptionContainer = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+`;
+
+const OptionContainerSpaced = styled.TouchableOpacity`
+  justify-content: space-between;
   flex-direction: row;
   align-items: center;
   padding: 10px;
 `;
+
+const InfoContainer = styled.View``;
 
 const OptionText = styled.Text`
   color: ${(props) => props.theme.text};
@@ -82,16 +144,34 @@ const OptionText = styled.Text`
   font-size: ${TYPO.FONTSIZE.MEDIUM}px;
 `;
 
+const GroupTitle = styled.Text`
+  font-size: ${TYPO.FONTSIZE.SMALL}px;
+  color: ${(props) => props.theme.text};
+  font-weight: normal;
+  margin-bottom: 8px;
+  padding-left: 10px;
+`;
+
 export {
+  AppInfos,
   Container,
   CustomBottomSheetModal,
   CustomBottomSheetView,
   CustomDivider,
   DisconectButton,
+  DisplayName,
+  GroupOptionsContainer,
+  GroupTitle,
   Icon,
+  InfoContainer,
+  LanguageScrollView,
   MenuItem,
   MenuItemText,
   OptionContainer,
+  OptionContainerSpaced,
   OptionText,
+  PatchNoteScrollView,
+  PatchNoteText,
+  PatchNoteTitleView,
   SubMenuContainer,
 };

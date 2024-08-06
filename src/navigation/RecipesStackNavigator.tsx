@@ -1,6 +1,10 @@
-import { BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
+import {
+  BottomSheetModal,
+  BottomSheetScrollView,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import Animated, {
@@ -130,14 +134,6 @@ const RecipesStackNavigator = () => {
     },
   ];
 
-  const nbOptions = dotMenuOptions.length;
-  const snapPoint = nbOptions * 12.5 + '%';
-  const imageSnapPoint = imageOptions.length * 12.5 + 2 + '%';
-  const snapPoints = useMemo(
-    () => [isImageOptionsVisible ? imageSnapPoint : snapPoint],
-    [isImageOptionsVisible],
-  );
-
   const CustomHandle = ({ onPress }: any) => {
     return (
       <View
@@ -196,7 +192,6 @@ const RecipesStackNavigator = () => {
         <CustomBottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
-          snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enableDynamicSizing
           handleComponent={
@@ -205,7 +200,7 @@ const RecipesStackNavigator = () => {
               : undefined
           }
         >
-          <CustomBottomSheetView>
+          <MenuScrollView>
             <SubMenuContainer style={animatedStyle}>
               {isImageOptionsVisible
                 ? imageOptions.map((option, index) => (
@@ -228,7 +223,7 @@ const RecipesStackNavigator = () => {
                     </MenuItem>
                   ))}
             </SubMenuContainer>
-          </CustomBottomSheetView>
+          </MenuScrollView>
         </CustomBottomSheetModal>
       </View>
     );
@@ -302,6 +297,14 @@ const CustomBottomSheetModal = styled(BottomSheetModal).attrs((props) => ({
   },
   handleIndicatorStyle: {
     backgroundColor: props.theme.text,
+  },
+}))``;
+
+const MenuScrollView = styled(BottomSheetScrollView).attrs((props) => ({
+  contentContainerStyle: {
+    alignItems: 'center',
+    backgroundColor: props.theme.backgroundPrimary,
+    padding: 20,
   },
 }))``;
 

@@ -1,10 +1,8 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { Dimensions } from 'react-native';
-import { vs } from 'react-native-size-matters';
 import { UserProfilState } from '../../models/UserProfilStateModels';
 import {
   handleImageSelection,
@@ -16,10 +14,10 @@ import { setUserProfilImage } from '../../store/userProfil/actions';
 import {
   Container,
   CustomBottomSheetModal,
-  CustomBottomSheetView,
   EmailText,
   MenuItem,
   MenuItemText,
+  MenuScrollView,
   ProfileImage,
   ProfileTouchable,
   SubMenuContainer,
@@ -65,15 +63,6 @@ const UserProfilComponent: React.FC = () => {
     },
   ];
 
-  const windowHeight = Dimensions.get('window').height;
-  const modalHeight = vs(imageOptions.length * 50);
-  const maxModalHeight = vs(windowHeight * 0.5);
-
-  const snapPoints = useMemo(() => {
-    const height = Math.min(modalHeight, maxModalHeight);
-    return [height + 60];
-  }, [modalHeight, maxModalHeight]);
-
   return (
     <Container>
       <ProfileTouchable onPress={handlePresentModalPress}>
@@ -83,9 +72,9 @@ const UserProfilComponent: React.FC = () => {
       <CustomBottomSheetModal
         ref={bottomSheetModalRef}
         index={0}
-        snapPoints={snapPoints}
+        enableDynamicSizing
       >
-        <CustomBottomSheetView>
+        <MenuScrollView>
           <SubMenuContainer>
             {imageOptions.map((option, index) => (
               <MenuItem
@@ -96,7 +85,7 @@ const UserProfilComponent: React.FC = () => {
               </MenuItem>
             ))}
           </SubMenuContainer>
-        </CustomBottomSheetView>
+        </MenuScrollView>
       </CustomBottomSheetModal>
     </Container>
   );

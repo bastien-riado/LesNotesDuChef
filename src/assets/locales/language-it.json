@@ -94,17 +94,25 @@
   "UserProfil": {
     "Settings": {
       "Title": "Impostazioni",
-      "ChangeMode": "Cambia modalità",
-      "SignOut": "Disconnetti",
+      "SignOut": "Disconnettersi",
       "ImageModal": {
         "Title": "Scegli un'opzione",
         "ChooseButton": "Scegli un'immagine",
         "TakeButton": "Scatta una foto"
       },
-      "Language": {
-        "Title": "Cambia lingua",
-        "French": "Francese",
-        "English": "Inglese"
+      "About": {
+        "Title": "Informazioni",
+        "Contact": "Contattaci",
+        "PatchNote": "Note sulla versione"
+      },
+      "Preferences": {
+        "Title": "Preferenze",
+        "Theme": "Cambia tema",
+        "Language": "Cambia lingua"
+      },
+      "Toast": {
+        "Text1": "Copiato!",
+        "Text2": "La versione dell'applicazione è stata copiata negli appunti"
       }
     }
   }

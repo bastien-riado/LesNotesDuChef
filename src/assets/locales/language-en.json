@@ -95,17 +95,25 @@
   "UserProfil": {
     "Settings": {
       "Title": "Settings",
-      "ChangeMode": "Switch mode",
-      "SignOut": "Disconnect",
+      "SignOut": "Sign Out",
       "ImageModal": {
         "Title": "Choose an option",
         "ChooseButton": "Choose an image",
-        "TakeButton": "Take a picture"
+        "TakeButton": "Take a photo"
       },
-      "Language": {
-        "Title": "Switch language",
-        "French": "French",
-        "English": "English"
+      "About": {
+        "Title": "About",
+        "Contact": "Contact us",
+        "PatchNote": "Version notes"
+      },
+      "Preferences": {
+        "Title": "Preferences",
+        "Theme": "Change theme",
+        "Language": "Change language"
+      },
+      "Toast": {
+        "Text1": "Copied!",
+        "Text2": "The application version has been copied to the clipboard"
       }
     }
   }
