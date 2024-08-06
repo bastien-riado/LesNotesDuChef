@@ -12,14 +12,15 @@ import styled from 'styled-components';
 import BlankStateComponent from '../components/custom/BlankStateComponent/BlankStateComponent';
 import { RecipesState } from '../models/RecipesStateModels';
 import { RecipesScreenProps } from '../navigation/NavigationTypes';
+import { getRecipes } from '../store/recipes/actions';
 import { fetchRecipesThunk } from '../store/recipes/thunks';
 import { AppDispatch } from '../store/store';
 
 const RecipesScreen: React.FC<RecipesScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const recipes = useSelector(
-    (state: { recipes: RecipesState }) => state.recipes.recipes,
+  const { recipes, hasFetched } = useSelector(
+    (state: { recipes: RecipesState }) => state.recipes,
   );
 
   const { t } = useTranslation();
@@ -28,20 +29,21 @@ const RecipesScreen: React.FC<RecipesScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      if (isFocused && recipes.length === 0) {
+      if (isFocused && !hasFetched) {
         setIsInitialLoading(true);
         try {
           await dispatch(fetchRecipesThunk());
-          setIsInitialLoading(false);
+          dispatch(getRecipes(true));
         } catch (error) {
           console.error('Failed to fetch recipes:', error);
+        } finally {
           setIsInitialLoading(false);
         }
       }
     };
     fetchInitialData();
     return () => {};
-  }, [dispatch, isFocused, recipes.length]);
+  }, [dispatch, isFocused, hasFetched]);
 
   if (isInitialLoading) {
     return (

@@ -14,6 +14,7 @@ export type RecipesAction =
 
 export interface GetRecipesAction {
   type: 'GET_RECIPES';
+  payload: boolean;
 }
 
 export interface AddRecipeAction {
@@ -60,9 +61,10 @@ export interface ClearDeleteSelection {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const getRecipes = (): GetRecipesAction => {
+export const getRecipes = (hasFetched: boolean): GetRecipesAction => {
   return {
     type: 'GET_RECIPES',
+    payload: hasFetched,
   };
 };
 

@@ -1,4 +1,4 @@
-import auth from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 
 import {
@@ -13,6 +13,7 @@ import {
   setUserUid,
 } from '../../store/userProfil/actions';
 import { dbRef } from '../Auth/config/FirebaseConfig';
+import { createUser, logIn, signOut } from '../AuthService';
 
 export const Authorization = createContext<AuthorizationContextProps | undefined>(
   undefined,
@@ -53,58 +54,55 @@ export const AuthorizationProvider: React.FC<AuthorizationProviderProps> = ({
     return () => unsubscribe();
   }, []);
 
-  const Login = (email: string, password: string) => {
+  async function Login(
+    email: string,
+    password: string,
+  ): Promise<FirebaseAuthTypes.UserCredential> {
     setIsLoading(true);
-    auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setIsLoading(false);
-      });
-  };
+    try {
+      const userCredential = await logIn(email, password);
+      setIsLoading(false);
+      return userCredential;
+    } catch (error) {
+      setError('Login failed');
+      setIsLoading(false);
+      throw error;
+    }
+  }
 
-  const SignUp = (email: string, password: string, repeatedPassword: string) => {
+  async function SignUp(email: string, password: string, repeatedPassword: string) {
     setIsLoading(true);
     if (repeatedPassword !== password) {
       setIsLoading(false);
       setError('Looks like the passwords do not match');
     } else {
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          setIsLoading(false);
-          setAlert(true);
-        })
-        .catch((error) => {
-          if (error.code === 'auth/email-already-exists') {
-            setError('Looks like that email already exists');
-          } else if (error.code === 'auth/invalid-email') {
-            setError('Invalid email address');
-          } else {
-            setError('An unexpected error occurred');
-          }
-          setIsLoading(false);
-        });
-    }
-  };
-
-  const SignOut = () => {
-    setIsLoading(true);
-    auth()
-      .signOut()
-      .then(() => {
-        setUser('');
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
+      try {
+        await createUser(email, password);
         setIsLoading(false);
-      });
-  };
+        setAlert(true);
+      } catch (error) {
+        if (error === 'auth/email-already-exists') {
+          setError('Looks like that email already exists');
+        } else if (error === 'auth/invalid-email') {
+          setError('Invalid email address');
+        } else {
+          setError('An unexpected error occurred');
+        }
+        setIsLoading(false);
+      }
+    }
+  }
+
+  async function SignOut(): Promise<void> {
+    setIsLoading(true);
+    try {
+      await signOut();
+      setIsLoading(false);
+    } catch (error) {
+      setError('Sign out failed');
+      setIsLoading(false);
+    }
+  }
 
   return (
     <Authorization.Provider

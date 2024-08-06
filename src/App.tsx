@@ -5,6 +5,7 @@ import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
+import Toast from 'react-native-toast-message';
 import { Provider as ReduxProvider, useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components/native';
 import '../i18n.config';
@@ -45,6 +46,7 @@ const AppContainer = () => {
             <PaperProvider>
               <BottomSheetModalProvider>
                 <Navigation />
+                <Toast />
               </BottomSheetModalProvider>
             </PaperProvider>
           </AuthorizationProvider>

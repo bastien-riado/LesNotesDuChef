@@ -1,0 +1,24 @@
+{
+  "1.0.0": {
+    "date": "2024-08-06",
+    "notes": [
+      "Première livraison des NotesDuChef.",
+      "Création de compte personnel.",
+      "Connexion à un compte existant.",
+      "Modification d'image de profil.",
+      "Deconnexion de compte.",
+      "Création de recettes à la main.",
+      "Création de recettes par génération (IA).",
+      "Création de recettes à partir d'une image (IA).",
+      "Consultation de recettes.",
+      "Modification de recettes.",
+      "Suppression de recettes.",
+      "Modification d'image de recette.",
+      "Recherche de recettes par nom.",
+      "Changement de la langue de l'application (FR, EN, ES, DE, IT).",
+      "Changement de thème de l'application (clair, sombre).",
+      "Utilisation de mail de contact pour les retours et suggestions.",
+      "Consultation des notes de version."
+    ]
+  }
+}
