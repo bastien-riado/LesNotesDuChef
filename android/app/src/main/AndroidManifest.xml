@@ -24,10 +24,5 @@
         </intent-filter>
       </activity>
     </application>
-    <queries>
-      <intent>
-      <data android:scheme="mailto" />
-        <action android:name="android.intent.action.DIAL" />
-      </intent>
-</queries>
+
 </manifest>
