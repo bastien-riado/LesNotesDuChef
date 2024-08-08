@@ -44,7 +44,10 @@ const PatchNoteTitleView = styled.View`
   width: 100%;
   align-items: center;
   justify-content: center;
+  padding: 10px;
   margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1px solid ${(props) => props.theme.divider};
   flex-direction: column;
 `;
 
@@ -116,7 +119,6 @@ const AppInfos = styled.Text`
   font-size: ${TYPO.FONTSIZE.MEDIUM}px;
   color: ${(props) => props.theme.text};
   font-weight: bold;
-  margin-bottom: 10px;
 `;
 
 const GroupOptionsContainer = styled.View``;

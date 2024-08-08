@@ -23,6 +23,11 @@ const RecipeInfoContainer = styled(View)`
   flex-direction: column;
   justify-content: space-between;
 `;
+const RecipeContainer = styled(View)`
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+`;
 
 const InfoText = styled(Text)`
   font-size: 16px;
@@ -40,10 +45,16 @@ const NameText = styled(Text)`
 const Icon = styled(MaterialCommunityIcons).attrs((props) => ({
   size: TYPO.ICONSIZE.SMALL,
   color: props.theme.icon,
+  marginRight: 5,
 }))``;
 
 const StyledCheckbox = styled(Checkbox).attrs((props) => ({
-  color: props.theme.textColor,
+  color: props.theme.backgroundDanger,
+  uncheckedColor: props.theme.text,
+  alignSelf: 'center',
+  marginRight: 10,
+  backgroundColor: props.theme.backgroundPrimary,
+  elevation: 5,
 }))``;
 
 const RecipeInfoTextContainer = styled(View)`
@@ -66,6 +77,7 @@ export {
   ImageBackgroundContainer,
   InfoText,
   NameText,
+  RecipeContainer,
   RecipeInfoContainer,
   RecipeInfoTextContainer,
   StyledCheckbox,

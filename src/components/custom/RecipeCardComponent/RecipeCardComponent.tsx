@@ -8,6 +8,7 @@ import {
   ImageBackgroundContainer,
   InfoText,
   NameText,
+  RecipeContainer,
   RecipeInfoContainer,
   RecipeInfoTextContainer,
   StyledCheckbox,
@@ -46,25 +47,26 @@ const RecipeCardComponent: React.FC<RecipeCardComponentProps> = ({
         }}
         imageStyle={{ borderRadius: 10 }}
       >
-        <RecipeInfoContainer>
-          <View>
-            <RecipeInfoText
-              icon={null}
-              text={recipe.name}
-              isName
-            />
-          </View>
-          <View>
-            <RecipeInfoText
-              icon="clock-time-four-outline"
-              text={recipe.time}
-            />
-            <RecipeInfoText
-              icon="weight-lifter"
-              text={recipe.difficulty}
-            />
-          </View>
-
+        <RecipeContainer>
+          <RecipeInfoContainer>
+            <View>
+              <RecipeInfoText
+                icon={null}
+                text={recipe.name}
+                isName
+              />
+            </View>
+            <View>
+              <RecipeInfoText
+                icon="clock-time-four-outline"
+                text={recipe.time}
+              />
+              <RecipeInfoText
+                icon="weight-lifter"
+                text={recipe.difficulty}
+              />
+            </View>
+          </RecipeInfoContainer>
           {isInDeleteSelectionMode && (
             <StyledCheckbox
               status={checked ? 'checked' : 'unchecked'}
@@ -73,7 +75,7 @@ const RecipeCardComponent: React.FC<RecipeCardComponentProps> = ({
               }}
             />
           )}
-        </RecipeInfoContainer>
+        </RecipeContainer>
       </ImageBackgroundContainer>
     </TouchableOpacityContainer>
   );

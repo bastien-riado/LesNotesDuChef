@@ -14,12 +14,14 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { s } from 'react-native-size-matters';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import ConfirmModalComponent from '../components/custom/modal/ConfirmModalComponent/ConfirmModalComponent';
 import { COLORS } from '../globals/styles';
 import { FONTSIZE, ICONSIZE } from '../globals/styles/typography';
+import { RecipesState } from '../models/RecipesStateModels';
 import { RecipeState } from '../models/RecipeStateModels';
 import { UserProfilState } from '../models/UserProfilStateModels';
 import EditRecipeScreen from '../screens/EditRecipeScreen';
@@ -46,6 +48,9 @@ const RecipesStackNavigator = () => {
   );
   const uid = useSelector(
     (state: { userProfil: UserProfilState }) => state.userProfil.uid,
+  );
+  const isInDeleteSelectionMode = useSelector(
+    (state: { recipes: RecipesState }) => state.recipes.isInDeleteSelectionMode,
   );
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -249,6 +254,26 @@ const RecipesStackNavigator = () => {
     );
   };
 
+  const closeButton = () => {
+    if (isInDeleteSelectionMode) {
+      return (
+        <TouchableOpacity
+          onPress={() =>
+            dispatch({ type: 'IS_IN_DELETE_SELECTION_MODE', payload: false })
+          }
+        >
+          <MaterialCommunityIcons
+            name="close"
+            size={ICONSIZE.MEDIUM}
+            style={{ marginRight: s(10), color: COLORS.ICONCOLOR[mode] }}
+          />
+        </TouchableOpacity>
+      );
+    } else {
+      return null;
+    }
+  };
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -259,7 +284,10 @@ const RecipesStackNavigator = () => {
       <Stack.Screen
         name="Recipes"
         component={RecipesScreen}
-        options={{ title: t('RecipeList.Title') }}
+        options={() => ({
+          title: t('RecipeList.Title'),
+          headerRight: () => closeButton(),
+        })}
       />
       <Stack.Screen
         name="RecipeDetails"

@@ -88,7 +88,7 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
 
   const uploadImageToFirebase = async (uri: string) => {
     const filename = uri.substring(uri.lastIndexOf('/') + 1);
-    const storageRef = storage().ref(`images/${filename}`);
+    const storageRef = storage().ref(`images/vision/${filename}`);
     const task = storageRef.putFile(uri);
 
     try {
