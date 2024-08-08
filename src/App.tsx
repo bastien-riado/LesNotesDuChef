@@ -1,10 +1,11 @@
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
 import SplashScreen from 'react-native-splash-screen';
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 import Toast from 'react-native-toast-message';
 import { Provider as ReduxProvider, useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components/native';
@@ -38,6 +39,11 @@ const AppContainer = () => {
   );
   const styledTheme = mode === 'light' ? lightTheme : darkTheme;
   const navigationTheme = mode === 'light' ? navigationLightTheme : navigationDarkTheme;
+
+  useEffect(() => {
+    SystemNavigationBar.setNavigationColor(styledTheme.backgroundPrimary);
+  }, [styledTheme]);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={styledTheme}>
