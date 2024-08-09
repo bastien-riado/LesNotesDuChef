@@ -10,6 +10,7 @@ import Toast from 'react-native-toast-message';
 import { Provider as ReduxProvider, useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components/native';
 import '../i18next.config';
+import toastConfig from '../toast.config';
 import {
   darkTheme,
   lightTheme,
@@ -52,7 +53,7 @@ const AppContainer = () => {
             <PaperProvider>
               <BottomSheetModalProvider>
                 <Navigation />
-                <Toast />
+                <Toast config={toastConfig} />
               </BottomSheetModalProvider>
             </PaperProvider>
           </AuthorizationProvider>

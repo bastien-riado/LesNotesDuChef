@@ -1,4 +1,3 @@
-import { Dimensions } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Button } from 'react-native-paper';
 import { s, vs } from 'react-native-size-matters';
@@ -6,7 +5,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import styled from 'styled-components/native';
 import { TYPO } from '../../globals/styles';
 
-const { width, height } = Dimensions.get('window');
 const aspectRatio = 0.75;
 
 const HomeContainer = styled.View`
