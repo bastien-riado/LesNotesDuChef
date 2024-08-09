@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { CommonActions, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { BottomNavigation } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
@@ -26,6 +27,7 @@ const BottomTabNavigator = () => {
     (state: { recipes: RecipesState }) => state.recipes.isInDeleteSelectionMode,
   );
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const screenOptions = ({ route }: any) => {
     const routeName = route.name;
@@ -38,17 +40,17 @@ const BottomTabNavigator = () => {
       case 'RecipesStack':
         iconName = 'view-day-outline';
         iconNameFocused = 'view-day';
-        label = 'Recipe List';
+        label = t('RecipeList.Title');
         break;
       case 'NewRecipeStack':
         iconName = 'plus-outline';
         iconNameFocused = 'plus-thick';
-        label = 'New Recipe';
+        label = t('NewRecipe.Title');
         break;
       case 'SettingsStack':
         iconName = 'account-cog-outline';
         iconNameFocused = 'account-cog';
-        label = 'Settings';
+        label = t('UserProfil.Settings.Title');
         break;
     }
 

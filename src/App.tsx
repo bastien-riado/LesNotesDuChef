@@ -9,7 +9,7 @@ import SystemNavigationBar from 'react-native-system-navigation-bar';
 import Toast from 'react-native-toast-message';
 import { Provider as ReduxProvider, useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components/native';
-import '../i18n.config';
+import '../i18next.config';
 import {
   darkTheme,
   lightTheme,

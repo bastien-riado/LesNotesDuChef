@@ -5,30 +5,31 @@
       "Email": "Email",
       "Password": "Password",
       "NoAccount": "Non hai un account?",
-      "Loading": "Connessione...",
-      "EmptyFields": "Per favore, riempi tutti i campi",
+      "Loading": "Accesso in corso...",
+      "EmptyFields": "Si prega di compilare tutti i campi",
       "UserNotFound": "Utente non trovato",
       "Error": "Formato email non valido o password errata"
     },
     "SignUp": {
-      "Title": "Crea un account",
+      "Title": "Registrati",
       "Email": "Email",
       "Password": "Password",
-      "RepeatPassword": "Ripeti la password",
+      "RepeatPassword": "Ripeti password",
       "AlreadyHaveAccount": "Hai già un account?",
       "Loading": "Creazione dell'account...",
-      "EmptyFields": "Per favore, riempi tutti i campi",
+      "EmptyFields": "Si prega di compilare tutti i campi",
       "PasswordNotMatch": "Le password non corrispondono"
     }
   },
   "RecipeList": {
-    "Title": "Elenco delle ricette",
+    "Title": "Lista delle ricette",
     "Loading": "Caricamento delle ricette...",
-    "BlankState": "Non hai nulla da mangiare...",
+    "BlankState": "Niente da sgranocchiare...",
     "EmptyList": "Nessuna ricetta trovata",
     "AddButton": "Aggiungi una ricetta",
     "DeleteSelectedButton": "Elimina le ricette selezionate",
-    "DeleteModalText": "Sei sicuro di voler eliminare le ricette selezionate?",
+    "DeleteModalText": "Sei sicuro di voler eliminare questa ricetta?",
+    "DeleteModalText_plural": "Sei sicuro di voler eliminare le {{count}} ricette selezionate?",
     "CancelButton": "Annulla",
     "DeleteButton": "Elimina",
     "SearchPlaceholder": "Cerca una ricetta",
@@ -38,20 +39,20 @@
       "Time": "Tempo",
       "Difficulty": "Difficoltà",
       "Description": "Descrizione",
-      "Delete": "Elimina la ricetta",
+      "Delete": "Elimina ricetta",
       "OptionsMenu": {
-        "Edit": "Modifica la ricetta",
+        "Edit": "Modifica ricetta",
         "ChangeImage": "Cambia immagine"
       }
     },
     "EditRecipe": {
-      "Title": "Modifica la ricetta",
+      "Title": "Modifica ricetta",
       "Loading": "Salvataggio delle modifiche...",
       "Save": "Salva modifiche",
       "Modal": {
-        "WarningText": "Abbandonare le modifiche?",
+        "WarningText": "Annullare le modifiche?",
         "CancelButton": "Annulla",
-        "ConfirmButton": "Abbandona"
+        "ConfirmButton": "Annulla"
       }
     }
   },
@@ -65,7 +66,7 @@
     "Selection": {
       "ByHand": "Scrivi a mano",
       "Generated": "Genera una ricetta",
-      "Vision": "Importa tramite immagine"
+      "Vision": "Importa da immagine"
     },
     "ByHand": {
       "Loading": "Aggiunta della ricetta..."
@@ -78,17 +79,17 @@
       "CreateButton": "Aggiungi la ricetta al mio catalogo",
       "Information": "Puoi importare una ricetta scattando una foto o scegliendo un'immagine dalla tua galleria",
       "Warning": "Attenzione, l'immagine è riconosciuta dall'intelligenza artificiale e il risultato potrebbe non corrispondere esattamente alla tua immagine.",
-      "Loading": "Importazione della ricetta..."
+      "Loading": "Importazione della ricetta in corso..."
     },
     "Generated": {
-      "Placeholder": "Di cosa hai voglia?",
-      "Button": "Genera la ricetta",
-      "Loading": "Generazione della ricetta...",
+      "Placeholder": "Cosa ti va?",
+      "Button": "Genera ricetta",
+      "Loading": "Generazione della ricetta in corso...",
       "Save": "Salva nel mio catalogo"
     },
     "Error": {
       "Title": "Errore",
-      "EmptyFields": "Per favore, riempi tutti i campi"
+      "EmptyFields": "Si prega di compilare tutti i campi"
     }
   },
   "UserProfil": {
@@ -103,7 +104,7 @@
       "About": {
         "Title": "Informazioni",
         "Contact": "Contattaci",
-        "PatchNote": "Note sulla versione"
+        "PatchNote": "Note di rilascio"
       },
       "Preferences": {
         "Title": "Preferenze",
@@ -112,7 +113,7 @@
       },
       "Toast": {
         "Text1": "Copiato!",
-        "Text2": "La versione dell'applicazione è stata copiata negli appunti"
+        "Text2": "La versione dell'app è stata copiata negli appunti"
       }
     }
   }

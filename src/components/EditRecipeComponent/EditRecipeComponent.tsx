@@ -8,8 +8,8 @@ import { Recipe } from '../../models/RecipeModels';
 import { RecipeState } from '../../models/RecipeStateModels';
 import { updateRecipeThunk } from '../../store/recipes/thunks';
 import { AppDispatch } from '../../store/store';
-import WriteRecipeComponent from '../custom/WriteRecipeComponent/WriteRecipeComponent';
-import ConfirmModalComponent from '../custom/modal/ConfirmModalComponent/ConfirmModalComponent';
+import WriteRecipeComponent from '../shared/WriteRecipeComponent/WriteRecipeComponent';
+import ConfirmModalComponent from '../shared/modal/ConfirmModalComponent/ConfirmModalComponent';
 import { BottomContainer, Container, Loader } from './styles';
 
 const EditRecipeComponent: React.FC = () => {

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Recipe } from '../../models/RecipeModels';
 import { RecipesState } from '../../models/RecipesStateModels';
 import { AppDispatch } from '../../store/store';
-import RecipeCardComponent from '../custom/RecipeCardComponent/RecipeCardComponent';
+import RecipeCardComponent from '../shared/RecipeCardComponent/RecipeCardComponent';
 
 interface RecipeComponentProps {
   recipe: Recipe;
