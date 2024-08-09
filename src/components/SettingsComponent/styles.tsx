@@ -12,9 +12,6 @@ import { TYPO } from '../../globals/styles';
 import { FONTSIZE } from '../../globals/styles/typography';
 
 const CustomBottomSheetModal = styled(BottomSheetModal).attrs((props) => ({
-  containerStyle: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
   backgroundStyle: {
     backgroundColor: props.theme.backgroundPrimary,
   },

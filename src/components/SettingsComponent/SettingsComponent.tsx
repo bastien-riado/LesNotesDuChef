@@ -1,4 +1,4 @@
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import Clipboard from '@react-native-clipboard/clipboard';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
@@ -149,8 +149,14 @@ const SettingsComponent: React.FC = () => {
     return (
       <CustomBottomSheetModal
         ref={bottomSheetModalRef}
-        index={0}
         enableDynamicSizing
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            appearsOnIndex={0}
+            disappearsOnIndex={-1}
+          />
+        )}
       >
         <LanguageScrollView>
           <SubMenuContainer>
@@ -173,8 +179,14 @@ const SettingsComponent: React.FC = () => {
     return (
       <CustomBottomSheetModal
         ref={patchNoteModalRef}
-        index={0}
         enableDynamicSizing
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            appearsOnIndex={0}
+            disappearsOnIndex={-1}
+          />
+        )}
       >
         <PatchNoteScrollView>
           <PatchNoteTitleView>

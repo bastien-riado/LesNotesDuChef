@@ -1,4 +1,5 @@
 import {
+  BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetScrollView,
   BottomSheetView,
@@ -196,9 +197,15 @@ const RecipesStackNavigator = () => {
         </TouchableOpacity>
         <CustomBottomSheetModal
           ref={bottomSheetModalRef}
-          index={0}
           onChange={handleSheetChanges}
           enableDynamicSizing
+          backdropComponent={(props) => (
+            <BottomSheetBackdrop
+              {...props}
+              appearsOnIndex={0}
+              disappearsOnIndex={-1}
+            />
+          )}
           handleComponent={
             isImageOptionsVisible
               ? () => <CustomHandle onPress={handleChangeImageBackPress} />
@@ -317,9 +324,6 @@ const RecipesStackNavigator = () => {
 };
 
 const CustomBottomSheetModal = styled(BottomSheetModal).attrs((props) => ({
-  containerStyle: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
   backgroundStyle: {
     backgroundColor: props.theme.backgroundPrimary,
   },
