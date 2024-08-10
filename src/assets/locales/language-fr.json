@@ -83,7 +83,7 @@
       "Toast": {
         "Error": {
           "Retry1": "Erreur",
-          "Retry2": "Une erreur est survenue lors de l'importation de la recette, veuillez réessayer",
+          "Retry2": "Une erreur est survenue, veuillez réessayer",
           "BadImage1": "Problème d'image",
           "BadImage2": "L'image n'a pas pu être reconnue, veuillez réessayer"
         }

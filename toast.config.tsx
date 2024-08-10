@@ -22,7 +22,7 @@ const toastConfig = {
         style={{
           borderLeftColor: theme.success,
           borderLeftWidth: 8,
-          height: 80,
+          minHeight: 80,
         }}
         contentContainerStyle={{
           backgroundColor: theme.backgroundPrimary,

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Alert } from 'react-native';
-
+import Toast from 'react-native-toast-message';
 import { logIn } from '../../../services/AuthService';
 import {
   Container,
@@ -23,20 +22,28 @@ const LoginScreen = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
 
+  const showToast = (type: 'success' | 'error', text: string) => {
+    const defaultText = type === 'success' ? 'Success' : 'Error';
+    Toast.show({
+      type,
+      text1: text || defaultText,
+    });
+  };
+
   const handleAuth = async () => {
     if (!email || !password) {
-      Alert.alert(t('Auth.SignIn.EmptyFields'));
+      showToast('error', t('Auth.SignIn.EmptyFields'));
       return;
     }
     try {
       setIsLoading(true);
       const user = await logIn(email, password);
       if (!user) {
-        Alert.alert(t('Auth.SignIn.UserNotFound'));
+        showToast('error', t('Auth.SignIn.Error'));
         return;
       }
     } catch (error) {
-      Alert.alert(t('Auth.SignIn.Error'));
+      showToast('error', t('Auth.SignIn.Error'));
     } finally {
       setIsLoading(false);
     }
