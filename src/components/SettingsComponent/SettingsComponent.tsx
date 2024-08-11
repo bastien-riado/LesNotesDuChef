@@ -1,9 +1,9 @@
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import Clipboard from '@react-native-clipboard/clipboard';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Linking, useWindowDimensions } from 'react-native';
+import { Linking } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useSelector } from 'react-redux';
 import appConfigData from '../../../app.json';
@@ -47,7 +47,6 @@ const SettingsComponent: React.FC = () => {
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
   const { SignOut } = useContext(Authorization)!;
-  const { width } = useWindowDimensions();
 
   const theme = useSelector((state: { userProfil: any }) => state.userProfil.mode);
   const langue = useSelector((state: { userProfil: any }) => state.userProfil.language);
@@ -149,8 +148,14 @@ const SettingsComponent: React.FC = () => {
     return (
       <CustomBottomSheetModal
         ref={bottomSheetModalRef}
-        index={0}
         enableDynamicSizing
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            appearsOnIndex={0}
+            disappearsOnIndex={-1}
+          />
+        )}
       >
         <LanguageScrollView>
           <SubMenuContainer>
@@ -173,8 +178,14 @@ const SettingsComponent: React.FC = () => {
     return (
       <CustomBottomSheetModal
         ref={patchNoteModalRef}
-        index={0}
         enableDynamicSizing
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            appearsOnIndex={0}
+            disappearsOnIndex={-1}
+          />
+        )}
       >
         <PatchNoteScrollView>
           <PatchNoteTitleView>

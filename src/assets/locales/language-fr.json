@@ -28,7 +28,8 @@
     "EmptyList": "Aucune recette trouvée",
     "AddButton": "Ajouter une recette",
     "DeleteSelectedButton": "Supprimer les recettes sélectionnées",
-    "DeleteModalText": "Êtes-vous sûr de vouloir supprimer les recettes sélectionnées ?",
+    "DeleteModalText": "Êtes-vous sûr de vouloir supprimer cette recette ?",
+    "DeleteModalText_plural": "Êtes-vous sûr de vouloir supprimer les {{count}} recettes sélectionnées ?",
     "CancelButton": "Annuler",
     "DeleteButton": "Supprimer",
     "SearchPlaceholder": "Rechercher une recette",
@@ -78,7 +79,15 @@
       "CreateButton": "Ajouter la recette à mon catalogue",
       "Information": "Vous pouvez importer une recette en prenant une photo ou en choisissant une image dans votre galerie",
       "Warning": "Attention, l'image est reconnue par intéligence artificielle et le rendu peut ne pas coller exactement avec votre image.",
-      "Loading": "Importation de la recette..."
+      "Loading": "Importation de la recette...",
+      "Toast": {
+        "Error": {
+          "Retry1": "Erreur",
+          "Retry2": "Une erreur est survenue, veuillez réessayer",
+          "BadImage1": "Problème d'image",
+          "BadImage2": "L'image n'a pas pu être reconnue, veuillez réessayer"
+        }
+      }
     },
     "Generated": {
       "Placeholder": "De quoi avez-vous envie ?",

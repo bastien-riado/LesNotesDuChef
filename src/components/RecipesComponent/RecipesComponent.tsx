@@ -7,9 +7,10 @@ import { ICONSIZE } from '../../globals/styles/typography';
 import { RecipesState } from '../../models/RecipesStateModels';
 import { removeRecipesSelectedThunk } from '../../store/recipes/thunks';
 import { AppDispatch } from '../../store/store';
-import BlankStateComponent from '../custom/BlankStateComponent/BlankStateComponent';
-import ConfirmModalComponent from '../custom/modal/ConfirmModalComponent/ConfirmModalComponent';
+import BlankStateComponent from '../shared/BlankStateComponent/BlankStateComponent';
+import ConfirmModalComponent from '../shared/modal/ConfirmModalComponent/ConfirmModalComponent';
 
+import RecipeComponent from '../RecipeComponent/RecipeComponent';
 import {
   ButtonContent,
   ButtonText,
@@ -21,7 +22,6 @@ import {
   Icon,
   SearchBarContainer,
 } from './styles';
-import RecipeComponent from '../RecipeComponent/RecipeComponent';
 
 export interface RecipesComponentProps {
   navigation: any;
@@ -156,7 +156,9 @@ const RecipesComponent: React.FC<RecipesComponentProps> = memo(({ navigation }) 
       )}
       <ConfirmModalComponent
         isModalVisible={isModalVisible}
-        warningText={t('RecipeList.DeleteModalText')}
+        warningText={t('RecipeList.DeleteModalText', {
+          count: inDeleteSelection.length,
+        })}
         cancelButtonLabel={t('RecipeList.CancelButton')}
         confirmButtonLabel={t('RecipeList.DeleteButton')}
         confirmIcon="alert-remove-outline"

@@ -33,9 +33,6 @@ const EmailText = styled.Text`
 `;
 
 const CustomBottomSheetModal = styled(BottomSheetModal).attrs((props) => ({
-  containerStyle: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
   backgroundStyle: {
     backgroundColor: props.theme.backgroundPrimary,
   },

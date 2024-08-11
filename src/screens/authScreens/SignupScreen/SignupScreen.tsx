@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import { Button, Text, TextInput } from 'react-native-paper';
+import Toast from 'react-native-toast-message';
 import { createUser } from '../../../services/AuthService';
 import {
   Container,
@@ -23,21 +22,29 @@ const SignupScreen = ({ navigation }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
 
+  const showToast = (type: 'success' | 'error', text: string) => {
+    const defaultText = type === 'success' ? 'Success' : 'Error';
+    Toast.show({
+      type,
+      text1: text || defaultText,
+    });
+  };
+
   const handleAuth = async () => {
     try {
       if (email === '' || password === '' || repeatedPassword === '') {
-        Alert.alert(t('Auth.SignUp.EmptyFields'));
+        showToast('error', t('Auth.SignUp.EmptyFields'));
         return;
       }
       if (password !== repeatedPassword) {
-        Alert.alert(t('Auth.SignUp.PasswordNotMatch'));
+        showToast('error', t('Auth.SignUp.PasswordNotMatch'));
         return;
       }
       setIsLoading(true);
       await createUser(email, password);
       setIsLoading(false);
     } catch (error) {
-      console.error(error);
+      showToast('error', t('Auth.SignUp.Error'));
       setIsLoading(false);
     }
   };

@@ -1,6 +1,5 @@
 import { UserProfilState } from '../../models/UserProfilStateModels';
 import { UserProfilAction } from './actions';
-import { LANGUAGE_CHANGE, THEME_CHANGE } from './constants';
 
 //initial state
 const initialState: UserProfilState = {
@@ -32,12 +31,12 @@ export const userProfilReducer = (
         ...state,
         profilImage: action.payload,
       };
-    case THEME_CHANGE:
+    case 'THEME_CHANGE':
       return {
         ...state,
         mode: action.payload,
       };
-    case LANGUAGE_CHANGE:
+    case 'LANGUAGE_CHANGE':
       return {
         ...state,
         language: action.payload,

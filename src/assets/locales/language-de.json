@@ -1,37 +1,38 @@
 {
   "Auth": {
     "SignIn": {
-      "Title": "Einloggen",
+      "Title": "Anmelden",
       "Email": "E-Mail",
       "Password": "Passwort",
       "NoAccount": "Kein Konto?",
-      "Loading": "Einloggen...",
-      "EmptyFields": "Bitte alle Felder ausfüllen",
+      "Loading": "Anmeldung...",
+      "EmptyFields": "Bitte füllen Sie alle Felder aus",
       "UserNotFound": "Benutzer nicht gefunden",
       "Error": "Ungültiges E-Mail-Format oder falsches Passwort"
     },
     "SignUp": {
-      "Title": "Konto erstellen",
+      "Title": "Registrieren",
       "Email": "E-Mail",
       "Password": "Passwort",
       "RepeatPassword": "Passwort wiederholen",
-      "AlreadyHaveAccount": "Bereits ein Konto?",
+      "AlreadyHaveAccount": "Haben Sie bereits ein Konto?",
       "Loading": "Konto wird erstellt...",
-      "EmptyFields": "Bitte alle Felder ausfüllen",
+      "EmptyFields": "Bitte füllen Sie alle Felder aus",
       "PasswordNotMatch": "Passwörter stimmen nicht überein"
     }
   },
   "RecipeList": {
     "Title": "Rezeptliste",
-    "Loading": "Rezepte werden geladen...",
-    "BlankState": "Nichts zu essen...",
+    "Loading": "Rezepte laden...",
+    "BlankState": "Nichts zu knabbern...",
     "EmptyList": "Keine Rezepte gefunden",
     "AddButton": "Rezept hinzufügen",
     "DeleteSelectedButton": "Ausgewählte Rezepte löschen",
-    "DeleteModalText": "Sind Sie sicher, dass Sie die ausgewählten Rezepte löschen möchten?",
+    "DeleteModalText": "Sind Sie sicher, dass Sie dieses Rezept löschen möchten?",
+    "DeleteModalText_plural": "Sind Sie sicher, dass Sie die {{count}} ausgewählten Rezepte löschen möchten?",
     "CancelButton": "Abbrechen",
     "DeleteButton": "Löschen",
-    "SearchPlaceholder": "Rezept suchen",
+    "SearchPlaceholder": "Nach Rezept suchen",
     "Recipe": {
       "Title": "Rezeptdetails",
       "Name": "Name",
@@ -46,7 +47,7 @@
     },
     "EditRecipe": {
       "Title": "Rezept bearbeiten",
-      "Loading": "Änderungen werden gespeichert...",
+      "Loading": "Änderungen speichern...",
       "Save": "Änderungen speichern",
       "Modal": {
         "WarningText": "Änderungen verwerfen?",
@@ -68,16 +69,16 @@
       "Vision": "Per Bild importieren"
     },
     "ByHand": {
-      "Loading": "Rezept wird hinzugefügt..."
+      "Loading": "Rezept hinzufügen..."
     },
     "Vision": {
-      "ChooseButton": "Bild wählen",
-      "TakeButton": "Foto machen",
+      "ChooseButton": "Bild auswählen",
+      "TakeButton": "Foto aufnehmen",
       "ImportButton": "Rezept aus diesem Bild importieren",
-      "CancelButton": "Anderes Foto machen",
+      "CancelButton": "Ein weiteres Foto aufnehmen",
       "CreateButton": "Rezept zu meinem Katalog hinzufügen",
-      "Information": "Sie können ein Rezept importieren, indem Sie ein Foto machen oder ein Bild aus Ihrer Galerie wählen",
-      "Warning": "Achtung, das Bild wird durch künstliche Intelligenz erkannt und das Ergebnis kann nicht genau mit Ihrem Bild übereinstimmen.",
+      "Information": "Sie können ein Rezept importieren, indem Sie ein Foto aufnehmen oder ein Bild aus Ihrer Galerie auswählen",
+      "Warning": "Achtung, das Bild wird von künstlicher Intelligenz erkannt und das Ergebnis stimmt möglicherweise nicht genau mit Ihrem Bild überein.",
       "Loading": "Rezept wird importiert..."
     },
     "Generated": {
@@ -88,7 +89,7 @@
     },
     "Error": {
       "Title": "Fehler",
-      "EmptyFields": "Bitte alle Felder ausfüllen"
+      "EmptyFields": "Bitte füllen Sie alle Felder aus"
     }
   },
   "UserProfil": {
@@ -96,13 +97,13 @@
       "Title": "Einstellungen",
       "SignOut": "Abmelden",
       "ImageModal": {
-        "Title": "Wählen Sie eine Option",
-        "ChooseButton": "Bild wählen",
+        "Title": "Option wählen",
+        "ChooseButton": "Bild auswählen",
         "TakeButton": "Foto aufnehmen"
       },
       "About": {
         "Title": "Über",
-        "Contact": "Kontaktiere uns",
+        "Contact": "Kontaktieren Sie uns",
         "PatchNote": "Versionshinweise"
       },
       "Preferences": {
@@ -112,7 +113,7 @@
       },
       "Toast": {
         "Text1": "Kopiert!",
-        "Text2": "Die Anwendungsversion wurde in die Zwischenablage kopiert"
+        "Text2": "Die App-Version wurde in die Zwischenablage kopiert"
       }
     }
   }

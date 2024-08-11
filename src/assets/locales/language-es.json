@@ -5,30 +5,31 @@
       "Email": "Correo electrónico",
       "Password": "Contraseña",
       "NoAccount": "¿No tienes una cuenta?",
-      "Loading": "Conectando...",
-      "EmptyFields": "Por favor, rellena todos los campos",
+      "Loading": "Iniciando sesión...",
+      "EmptyFields": "Por favor, complete todos los campos",
       "UserNotFound": "Usuario no encontrado",
-      "Error": "Formato de correo electrónico inválido o contraseña incorrecta"
+      "Error": "Formato de correo electrónico no válido o contraseña incorrecta"
     },
     "SignUp": {
-      "Title": "Crear una cuenta",
+      "Title": "Registrarse",
       "Email": "Correo electrónico",
       "Password": "Contraseña",
-      "RepeatPassword": "Repetir la contraseña",
+      "RepeatPassword": "Repetir contraseña",
       "AlreadyHaveAccount": "¿Ya tienes una cuenta?",
       "Loading": "Creando cuenta...",
-      "EmptyFields": "Por favor, rellena todos los campos",
+      "EmptyFields": "Por favor, complete todos los campos",
       "PasswordNotMatch": "Las contraseñas no coinciden"
     }
   },
   "RecipeList": {
     "Title": "Lista de recetas",
     "Loading": "Cargando recetas...",
-    "BlankState": "No tienes nada para comer...",
+    "BlankState": "Nada que morder...",
     "EmptyList": "No se encontraron recetas",
     "AddButton": "Agregar una receta",
     "DeleteSelectedButton": "Eliminar recetas seleccionadas",
-    "DeleteModalText": "¿Estás seguro de que deseas eliminar las recetas seleccionadas?",
+    "DeleteModalText": "¿Está seguro de que desea eliminar esta receta?",
+    "DeleteModalText_plural": "¿Está seguro de que desea eliminar las {{count}} recetas seleccionadas?",
     "CancelButton": "Cancelar",
     "DeleteButton": "Eliminar",
     "SearchPlaceholder": "Buscar una receta",
@@ -38,20 +39,20 @@
       "Time": "Tiempo",
       "Difficulty": "Dificultad",
       "Description": "Descripción",
-      "Delete": "Eliminar la receta",
+      "Delete": "Eliminar receta",
       "OptionsMenu": {
-        "Edit": "Editar la receta",
+        "Edit": "Editar receta",
         "ChangeImage": "Cambiar imagen"
       }
     },
     "EditRecipe": {
-      "Title": "Editar la receta",
+      "Title": "Editar receta",
       "Loading": "Guardando cambios...",
       "Save": "Guardar cambios",
       "Modal": {
-        "WarningText": "¿Abandonar los cambios?",
+        "WarningText": "¿Descartar cambios?",
         "CancelButton": "Cancelar",
-        "ConfirmButton": "Abandonar"
+        "ConfirmButton": "Descartar"
       }
     }
   },
@@ -68,32 +69,32 @@
       "Vision": "Importar por imagen"
     },
     "ByHand": {
-      "Loading": "Añadiendo la receta..."
+      "Loading": "Añadiendo receta..."
     },
     "Vision": {
       "ChooseButton": "Elegir una imagen",
       "TakeButton": "Tomar una foto",
-      "ImportButton": "Importar la receta desde esta imagen",
+      "ImportButton": "Importar receta desde esta imagen",
       "CancelButton": "Tomar otra foto",
-      "CreateButton": "Añadir la receta a mi catálogo",
-      "Information": "Puedes importar una receta tomando una foto o eligiendo una imagen de tu galería",
-      "Warning": "Atención, la imagen es reconocida por inteligencia artificial y el resultado puede no coincidir exactamente con tu imagen.",
-      "Loading": "Importando la receta..."
+      "CreateButton": "Agregar receta a mi catálogo",
+      "Information": "Puede importar una receta tomando una foto o eligiendo una imagen de su galería",
+      "Warning": "Advertencia, la imagen es reconocida por inteligencia artificial y el resultado puede no coincidir exactamente con su imagen.",
+      "Loading": "Importando receta..."
     },
     "Generated": {
-      "Placeholder": "¿Qué te apetece?",
-      "Button": "Generar la receta",
-      "Loading": "Generando la receta...",
+      "Placeholder": "¿Qué se te antoja?",
+      "Button": "Generar receta",
+      "Loading": "Generando receta...",
       "Save": "Guardar en mi catálogo"
     },
     "Error": {
       "Title": "Error",
-      "EmptyFields": "Por favor, rellena todos los campos"
+      "EmptyFields": "Por favor, complete todos los campos"
     }
   },
   "UserProfil": {
     "Settings": {
-      "Title": "Configuraciones",
+      "Title": "Configuración",
       "SignOut": "Cerrar sesión",
       "ImageModal": {
         "Title": "Elegir una opción",
@@ -112,7 +113,7 @@
       },
       "Toast": {
         "Text1": "¡Copiado!",
-        "Text2": "La versión de la aplicación ha sido copiada al portapapeles"
+        "Text2": "La versión de la aplicación se ha copiado al portapapeles"
       }
     }
   }

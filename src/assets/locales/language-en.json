@@ -1,43 +1,44 @@
 {
   "Auth": {
     "SignIn": {
-      "Title": "Sign In",
+      "Title": "Sign in",
       "Email": "Email",
       "Password": "Password",
-      "NoAccount": "Don't have an account ?",
-      "Loading": "Connecting...",
-      "EmptyFields": "Please fill all fields",
+      "NoAccount": "Don't have an account?",
+      "Loading": "Signing in...",
+      "EmptyFields": "Please fill in all fields",
       "UserNotFound": "User not found",
       "Error": "Invalid email format or incorrect password"
     },
     "SignUp": {
-      "Title": "Sign Up",
+      "Title": "Sign up",
       "Email": "Email",
       "Password": "Password",
-      "RepeatPassword": "Password (repeat)",
-      "AlreadyHaveAccount": "Already have an account ?",
+      "RepeatPassword": "Repeat password",
+      "AlreadyHaveAccount": "Already have an account?",
       "Loading": "Creating account...",
-      "EmptyFields": "Please fill all fields",
+      "EmptyFields": "Please fill in all fields",
       "PasswordNotMatch": "Passwords do not match"
     }
   },
   "RecipeList": {
-    "Title": "Recipe List",
+    "Title": "Recipe list",
     "Loading": "Loading recipes...",
-    "BlankState": "No recipe found",
-    "EmptyList": "No recipe found",
+    "BlankState": "Nothing to sink your teeth into...",
+    "EmptyList": "No recipes found",
     "AddButton": "Add a recipe",
     "DeleteSelectedButton": "Delete selected recipes",
-    "DeleteModalText": "Are you sure you want to delete the selected recipes ?",
+    "DeleteModalText": "Are you sure you want to delete this recipe?",
+    "DeleteModalText_plural": "Are you sure you want to delete the {{count}} selected recipes?",
     "CancelButton": "Cancel",
-    "DeleteButton": "Supprimer",
-    "SearchPlaceholder": "Search a recipe",
+    "DeleteButton": "Delete",
+    "SearchPlaceholder": "Search for a recipe",
     "Recipe": {
       "Title": "Recipe details",
       "Name": "Name",
       "Time": "Time",
       "Difficulty": "Difficulty",
-      "Description": "Recipe details",
+      "Description": "Description",
       "Delete": "Delete recipe",
       "OptionsMenu": {
         "Edit": "Edit recipe",
@@ -49,7 +50,7 @@
       "Loading": "Saving changes...",
       "Save": "Save changes",
       "Modal": {
-        "WarningText": "Discard changes ?",
+        "WarningText": "Discard changes?",
         "CancelButton": "Cancel",
         "ConfirmButton": "Discard"
       }
@@ -68,34 +69,33 @@
       "Vision": "Import by image"
     },
     "ByHand": {
-      "Loading": "Saving recipe..."
+      "Loading": "Adding recipe..."
     },
-
     "Vision": {
       "ChooseButton": "Choose an image",
-      "TakeButton": "Take a picture",
-      "ImportButton": "Import the recipe from this image",
-      "CancelButton": "Take another picture",
-      "CreateButton": "Add the recipe to my catalog",
-      "Information": "You can import a recipe by taking a picture or by choosing an image from your gallery",
-      "Warning": "Warning, the image is recognized by artificial intelligence and the rendering may not exactly match your image.",
+      "TakeButton": "Take a photo",
+      "ImportButton": "Import recipe from this image",
+      "CancelButton": "Take another photo",
+      "CreateButton": "Add recipe to my catalog",
+      "Information": "You can import a recipe by taking a photo or choosing an image from your gallery",
+      "Warning": "Warning, the image is recognized by artificial intelligence and the result may not exactly match your image.",
       "Loading": "Importing recipe..."
     },
     "Generated": {
-      "Placeholder": "What do you want to eat ?",
+      "Placeholder": "What are you craving?",
       "Button": "Generate recipe",
       "Loading": "Generating recipe...",
-      "Save": "Save in my catalog"
+      "Save": "Save to my catalog"
     },
     "Error": {
       "Title": "Error",
-      "EmptyFields": "Please fill all fields"
+      "EmptyFields": "Please fill in all fields"
     }
   },
   "UserProfil": {
     "Settings": {
       "Title": "Settings",
-      "SignOut": "Sign Out",
+      "SignOut": "Sign out",
       "ImageModal": {
         "Title": "Choose an option",
         "ChooseButton": "Choose an image",
@@ -104,7 +104,7 @@
       "About": {
         "Title": "About",
         "Contact": "Contact us",
-        "PatchNote": "Version notes"
+        "PatchNote": "Release notes"
       },
       "Preferences": {
         "Title": "Preferences",
@@ -113,7 +113,7 @@
       },
       "Toast": {
         "Text1": "Copied!",
-        "Text2": "The application version has been copied to the clipboard"
+        "Text2": "The app version has been copied to the clipboard"
       }
     }
   }

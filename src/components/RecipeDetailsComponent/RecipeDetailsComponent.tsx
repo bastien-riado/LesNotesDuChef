@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RecipeState } from '../../models/RecipeStateModels';
 import { removeRecipeThunk } from '../../store/recipes/thunks';
 import { AppDispatch } from '../../store/store';
-import ConfirmModalComponent from '../custom/modal/ConfirmModalComponent/ConfirmModalComponent';
 import RecipePreviewComponent from '../RecipePreviewComponent/RecipePreviewComponent';
+import ConfirmModalComponent from '../shared/modal/ConfirmModalComponent/ConfirmModalComponent';
 import { BottomContainer, Container, Loader, StyledImage } from './styles';
 
 const RecipeDetailsComponent: React.FC = () => {

@@ -7,6 +7,7 @@ import {
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { TYPO } from '../../globals/styles';
 import { Recipe } from '../../models/RecipeModels';
@@ -50,6 +51,18 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
   const [visionResponse, setVisionResponse] = useState<Recipe | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const showToast = (type: 'success' | 'error', text1: string, text2: string = '') => {
+    const defaultText1 = type === 'success' ? 'Success' : 'Error';
+    const defaultText2 =
+      type === 'success' ? 'Operation completed' : 'Something went wrong';
+
+    Toast.show({
+      type,
+      text1: text1 || defaultText1,
+      text2: text2 || defaultText2,
+    });
+  };
+
   const handleChoosePhoto = () => {
     const options: ImageLibraryOptions = {
       mediaType: 'photo',
@@ -86,18 +99,30 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
     });
   };
 
+  const isValidUri = (uri: string) => {
+    return uri && typeof uri === 'string' && uri.startsWith('file://');
+  };
+
   const uploadImageToFirebase = async (uri: string) => {
+    if (!isValidUri(uri)) {
+      throw new Error('Invalid URI');
+    }
+
     const filename = uri.substring(uri.lastIndexOf('/') + 1);
-    const storageRef = storage().ref(`images/${filename}`);
+    const storageRef = storage().ref(`images/vision/${filename}`);
     const task = storageRef.putFile(uri);
 
     try {
       await task;
       const url = await storageRef.getDownloadURL();
       return url;
-    } catch (e) {
-      console.error('Image upload failed:', e);
-      throw e;
+    } catch (error) {
+      showToast(
+        'error',
+        t('NewRecipe.Vision.Toast.Error.Retry1'),
+        t('NewRecipe.Vision.Toast.Error.Retry2'),
+      );
+      throw error;
     }
   };
 
@@ -108,6 +133,12 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
     setIsLoading(false);
     if (success) {
       navigation.navigate('Recipes');
+    } else {
+      showToast(
+        'error',
+        t('NewRecipe.Vision.Toast.Error.Retry1'),
+        t('NewRecipe.Vision.Toast.Error.Retry2'),
+      );
     }
   };
 
@@ -153,7 +184,11 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
       if (data.choices?.length > 0 && data.choices[0]) {
         const parsedOutput = parseStringToJson(data.choices[0].message.content);
         if (parsedOutput instanceof Error) {
-          console.error('Failed to parse GPT output:', parsedOutput.message);
+          showToast(
+            'error',
+            t('NewRecipe.Vision.Toast.Error.BadImage1'),
+            t('NewRecipe.Vision.Toast.Error.BadImage2'),
+          );
           setVisionResponse(null);
         } else {
           setVisionResponse(parsedOutput as Recipe);
@@ -161,8 +196,12 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
       } else {
         throw new Error('Invalid response format from API');
       }
-    } catch (error) {
-      console.error('Failed to fetch from OpenAI API:', error);
+    } catch (error: any) {
+      showToast(
+        'error',
+        t('NewRecipe.Vision.Toast.Error.Retry1'),
+        t('NewRecipe.Vision.Toast.Error.Retry2'),
+      );
       setVisionResponse(null);
     } finally {
       setIsLoading(false);

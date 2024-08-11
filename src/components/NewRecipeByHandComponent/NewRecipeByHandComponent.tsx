@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Recipe } from '../../models/RecipeModels';
 import { addRecipeThunk } from '../../store/recipes/thunks';
 import { AppDispatch } from '../../store/store';
-import WriteRecipeComponent from '../custom/WriteRecipeComponent/WriteRecipeComponent';
+import WriteRecipeComponent from '../shared/WriteRecipeComponent/WriteRecipeComponent';
 import { Loader, ScrollViewContainer, StyledButton } from './styles';
 
 interface NewRecipeComponentProps {

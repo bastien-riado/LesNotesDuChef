@@ -1,6 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import { CommonActions, getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { BottomNavigation } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
@@ -11,82 +13,150 @@ import SettingsStackNavigator from '../SettingsStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
+const getCurrentRouteName = (route: any) => {
+  const routeName = getFocusedRouteNameFromRoute(route) ?? route.name;
+  return routeName;
+};
+
 const BottomTabNavigator = () => {
+  const [currentRouteName, setCurrentRouteName] = useState('RecipesStack');
   const isInEdition = useSelector(
     (state: { recipe: { isInEdition: boolean } }) => state.recipe.isInEdition,
   );
   const isInDeleteSelectionMode = useSelector(
     (state: { recipes: RecipesState }) => state.recipes.isInDeleteSelectionMode,
   );
-  const { t } = useTranslation();
   const theme = useTheme();
+  const { t } = useTranslation();
 
-  const screenOptions = ({ route, navigation }: any) => {
-    const routeName = navigation
-      .getState()
-      .routes[navigation.getState().index]?.state?.routes?.slice(-1)[0]?.name;
-    // Utiliser cette methode pour cacher la tabBar
-    const isRecipeDetailsScreen = routeName === 'RecipeDetails';
-    const isInNewRecipeStack =
-      routeName === 'NewRecipeByHand' ||
-      routeName === 'NewRecipeGenerated' ||
-      routeName === 'NewRecipeByVision';
+  const screenOptions = ({ route }: any) => {
+    const routeName = route.name;
+
+    let iconName = '';
+    let iconNameFocused = '';
+    let label = '';
+
+    switch (routeName) {
+      case 'RecipesStack':
+        iconName = 'view-day-outline';
+        iconNameFocused = 'view-day';
+        label = t('RecipeList.Title');
+        break;
+      case 'NewRecipeStack':
+        iconName = 'plus-outline';
+        iconNameFocused = 'plus-thick';
+        label = t('NewRecipe.Title');
+        break;
+      case 'SettingsStack':
+        iconName = 'account-cog-outline';
+        iconNameFocused = 'account-cog';
+        label = t('UserProfil.Settings.Title');
+        break;
+    }
 
     return {
-      tabBarIcon: ({ color, size }: any) => {
-        let iconName: string = '';
-
-        if (route.name === 'RecipesStack') {
-          iconName = 'view-list';
-        } else if (route.name === 'NewRecipeStack') {
-          iconName = 'plus';
-        } else if (route.name === 'SettingsStack') {
-          iconName = 'cog';
-        }
-
-        return (
-          <MaterialCommunityIcons
-            name={iconName}
-            size={size}
-            color={color}
-          />
-        );
-      },
+      tabBarIcon: ({ color, focused, size }: any) => (
+        <MaterialCommunityIcons
+          name={focused ? iconNameFocused : iconName}
+          size={size}
+          color={color}
+        />
+      ),
+      tabBarLabel: label,
       headerShown: false,
-      tabBarActiveTintColor: theme.activeNavigation,
-      tabBarInactiveTintColor: theme.icon,
-
-      tabBarStyle: {
-        backgroundColor: theme.backgroundPrimary,
-        display:
-          isInEdition ||
-          isInDeleteSelectionMode ||
-          isRecipeDetailsScreen ||
-          isInNewRecipeStack
-            ? 'none'
-            : ('flex' as 'none' | 'flex'),
-      },
     };
   };
 
+  const tabBar = ({ navigation, state, descriptors, insets }: any) => {
+    const isRecipeDetailsScreen = currentRouteName === 'RecipeDetails';
+    const isInNewRecipeStack =
+      currentRouteName === 'NewRecipeByHand' ||
+      currentRouteName === 'NewRecipeGenerated' ||
+      currentRouteName === 'NewRecipeByVision';
+
+    return (
+      <BottomNavigation.Bar
+        navigationState={state}
+        safeAreaInsets={insets}
+        activeColor={theme.activeNavigation}
+        inactiveColor={theme.inactiveNavigation}
+        activeIndicatorStyle={{
+          backgroundColor: theme.activeIndicator,
+        }}
+        style={{
+          backgroundColor: theme.backgroundPrimary,
+          borderTopColor: theme.divider,
+          borderTopWidth: 1,
+          display:
+            isInEdition ||
+            isInDeleteSelectionMode ||
+            isRecipeDetailsScreen ||
+            isInNewRecipeStack
+              ? 'none'
+              : 'flex',
+        }}
+        onTabPress={({ route, preventDefault }: any) => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (event.defaultPrevented) {
+            preventDefault();
+          } else {
+            navigation.dispatch({
+              ...CommonActions.navigate(route.name),
+              target: state.key,
+            });
+          }
+        }}
+        renderIcon={({ route, focused, color }) => {
+          const { options } = descriptors[route.key];
+          if (options.tabBarIcon) {
+            return options.tabBarIcon({ color, focused, size: 24 });
+          }
+
+          return null;
+        }}
+        getLabelText={({ route }) => {
+          const { options } = descriptors[route.key];
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
+                ? options.title
+                : route.title;
+
+          return label;
+        }}
+      />
+    );
+  };
+
   return (
-    <Tab.Navigator screenOptions={screenOptions}>
+    <Tab.Navigator
+      screenOptions={screenOptions}
+      tabBar={tabBar}
+      initialRouteName="RecipesStack"
+      screenListeners={({ route }) => ({
+        state: () => {
+          const routeName = getCurrentRouteName(route);
+          setCurrentRouteName(routeName);
+        },
+      })}
+    >
       <Tab.Screen
         name="RecipesStack"
         component={RecipesStackNavigator}
-        options={{
-          title: t('RecipeList.Title'),
-        }}
       />
       <Tab.Screen
         name="NewRecipeStack"
         component={NewRecipeStackNavigator}
-        options={{ title: t('NewRecipe.Title') }}
       />
       <Tab.Screen
         name="SettingsStack"
         component={SettingsStackNavigator}
-        options={{ title: t('UserProfil.Settings.Title') }}
       />
     </Tab.Navigator>
   );

@@ -9,7 +9,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import Spinner from 'react-native-loading-spinner-overlay';
 import styled from 'styled-components';
-import BlankStateComponent from '../components/custom/BlankStateComponent/BlankStateComponent';
+import BlankStateComponent from '../components/shared/BlankStateComponent/BlankStateComponent';
 import { RecipesState } from '../models/RecipesStateModels';
 import { RecipesScreenProps } from '../navigation/NavigationTypes';
 import { getRecipes } from '../store/recipes/actions';
