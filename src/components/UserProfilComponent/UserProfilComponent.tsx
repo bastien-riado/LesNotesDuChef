@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet';
 import { UserProfilState } from '../../models/UserProfilStateModels';
 import {
   handleImageSelection,
@@ -42,7 +42,7 @@ const UserProfilComponent: React.FC = () => {
       response,
       uid,
       () => {},
-      async (downloadURL: string) => {},
+      async () => {},
       async (downloadURL: string) => {
         await updateUserProfileImageInDatabase(uid, downloadURL);
         dispatch(setUserProfilImage(downloadURL));
@@ -71,8 +71,14 @@ const UserProfilComponent: React.FC = () => {
       <EmailText>{email}</EmailText>
       <CustomBottomSheetModal
         ref={bottomSheetModalRef}
-        index={0}
         enableDynamicSizing
+        backdropComponent={(props) => (
+          <BottomSheetBackdrop
+            {...props}
+            appearsOnIndex={0}
+            disappearsOnIndex={-1}
+          />
+        )}
       >
         <MenuScrollView>
           <SubMenuContainer>

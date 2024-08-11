@@ -1,5 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Language, Mode } from '../../models/UserProfilStateModels';
-import { LANGUAGE_CHANGE, THEME_CHANGE } from './constants';
 
 export type UserProfilAction =
   | SetUserEmailAction
@@ -27,12 +27,12 @@ export interface SetUserProfilImageAction {
 }
 
 export interface ThemeChangeAction {
-  type: typeof THEME_CHANGE;
+  type: 'THEME_CHANGE';
   payload: Mode;
 }
 
 export interface LanguageChangeAction {
-  type: typeof LANGUAGE_CHANGE;
+  type: 'LANGUAGE_CHANGE';
   payload: Language;
 }
 export interface LogoutAction {
@@ -62,16 +62,35 @@ export const setUserProfilImage = (profilImage: string): SetUserProfilImageActio
   };
 };
 
-export const switchMode = (mode: Mode): ThemeChangeAction => {
-  return {
-    type: THEME_CHANGE,
-    payload: mode,
-  };
+export const switchMode = (mode: Mode) => async (dispatch: any) => {
+  try {
+    await AsyncStorage.setItem('appThemeMode', mode);
+    dispatch({
+      type: 'THEME_CHANGE',
+      payload: mode,
+    });
+  } catch (error) {
+    console.error('Error saving theme mode to AsyncStorage', error);
+  }
+};
+
+export const loadMode = () => async (dispatch: any) => {
+  try {
+    const mode = await AsyncStorage.getItem('appThemeMode');
+    if (mode) {
+      dispatch({
+        type: 'THEME_CHANGE',
+        payload: mode as Mode,
+      });
+    }
+  } catch (error) {
+    console.error('Error loading theme mode from AsyncStorage', error);
+  }
 };
 
 export const languageChange = (language: Language): LanguageChangeAction => {
   return {
-    type: LANGUAGE_CHANGE,
+    type: 'LANGUAGE_CHANGE',
     payload: language,
   };
 };
