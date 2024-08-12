@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Recipe } from '../../models/RecipeModels';
 import { addRecipeThunk } from '../../store/recipes/thunks';
 import { AppDispatch } from '../../store/store';
-import WriteRecipeComponent from '../shared/WriteRecipeComponent/WriteRecipeComponent';
+import EditRecipeFieldsComponent from '../shared/EditRecipeFieldsComponent/EditRecipeFieldsComponent';
 import { Loader, ScrollViewContainer, StyledButton } from './styles';
 
 interface NewRecipeComponentProps {
@@ -21,6 +21,7 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
     ownerId: '',
     name: '',
     description: '',
+    ingredients: [],
     time: '',
     difficulty: '',
     image: '',
@@ -30,9 +31,14 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
     setRecipe({ ...recipe, [key]: value });
   };
 
+  const handleIngredientsChange = (newIngredients: string[]) => {
+    console.log(newIngredients);
+    setRecipe({ ...recipe, ingredients: newIngredients });
+  };
+
   const handleSaveButton = async () => {
     setIsLoading(true);
-    const success = await dispatch(addRecipeThunk(recipe));
+    const success = await dispatch(addRecipeThunk(recipe, t));
     setIsLoading(false);
     if (success) {
       navigation.navigate('Recipes');
@@ -47,9 +53,12 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
           textContent={t('NewRecipe.ByHand.Loading')}
         />
       )}
-      <WriteRecipeComponent
+      <EditRecipeFieldsComponent
         recipe={recipe}
         handleChangeText={(key, value) => handleChangeText(key, value)}
+        handleIngredientsChange={(newIngredients) =>
+          handleIngredientsChange(newIngredients)
+        }
       />
       <StyledButton
         icon="content-save"

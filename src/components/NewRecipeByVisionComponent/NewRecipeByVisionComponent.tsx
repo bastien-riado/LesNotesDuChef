@@ -129,7 +129,7 @@ const NewRecipeByVisionComponent: React.FC<NewRecipeByVisionComponentProps> = ({
   const handleSave = async () => {
     if (!visionResponse) return;
     setIsLoading(true);
-    const success = await dispatch(addRecipeThunk(visionResponse as Recipe));
+    const success = await dispatch(addRecipeThunk(visionResponse as Recipe, t));
     setIsLoading(false);
     if (success) {
       navigation.navigate('Recipes');

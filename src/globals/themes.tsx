@@ -3,6 +3,7 @@ import { DarkTheme, DefaultTheme } from '@react-navigation/native';
 export const lightTheme = {
   backgroundPrimary: '#ffffff',
   backgroundSecondary: '#f5f5f5',
+  backgroundSuccess: '#a3dca1',
   activeLink: '#75B8FF',
   text: '#000000',
   button: '#75B8FF',
@@ -10,6 +11,7 @@ export const lightTheme = {
   closeButton: '#000000',
   icon: '#000000',
   closeIcon: '#ffffff',
+  iconSuccess: '#3adb76',
   activeNavigation: '#0056b3',
   activeIndicator: '#99ccff',
   inactiveNavigation: '#121212',
@@ -26,6 +28,7 @@ export const lightTheme = {
 export const darkTheme = {
   backgroundPrimary: '#121212',
   backgroundSecondary: '#1f1f1f',
+  backgroundSuccess: '#a3dca1',
   activeLink: '#bb86fc',
   text: '#ffffff',
   button: '#bb86fc',
@@ -33,6 +36,7 @@ export const darkTheme = {
   closeButton: ' #ffffff',
   icon: '#ffffff',
   closeIcon: '#000000',
+  iconSuccess: '#3adb76',
   activeNavigation: '#9c4dcc',
   activeIndicator: '#dabfff',
   inactiveNavigation: '#ffffff',

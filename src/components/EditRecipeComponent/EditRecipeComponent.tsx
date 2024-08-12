@@ -8,7 +8,9 @@ import { Recipe } from '../../models/RecipeModels';
 import { RecipeState } from '../../models/RecipeStateModels';
 import { updateRecipeThunk } from '../../store/recipes/thunks';
 import { AppDispatch } from '../../store/store';
-import WriteRecipeComponent from '../shared/WriteRecipeComponent/WriteRecipeComponent';
+
+import { Ingredient } from '../../models/IngredientModels';
+import EditRecipeFieldsComponent from '../shared/EditRecipeFieldsComponent/EditRecipeFieldsComponent';
 import ConfirmModalComponent from '../shared/modal/ConfirmModalComponent/ConfirmModalComponent';
 import { BottomContainer, Container, Loader } from './styles';
 
@@ -26,6 +28,7 @@ const EditRecipeComponent: React.FC = () => {
     description: recipe.description,
     time: recipe.time,
     difficulty: recipe.difficulty,
+    ingredients: recipe.ingredients,
   });
   const closeModal = () => setIsModalVisible(false);
 
@@ -61,6 +64,10 @@ const EditRecipeComponent: React.FC = () => {
     setEditedRecipe({ ...editedRecipe, [key]: value });
   };
 
+  const handleIngredientsChange = (newIngredients: Ingredient[]) => {
+    setEditedRecipe({ ...editedRecipe, ingredients: newIngredients });
+  };
+
   return (
     <Container>
       {isLoading && (
@@ -71,9 +78,12 @@ const EditRecipeComponent: React.FC = () => {
       )}
       <ScrollView>
         <View>
-          <WriteRecipeComponent
+          <EditRecipeFieldsComponent
             recipe={editedRecipe}
             handleChangeText={(key, value) => handleChangeText(key, value)}
+            handleIngredientsChange={(newIngredients) =>
+              handleIngredientsChange(newIngredients)
+            }
           />
           <BottomContainer
             icon="content-save-outline"

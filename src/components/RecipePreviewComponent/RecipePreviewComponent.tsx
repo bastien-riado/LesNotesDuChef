@@ -1,9 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
-import { TYPO } from '../../globals/styles';
 import { Recipe } from '../../models/RecipeModels';
-import { Container, InfoContainer, Label, Value, DescriptionContainer } from './styles';
+import PreviewIngredientsComponent from '../PreviewIngredientsComponent/PreviewIngredientsComponent';
+import { Container, DescriptionContainer, InfoContainer, Label, Value } from './styles';
 
 interface RecipePreviewComponentProps {
   recipe: Recipe;
@@ -31,6 +30,7 @@ const RecipePreviewComponent: React.FC<RecipePreviewComponentProps> = ({
         <Label>{t('RecipeList.Recipe.Difficulty')}:</Label>
         <Value>{recipe.difficulty}</Value>
       </InfoContainer>
+      <PreviewIngredientsComponent ingredients={recipe.ingredients} />
       <DescriptionContainer>
         <Label>{t('RecipeList.Recipe.Description')}</Label>
         <Value>{recipe.description}</Value>

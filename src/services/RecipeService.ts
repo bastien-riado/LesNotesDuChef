@@ -52,6 +52,7 @@ export async function updateRecipe(recipe: Recipe): Promise<void> {
         time: recipe.time,
         difficulty: recipe.difficulty,
         image: recipe.image,
+        ingredients: recipe.ingredients,
       });
     } catch (error) {
       console.error('Error updating recipe:', error);
@@ -66,13 +67,11 @@ export async function updateRecipeImage(
   recipeId: string,
   downloadUrl: string,
 ): Promise<void> {
-  console.log('updateRecipeImage', recipeId, downloadUrl);
   if (recipeId) {
     try {
       await dbRef.ref(`recipes/${recipeId}`).update({
         image: downloadUrl,
       });
-      console.log('Image updated in Firebase');
     } catch (error) {
       console.error('Error updating image in Firebase:', error);
       throw error;

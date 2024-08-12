@@ -36,7 +36,7 @@ const NewRecipeGeneratedComponent: React.FC = () => {
 
   const handleSave = async () => {
     setIsLoading(true);
-    const success = await dispatch(addRecipeThunk(gptOutput as Recipe));
+    const success = await dispatch(addRecipeThunk(gptOutput as Recipe, t));
     setIsLoading(false);
     if (success) {
       navigation.navigate('Recipes');

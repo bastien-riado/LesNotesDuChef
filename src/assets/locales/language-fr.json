@@ -54,6 +54,9 @@
         "CancelButton": "Annuler",
         "ConfirmButton": "Abandonner"
       }
+    },
+    "Error": {
+      "FetchedRecipe": "Une erreur est survenue lors de la récupération de la recette"
     }
   },
   "NewRecipe": {
@@ -97,7 +100,8 @@
     },
     "Error": {
       "Title": "Erreur",
-      "EmptyFields": "Veuillez remplir tous les champs"
+      "EmptyFields": "Veuillez remplir tous les champs",
+      "AddRecipe": "Une erreur est survenue lors de l'ajout de la recette"
     }
   },
   "UserProfil": {
