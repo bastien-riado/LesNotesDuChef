@@ -41,8 +41,6 @@ export const addRecipeThunk = (recipe: Recipe, t: (Key: string) => string) => {
       !recipe ||
       !recipe.name ||
       !recipe.description ||
-      !recipe.ingredients ||
-      recipe.ingredients.length === 0 ||
       !recipe.difficulty ||
       !recipe.time
     ) {

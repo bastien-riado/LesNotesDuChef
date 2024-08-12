@@ -1,5 +1,6 @@
 import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet';
 import React, { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TYPO } from '../../../globals/styles';
 import { Ingredient } from '../../../models/IngredientModels';
 import {
@@ -35,6 +36,7 @@ const IngredientsComponent: React.FC<EditIngredientsComponentProps> = ({
   const [selectedIngredientIndex, setSelectedIngredientIndex] = useState<number | null>(
     null,
   );
+  const { t } = useTranslation();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const handlePresentModalPress = useCallback(() => {
@@ -56,6 +58,15 @@ const IngredientsComponent: React.FC<EditIngredientsComponentProps> = ({
       setName('');
       setShowInput(false);
     } else {
+      if (editIngredientIndex !== null) {
+        const updatedIngredients = ingredients.filter(
+          (_, i) => i !== editIngredientIndex,
+        );
+        setIngredients(updatedIngredients);
+        onIngredientsChange(updatedIngredients);
+        setEditIngredientIndex(null);
+      }
+      setName('');
       setShowInput(false);
     }
   };
@@ -72,9 +83,11 @@ const IngredientsComponent: React.FC<EditIngredientsComponentProps> = ({
   const editItem = () => {
     if (selectedIngredientIndex !== null) {
       bottomSheetModalRef.current?.close();
-      setName(ingredients[selectedIngredientIndex].name);
-      setEditIngredientIndex(selectedIngredientIndex);
-      setShowInput(true);
+      setTimeout(() => {
+        setName(ingredients[selectedIngredientIndex].name);
+        setEditIngredientIndex(selectedIngredientIndex);
+        setShowInput(true);
+      }, 50);
     }
   };
 
@@ -90,24 +103,29 @@ const IngredientsComponent: React.FC<EditIngredientsComponentProps> = ({
   };
 
   const ingredientsOptions = [
-    { text: 'Edit', onPress: editItem },
-    { text: 'Delete', onPress: deleteItem },
-    { text: 'Cancel', onPress: () => bottomSheetModalRef.current?.close() },
+    { text: t('RecipeList.EditRecipe.Ingredients.Options.Edit'), onPress: editItem },
+    { text: t('RecipeList.EditRecipe.Ingredients.Options.Delete'), onPress: deleteItem },
+    {
+      text: t('RecipeList.EditRecipe.Ingredients.Options.Cancel'),
+      onPress: () => bottomSheetModalRef.current?.close(),
+    },
   ];
 
   return (
     <Container>
       <IngredientsList>
-        {ingredients.length > 0 && <Text>Ingredients:</Text>}
+        {ingredients.length > 0 && (
+          <Text>{t('RecipeList.EditRecipe.Ingredients.Title')}:</Text>
+        )}
         {ingredients.length === 0 ? (
-          <Text>No ingredients added yet.</Text>
+          <Text>{t('RecipeList.EditRecipe.Ingredients.EmptyList')}</Text>
         ) : (
           ingredients.map((ingredient, index) => (
             <React.Fragment key={index}>
               {editIngredientIndex === index ? (
                 <Input
                   autoFocus={true}
-                  placeholder="Enter item name"
+                  placeholder={t('RecipeList.EditRecipe.Ingredients.Placeholder')}
                   value={name}
                   onChangeText={setName}
                   onBlur={addItemToList}
@@ -129,7 +147,7 @@ const IngredientsComponent: React.FC<EditIngredientsComponentProps> = ({
       {showInput && editIngredientIndex === null ? (
         <Input
           autoFocus={true}
-          placeholder="Enter item name"
+          placeholder={t('RecipeList.EditRecipe.Ingredients.Placeholder')}
           value={name}
           onChangeText={setName}
           onBlur={addItemToList}
@@ -155,7 +173,11 @@ const IngredientsComponent: React.FC<EditIngredientsComponentProps> = ({
         )}
       >
         <MenuScrollView>
-          <IngredientName></IngredientName>
+          <IngredientName>
+            {selectedIngredientIndex !== null && ingredients[selectedIngredientIndex]
+              ? ingredients[selectedIngredientIndex].name
+              : ''}
+          </IngredientName>
           <SubMenuContainer>
             {ingredientsOptions.map((option, index) => (
               <MenuItem

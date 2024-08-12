@@ -30,7 +30,7 @@ const RecipePreviewComponent: React.FC<RecipePreviewComponentProps> = ({
         <Label>{t('RecipeList.Recipe.Difficulty')}:</Label>
         <Value>{recipe.difficulty}</Value>
       </InfoContainer>
-      <PreviewIngredientsComponent ingredients={recipe.ingredients} />
+      <PreviewIngredientsComponent ingredients={recipe.ingredients || []} />
       <DescriptionContainer>
         <Label>{t('RecipeList.Recipe.Description')}</Label>
         <Value>{recipe.description}</Value>

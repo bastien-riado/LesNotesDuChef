@@ -91,8 +91,10 @@ export const MenuItem = styled.TouchableOpacity.attrs({
 `;
 
 export const IngredientName = styled.Text`
-  font-size: ${FONTSIZE.MEDIUM}px;
+  font-size: ${FONTSIZE.LARGE}px;
   color: ${(props) => props.theme.text};
+  font-weight: bold;
+  margin-bottom: 20px;
 `;
 
 export const SubMenuContainer = styled.View`

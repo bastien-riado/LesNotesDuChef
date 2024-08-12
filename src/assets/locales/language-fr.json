@@ -38,6 +38,12 @@
       "Name": "Nom",
       "Time": "Temps",
       "Difficulty": "Difficulté",
+      "Ingredients": {
+        "Title": "Ingrédients",
+        "Blankstate": "Aucun ingrédient définit",
+        "Ready": "Prêt à cuisiner !",
+        "NotReady": "Il manque des ingrédients"
+      },
       "Description": "Description",
       "Delete": "Supprimer la recette",
       "OptionsMenu": {
@@ -53,6 +59,16 @@
         "WarningText": "Abandonner les modifications ?",
         "CancelButton": "Annuler",
         "ConfirmButton": "Abandonner"
+      },
+      "Ingredients": {
+        "Title": "Ingrédients",
+        "EmptyList": "Aucun ingrédient ajouté",
+        "Placeholder": "Ajouter un ingrédient",
+        "Options": {
+          "Edit": "Modifier l'ingrédient",
+          "Delete": "Supprimer l'ingrédient",
+          "Cancel": "Annuler"
+        }
       }
     },
     "Error": {

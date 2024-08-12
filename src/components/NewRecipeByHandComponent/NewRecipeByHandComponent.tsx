@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { Recipe } from '../../models/RecipeModels';
 import { addRecipeThunk } from '../../store/recipes/thunks';
 import { AppDispatch } from '../../store/store';
+
+import { Ingredient } from '../../models/IngredientModels';
 import EditRecipeFieldsComponent from '../shared/EditRecipeFieldsComponent/EditRecipeFieldsComponent';
 import { Loader, ScrollViewContainer, StyledButton } from './styles';
 
@@ -31,8 +33,7 @@ const NewRecipeByHandComponent: React.FC<NewRecipeComponentProps> = ({ navigatio
     setRecipe({ ...recipe, [key]: value });
   };
 
-  const handleIngredientsChange = (newIngredients: string[]) => {
-    console.log(newIngredients);
+  const handleIngredientsChange = (newIngredients: Ingredient[]) => {
     setRecipe({ ...recipe, ingredients: newIngredients });
   };
 

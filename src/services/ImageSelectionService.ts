@@ -24,21 +24,19 @@ const handleImageSelection = async (
   onError: (error: any) => void,
 ) => {
   if (response.didCancel) {
-    console.log('User cancelled image picker');
-  } else if (response.errorCode) {
-    console.log('ImagePicker Error: ', response.errorMessage);
-  } else if (response.assets && response.assets.length > 0) {
-    const source = response.assets[0].uri as string;
-    try {
-      setIsLoading(true);
-      const downloadURL = await uploadImageToFirebase(source, uid);
-      await updateUserProfileImage(downloadURL);
-      onImageUploaded(downloadURL);
-    } catch (error) {
-      console.error('Error uploading image: ', error);
-      onError(error);
+    if (response.assets && response.assets.length > 0) {
+      const source = response.assets[0].uri as string;
+      try {
+        setIsLoading(true);
+        const downloadURL = await uploadImageToFirebase(source, uid);
+        await updateUserProfileImage(downloadURL);
+        onImageUploaded(downloadURL);
+      } catch (error) {
+        console.error('Error uploading image: ', error);
+        onError(error);
+      }
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
 };
 

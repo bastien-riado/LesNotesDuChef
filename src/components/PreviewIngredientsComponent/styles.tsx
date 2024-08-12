@@ -68,3 +68,21 @@ export const Tytle = styled.Text`
   color: ${(props) => props.theme.text};
   font-weight: bold;
 `;
+
+export const BlankStateContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+
+export const BlankStateText = styled.Text`
+  font-size: ${TYPO.FONTSIZE.MEDIUM}px;
+  color: ${(props) => props.theme.text};
+  text-align: center;
+  margin-top: 10px;
+`;
+
+export const BlankStateIcon = styled(MaterialCommunityIcons)`
+  color: ${(props) => props.theme.icon};
+`;
