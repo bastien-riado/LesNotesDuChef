@@ -21,7 +21,7 @@ import {
 } from './styles';
 
 interface EditIngredientsComponentProps {
-  initialIngredients: Ingredient[];
+  initialIngredients?: Ingredient[];
   onIngredientsChange: (newIngredients: Ingredient[]) => void;
 }
 
@@ -30,7 +30,7 @@ const IngredientsComponent: React.FC<EditIngredientsComponentProps> = ({
   onIngredientsChange,
 }) => {
   const [name, setName] = useState('');
-  const [ingredients, setIngredients] = useState(initialIngredients);
+  const [ingredients, setIngredients] = useState(initialIngredients ?? []);
   const [showInput, setShowInput] = useState(false);
   const [editIngredientIndex, setEditIngredientIndex] = useState<number | null>(null);
   const [selectedIngredientIndex, setSelectedIngredientIndex] = useState<number | null>(
