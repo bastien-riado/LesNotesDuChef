@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { Recipe } from '../../models/RecipeModels';
 import {
   deleteRecipe,
@@ -17,6 +16,7 @@ import {
   updateRecipe as updateRecipeAction,
 } from './actions';
 
+import Toast from 'react-native-toast-message';
 import { AppDispatch } from '../store';
 
 export const fetchRecipesThunk = () => {
@@ -35,7 +35,7 @@ export const fetchRecipesThunk = () => {
   };
 };
 
-export const addRecipeThunk = (recipe: Recipe) => {
+export const addRecipeThunk = (recipe: Recipe, t: (Key: string) => string) => {
   return async (dispatch: AppDispatch): Promise<boolean> => {
     if (
       !recipe ||
@@ -44,7 +44,7 @@ export const addRecipeThunk = (recipe: Recipe) => {
       !recipe.difficulty ||
       !recipe.time
     ) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs du formulaire.');
+      Toast.show({ type: 'error', text1: t('NewRecipe.Error.EmptyFields') });
       return false;
     }
     try {
@@ -55,7 +55,7 @@ export const addRecipeThunk = (recipe: Recipe) => {
       }
       return false;
     } catch (error) {
-      console.error(error);
+      Toast.show({ type: 'error', text1: t('NewRecipe.Error.AddRecipe') });
       return false;
     }
   };

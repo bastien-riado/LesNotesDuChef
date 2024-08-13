@@ -1,27 +1,29 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { TextInput } from 'react-native-paper';
-import styled from 'styled-components/native';
+import { Ingredient } from '../../../models/IngredientModels';
 import { Recipe } from '../../../models/RecipeModels';
+import EditIngredientsComponent from '../EditIngredientsComponent/EditIngredientsComponent';
 import { Container, StyledTextInput } from './styles';
 
-interface WriteRecipeComponentProps {
+interface EditRecipeFieldsComponentProps {
   recipe: Recipe;
   handleChangeText: (key: keyof Recipe, value: string) => void;
+  handleIngredientsChange: (newIngredients: Ingredient[]) => void;
 }
 
 /**
  * Represents a component for writing a recipe.
  *
  * @component
- * @param {WriteRecipeComponentProps} props - The component props.
+ * @param {EditRecipeFieldsComponentProps} props - The component props.
  * @param {Recipe} props.recipe - The recipe object.
  * @param {Function} props.handleChangeText - The function to handle text changes.
- * @returns {JSX.Element} The JSX element representing the WriteRecipeComponent.
+ * @returns {JSX.Element} The JSX element representing the EditRecipeFieldsComponent.
  */
-const WriteRecipeComponent: React.FC<WriteRecipeComponentProps> = ({
+const EditRecipeFieldsComponent: React.FC<EditRecipeFieldsComponentProps> = ({
   recipe,
   handleChangeText,
+  handleIngredientsChange,
 }) => {
   const { t } = useTranslation();
 
@@ -45,6 +47,10 @@ const WriteRecipeComponent: React.FC<WriteRecipeComponentProps> = ({
         onChangeText={(text) => handleChangeText('difficulty', text)}
         mode="outlined"
       />
+      <EditIngredientsComponent
+        initialIngredients={recipe.ingredients}
+        onIngredientsChange={(ingredients) => handleIngredientsChange(ingredients)}
+      />
       <StyledTextInput
         label={t('NewRecipe.Description')}
         value={recipe.description}
@@ -57,4 +63,4 @@ const WriteRecipeComponent: React.FC<WriteRecipeComponentProps> = ({
   );
 };
 
-export default WriteRecipeComponent;
+export default EditRecipeFieldsComponent;
